@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 // import RouteProtector from "./services/RouteProtector";
 import { Signin } from "./pages/auth/signin";
+import { Signup } from "./pages/auth/signup";
 
 function App() {
 	return (
@@ -14,8 +15,9 @@ function App() {
 			<Route path="/" element={<Signin />} />
 			<Route path="/login" element={<Signin />} />
 			<Route path="/sign-in" element={<Signin />} />
-			{/* <Route path="/register" element={<Register />} />
-			<Route path="/signup" element={<Register />} />
+			<Route path="/register" element={<Signup />} />
+			<Route path="/signup" element={<Signup />} />
+			{/* 
 			<Route path="/forgot-password" element={<ForgotPassword />} />
 			<Route path="/reset-password" element={<ResetPassword />} /> */}
 

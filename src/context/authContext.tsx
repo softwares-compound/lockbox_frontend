@@ -4,14 +4,21 @@ import toast from "react-hot-toast";
 import useErrorHandling, { ErrorResponse } from "@/hooks/errorHandling";
 
 type UserData = {
-    // ... your user data properties
+    // Define your user data properties
+    email: string;
+    name: string;
+    mobile: string;
+    company?: string;
+    // other properties as per your application's requirement
 };
+
 type UserAuth = {
     isAuthenticated: boolean;
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>,
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
     userData: UserData | null;
-    setUserData: React.Dispatch<React.SetStateAction<UserData | null>>,
+    setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
     signin: (email: string, password: string) => Promise<void>;
+    signup: (email: string, password: string, name: string, mobile: string, company?: string) => Promise<void>;
     logout: () => Promise<void>;
 };
 
@@ -24,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const signin = async (email: string, password: string) => {
         try {
-            const res1 = await APP__AXIOS_INSTANCE.post("auth/get_tenant_name/", { email: email }, { withCredentials: false });
+            const res1 = await APP__AXIOS_INSTANCE.post("auth/get_tenant_name/", { email }, { withCredentials: false });
             const tenant = { name: res1.data.tenant_name };
             localStorage.setItem("X-Request-ID", tenant.name);
 
@@ -38,10 +45,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             });
 
             toast.success("Signed In Successfully", { id: "signin" });
-            const data = await res2.data;
+            const data = res2.data;
             setUserData({ ...data.user });
             setIsAuthenticated(true);
-        } catch (error: Error | any) {
+        } catch (error: any) {
+            if (error.response) {
+                handleErrors(error.response.data as ErrorResponse);
+            }
+            return error;
+        }
+    };
+
+    const signup = async (email: string, password: string, name: string, mobile: string, company?: string) => {
+        try {
+            const formData = new FormData();
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("name", name);
+            formData.append("mobile", mobile);
+            if (company) {
+                formData.append("company", company);
+            }
+
+            const res = await AXIOS_INSTANCE.post("auth/signup/", formData, {
+                headers: { "X-Request-ID": localStorage.getItem("X-Request-ID") },
+                withCredentials: true,
+            });
+
+            toast.success("Signed Up Successfully", { id: "signup" });
+            const data = res.data;
+            setUserData({ ...data.user });
+            setIsAuthenticated(true);
+        } catch (error: any) {
             if (error.response) {
                 handleErrors(error.response.data as ErrorResponse);
             }
@@ -72,8 +107,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAuthenticated,
         setIsAuthenticated,
         signin,
+        signup, // Added signup function to the context value
         logout,
     };
+
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

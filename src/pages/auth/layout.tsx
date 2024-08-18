@@ -13,12 +13,12 @@ const Layout: React.FC<Props> = ({ children }) => {
                     <img
                         src={image} // Replace with your logo path
                         alt="Logo"
-                        width={100} // Adjust size as needed
-                        height={100} // Adjust size as needed
+                        width={150} // Adjust size as needed
+                        height={150} // Adjust size as needed
                     />
                 </div>
             </nav>
-            <div className="flex items-center text-start justify-center align-middle min-h-[90vh]">
+            <div className="flex items-center text-start justify-center pb-20 align-middle min-h-[90vh]">
                 {children}
             </div>
         </div>
