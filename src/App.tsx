@@ -13,7 +13,7 @@ function App() {
 			{/* PUBLIC ROUTES */}
 			<Route path="/" element={<Signin />} />
 			<Route path="/login" element={<Signin />} />
-			<Route path="/signin" element={<Signin />} />
+			<Route path="/sign-in" element={<Signin />} />
 			{/* <Route path="/register" element={<Register />} />
 			<Route path="/signup" element={<Register />} />
 			<Route path="/forgot-password" element={<ForgotPassword />} />

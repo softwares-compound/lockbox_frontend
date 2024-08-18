@@ -1,15 +1,24 @@
-import React, { ReactNode } from 'react'
-
+import React, { ReactNode } from 'react';
+import image from '@/assets/logo_full.png';
 
 type Props = {
-    children: ReactNode
-}
+    children: ReactNode;
+};
 
 const Layout: React.FC<Props> = ({ children }) => {
     return (
-        <div className='w-full text-start'>
-            <nav>hello world</nav>
-            <div className="flex items-center text-start justify-center min-h-screen">
+        <div className='w-full text-start min-h-screen text-base'>
+            <nav className='flex items-center p-4 min-h-[9vh]'>
+                <div className='flex items-center'>
+                    <img
+                        src={image} // Replace with your logo path
+                        alt="Logo"
+                        width={100} // Adjust size as needed
+                        height={100} // Adjust size as needed
+                    />
+                </div>
+            </nav>
+            <div className="flex items-center text-start justify-center align-middle min-h-[90vh]">
                 {children}
             </div>
         </div>

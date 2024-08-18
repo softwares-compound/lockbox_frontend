@@ -37,7 +37,7 @@ export function Signin() {
         <Layout>
             <Card className="mx-auto border-0 shadow-none">
                 <CardHeader>
-                    <CardTitle className="text-2xl">Sign in</CardTitle>
+                    <CardTitle className="">Sign in</CardTitle>
                     <CardDescription>
                         Enter your email and password below to sign in to your account.
                     </CardDescription>
@@ -57,7 +57,7 @@ export function Signin() {
                                     },
                                 })}
                             />
-                            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+                            {errors.email && <p className="text-red-500 ">{errors.email.message}</p>}
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="password">Password</Label>
@@ -72,7 +72,8 @@ export function Signin() {
                                     },
                                 })}
                             />
-                            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+                            {errors.password && <p className="text-red-500 ">{errors.password.message}</p>}
+                            <p className="px-3  text-neutral-600 text-end hover:underline cursor-pointer text-primary">Forgot password?</p>
                         </div>
                     </CardContent>
                     <CardFooter>
@@ -80,6 +81,7 @@ export function Signin() {
                             {isLoading ? <Loader2 className="mr-2 h-6 w-6 animate-spin" /> : <span>Sign in</span>}
                         </Button>
                     </CardFooter>
+                    <p className=" text-neutral-600 text-center">Don&apos;t have an account? <a className="text-primary hover:underline" href="/auth/signup">Sign up</a></p>
                 </form>
             </Card>
         </Layout>
