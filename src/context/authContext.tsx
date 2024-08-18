@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import useErrorHandling, { ErrorResponse } from "@/hooks/errorHandling";
 
 type UserData = {
-    // Define your user data properties
     email: string;
     name: string;
     mobile: string;
@@ -19,6 +18,9 @@ type UserAuth = {
     setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
     signin: (email: string, password: string) => Promise<void>;
     signup: (email: string, password: string, name: string, mobile: string, company?: string) => Promise<void>;
+    requestOtp: (email: string) => Promise<void>;
+    verifyOtp: (otp: string) => Promise<void>;
+    resetPassword: (newPassword: string) => Promise<void>;
     logout: () => Promise<void>;
 };
 
@@ -84,6 +86,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const requestOtp = async (email: string) => {
+        try {
+            await AXIOS_INSTANCE.post("auth/request_otp/", { email });
+            toast.success("OTP sent to your email", { id: "otp" });
+        } catch (error: any) {
+            if (error.response) {
+                handleErrors(error.response.data as ErrorResponse);
+            }
+            return error;
+        }
+    };
+
+    const verifyOtp = async (otp: string) => {
+        try {
+            await AXIOS_INSTANCE.post("auth/verify_otp/", { otp });
+            toast.success("OTP verified", { id: "otp" });
+        } catch (error: any) {
+            if (error.response) {
+                handleErrors(error.response.data as ErrorResponse);
+            }
+            return error;
+        }
+    };
+
+    const resetPassword = async (newPassword: string) => {
+        try {
+            const formData = new FormData();
+            formData.append("new_password", newPassword);
+
+            await AXIOS_INSTANCE.post("auth/reset_password/", formData);
+            toast.success("Password reset successfully", { id: "password" });
+        } catch (error: any) {
+            if (error.response) {
+                handleErrors(error.response.data as ErrorResponse);
+            }
+            return error;
+        }
+    };
+
     const logout = async () => {
         localStorage.removeItem("tenant");
         try {
@@ -107,7 +148,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAuthenticated,
         setIsAuthenticated,
         signin,
-        signup, // Added signup function to the context value
+        signup,
+        requestOtp,
+        verifyOtp,
+        resetPassword,
         logout,
     };
 

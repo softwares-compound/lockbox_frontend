@@ -74,7 +74,7 @@ export function Signin() {
                                 })}
                             />
                             {errors.password && <p className="text-red-500 px-3">{errors.password.message}</p>}
-                            <p className="px-3  text-neutral-600 text-end hover:underline cursor-pointer text-primary">Forgot password?</p>
+                            <a className="px-3  text-neutral-600 text-end hover:underline cursor-pointer text-primary" href="/forgot-password">Forgot password?</a>
                         </div>
                     </CardContent>
                     <CardFooter>
