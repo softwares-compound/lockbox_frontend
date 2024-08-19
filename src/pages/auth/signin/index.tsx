@@ -36,7 +36,7 @@ export function Signin() {
 
     return (
         <Layout>
-            <Card className="mx-auto w-1/3 border-0 shadow-none">
+            <Card className="mx-auto w-full sm:w-1/2 lg:w-1/3  border-0 shadow-none">
                 <CardHeader>
                     <CardTitle className="text-3xl">Sign in</CardTitle>
                     <CardDescription>

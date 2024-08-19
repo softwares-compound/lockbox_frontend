@@ -45,7 +45,7 @@ export function Signup() {
     return (
         <Layout>
 
-            <Card className="mx-auto border-0 w-1/3 shadow-none ">
+            <Card className="mx-auto border-0 w-full sm:w-1/2 lg:w-1/3 shadow-none ">
                 <CardHeader>
                     <CardTitle className="text-3xl">Sign Up</CardTitle>
                     <CardDescription>

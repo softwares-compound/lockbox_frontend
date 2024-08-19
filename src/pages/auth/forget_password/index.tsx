@@ -76,7 +76,7 @@ export function ForgotPassword() {
 
     return (
         <Layout>
-            <Card className="w-full max-w-md mx-auto border-0 shadow-none">
+            <Card className="mx-auto w-full sm:w-1/2 lg:w-1/3border-0 shadow-none">
                 <CardHeader>
                     <CardTitle className="text-2xl">Forgot Password</CardTitle>
                     <CardDescription>
