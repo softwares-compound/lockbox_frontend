@@ -33,7 +33,7 @@ const RouteProtector: React.FC<Props> = ({ children }) => {
             } catch (error) {
                 auth?.setIsAuthenticated(false);
                 auth?.setUserData(null);
-                navigate(AUTH_ENDPOINTS.SIGNIN, { replace: true });
+                navigate(AUTH_ENDPOINTS.LOGIN, { replace: true });
             } finally {
                 setIsLoading(false);
             }
