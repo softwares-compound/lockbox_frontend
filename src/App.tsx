@@ -7,7 +7,6 @@ import { ForgotPassword } from "./pages/auth/forget_password";
 
 function App() {
 	return (
-
 		<Routes>
 			{/* ERRORS */}
 

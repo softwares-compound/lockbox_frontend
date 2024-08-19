@@ -7,12 +7,12 @@ import { Toaster } from 'react-hot-toast'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-	<AuthProvider>
 
-		<BrowserRouter>
+	<BrowserRouter>
+		<AuthProvider>
 			<Toaster position='top-right' />
 			<App />
-		</BrowserRouter>
+		</AuthProvider>
+	</BrowserRouter>
 
-	</AuthProvider>
 )
