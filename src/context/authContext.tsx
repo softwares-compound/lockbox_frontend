@@ -1,13 +1,19 @@
-import { APP__AXIOS_INSTANCE, AXIOS_INSTANCE } from "@/config/axios";
+import { AXIOS_INSTANCE } from "@/config/axios";
 import { createContext, useContext, useState, ReactNode } from "react";
 import toast from "react-hot-toast";
 import useErrorHandling, { ErrorResponse } from "@/hooks/errorHandling";
+import { AUTH_ENDPOINTS } from "@/config/api";
+import { useNavigate } from "react-router-dom";
 
 type UserData = {
+    id: number;
     email: string;
     name: string;
     mobile: string;
     company?: string;
+    status: string;
+    images?: string;
+    balance: number;
     // other properties as per your application's requirement
 };
 
@@ -30,24 +36,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [userData, setUserData] = useState<UserData | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { handleErrors } = useErrorHandling();
+    const navigate = useNavigate();
 
     const signin = async (email: string, password: string) => {
         try {
-            const res1 = await APP__AXIOS_INSTANCE.post("auth/get_tenant_name/", { email }, { withCredentials: false });
-            const tenant = { name: res1.data.tenant_name };
-            localStorage.setItem("X-Request-ID", tenant.name);
-
-            const formData = new FormData();
-            formData.append("email", email);
-            formData.append("password", password);
-
-            const res2 = await AXIOS_INSTANCE.post("auth/signin/", formData, {
-                headers: { "X-Request-ID": localStorage.getItem("X-Request-ID") },
-                withCredentials: true,
+            const res = await AXIOS_INSTANCE.post(AUTH_ENDPOINTS.LOGIN, {
+                email,
+                password,
             });
-
             toast.success("Signed In Successfully", { id: "signin" });
-            const data = res2.data;
+            const data = res.data;
+            navigate("/dashboard");
             setUserData({ ...data.user });
             setIsAuthenticated(true);
         } catch (error: any) {
@@ -60,21 +59,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const signup = async (email: string, password: string, name: string, mobile: string, company?: string) => {
         try {
-            const formData = new FormData();
-            formData.append("email", email);
-            formData.append("password", password);
-            formData.append("name", name);
-            formData.append("mobile", mobile);
-            if (company) {
-                formData.append("company", company);
+            const reqBody = {
+                email,
+                password,
+                name,
+                mobile,
+                company,
             }
-
-            const res = await AXIOS_INSTANCE.post("auth/signup/", formData, {
-                headers: { "X-Request-ID": localStorage.getItem("X-Request-ID") },
-                withCredentials: true,
-            });
-
+            const res = await AXIOS_INSTANCE.post(AUTH_ENDPOINTS.REGISTER, reqBody);
             toast.success("Signed Up Successfully", { id: "signup" });
+            console.log(res.data);
             const data = res.data;
             setUserData({ ...data.user });
             setIsAuthenticated(true);
@@ -129,7 +123,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.removeItem("tenant");
         try {
             toast.loading("Logging out...", { id: "logout" });
-            await APP__AXIOS_INSTANCE.get("auth/logout", {
+            await AXIOS_INSTANCE.get("auth/logout", {
                 withCredentials: true,
                 headers: { "X-Request-ID": localStorage.getItem("X-Request-ID") },
             });

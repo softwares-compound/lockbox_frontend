@@ -24,6 +24,7 @@ function App() {
 
 			{/* PRIVATE ROUTES */}
 			{/* <Route path="/profile" element={<RouteProtector><Profile /> </RouteProtector>} /> */}
+			<Route path="/dashboard" element={<div></div>} />
 		</Routes>
 
 	);

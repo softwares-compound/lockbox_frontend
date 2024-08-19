@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 // import toast from "react-hot-toast";
 import { useAuth } from "@/context/authContext";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Layout from "../layout";
 
@@ -32,15 +32,19 @@ export function Signup() {
     const [isLoading, setIsLoading] = useState(false);
     const auth = useAuth();
 
-    const onSubmit = async (data: SignupFormData) => {
-        setIsLoading(true);
-        // Add your signup logic here (e.g., auth.signup)
-        await auth?.signup(data.email, data.password, data.name, data.mobile, data.company);
-        setIsLoading(false);
+    const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
     };
 
     // Watch the password field to validate confirmPassword
     const password = watch("password");
+
+    const onSubmit = async (data: SignupFormData) => {
+        setIsLoading(true);
+        await auth?.signup(data.email, data.password, data.name, data.mobile, data.company);
+        setIsLoading(false);
+    };
 
     return (
         <Layout>
@@ -55,7 +59,7 @@ export function Signup() {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <CardContent className="grid gap-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
+                            <Label htmlFor="name">Name<span className="text-red-500">*</span></Label>
                             <Input
                                 id="name"
                                 type="text"
@@ -66,7 +70,7 @@ export function Signup() {
                             {errors.name && <p className="text-red-500 text-sm px-3">{errors.name.message}</p>}
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">Email<span className="text-red-500">*</span></Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -81,10 +85,11 @@ export function Signup() {
                             {errors.email && <p className="text-red-500 text-sm px-3">{errors.email.message}</p>}
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="mobile">Mobile Number</Label>
+                            <Label htmlFor="mobile">Mobile Number<span className="text-red-500">*</span></Label>
                             <Input
                                 id="mobile"
                                 type="tel"
+                                maxLength={10}
                                 {...register("mobile", {
                                     required: "Mobile number is required",
                                     pattern: {
@@ -95,23 +100,36 @@ export function Signup() {
                             />
                             {errors.mobile && <p className="text-red-500 text-sm px-3">{errors.mobile.message}</p>}
                         </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                {...register("password", {
-                                    required: "Password is required",
-                                    minLength: {
-                                        value: 6,
-                                        message: "Password must be at least 6 characters long",
-                                    },
-                                })}
-                            />
+                        <div className="grid gap-2 ">
+                            <div className="relative">
+                                <Label htmlFor="password">Password</Label>
+                                <Input
+                                    id="password"
+                                    type={passwordVisible ? "text" : "password"} // Toggle input type based on visibility state
+                                    {...register("password", {
+                                        required: "Password is required",
+                                        minLength: {
+                                            value: 8,
+                                            message: "Password must be at least 8 characters long",
+                                        },
+                                        pattern: {
+                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                                            message: "Password must contain at least one [a-z], [A-Z], [0-9], and one special character [@$!%*?&]",
+                                        },
+                                    })}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={togglePasswordVisibility}
+                                    className="absolute inset-y-0 right-0 top-5 pr-3 flex items-center text-gray-600"
+                                >
+                                    {passwordVisible ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
+                                </button>
+                            </div>
                             {errors.password && <p className="text-red-500 text-sm px-3">{errors.password.message}</p>}
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="confirmPassword">Confirm Password</Label>
+                            <Label htmlFor="confirmPassword">Confirm Password<span className="text-red-500">*</span></Label>
                             <Input
                                 id="confirmPassword"
                                 type="password"
@@ -123,7 +141,7 @@ export function Signup() {
                             {errors.confirmPassword && <p className="text-red-500 text-sm px-3">{errors.confirmPassword.message}</p>}
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="company">Company (Optional)</Label>
+                            <Label htmlFor="company">Company</Label>
                             <Input
                                 id="company"
                                 type="text"
