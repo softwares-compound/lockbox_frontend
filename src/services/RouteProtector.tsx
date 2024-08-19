@@ -1,9 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AXIOS_INSTANCE } from '@/config/axios';
 import { useAuth } from '@/context/authContext';
-import DialogBox from '@/components/ui/dialogBox';
-import { signinForm } from '@/components/signin';
 import { AUTH_ENDPOINTS } from '@/config/api';
 
 type Props = {
@@ -51,11 +49,7 @@ const RouteProtector: React.FC<Props> = ({ children }) => {
         <>
             {auth?.isAuthenticated === true ? (
                 children
-            ) : (
-                <DialogBox open onClose={() => { }}>
-                    <signinForm />
-                </DialogBox>
-            )}
+            ) : null}
         </>
     );
 }

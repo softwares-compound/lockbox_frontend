@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-const APP_API_BASE_URL = 'https://dev.rosterly.io/api/';
+const APP_API_BASE_URL = 'https://api.lockboxpayments.io/api/';
 
 // const CHAT_API__BASE_URL = 'https://chat.rosterly.io/api/v1/';
 const LOCAL_API__BASE_URL = 'http://localhost:8001/api/v1/';
