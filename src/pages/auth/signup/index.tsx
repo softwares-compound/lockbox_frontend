@@ -113,7 +113,7 @@ export function Signup() {
                                             message: "Password must be at least 8 characters long",
                                         },
                                         pattern: {
-                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/,
                                             message: "Password must contain at least one [a-z], [A-Z], [0-9], and one special character [@$!%*?&]",
                                         },
                                     })}
