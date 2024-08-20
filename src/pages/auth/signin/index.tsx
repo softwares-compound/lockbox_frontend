@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 // import toast from "react-hot-toast"
 import { useAuth } from "@/context/authContext"
-import { Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form";
 import Layout from "../layout"
 
@@ -27,6 +27,11 @@ export function Signin() {
     const { register, handleSubmit, formState: { errors } } = useForm<SigninFormData>();
     const [isLoading, setIsLoading] = useState(false);
     const auth = useAuth();
+
+    const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
 
     const onSubmit = async (data: { email: string; password: string }) => {
         setIsLoading(true);
@@ -61,18 +66,27 @@ export function Signin() {
                             {errors.email && <p className="text-red-500 px-3">{errors.email.message}</p>}
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                {...register("password", {
-                                    required: "Password is required",
-                                    minLength: {
-                                        value: 6,
-                                        message: "Password must be at least 6 characters long",
-                                    },
-                                })}
-                            />
+                            <div className="relative">
+                                <Label htmlFor="password">Password<span className="text-red-500">*</span></Label>
+                                <Input
+                                    id="password"
+                                    type={passwordVisible ? "text" : "password"}
+                                    {...register("password", {
+                                        required: "Password is required",
+                                        minLength: {
+                                            value: 8,
+                                            message: "Password must be at least 8 characters long",
+                                        },
+                                    })}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={togglePasswordVisibility}
+                                    className="absolute inset-y-0 right-0 top-5 pr-3 flex items-center text-gray-600"
+                                >
+                                    {passwordVisible ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
+                                </button>
+                            </div>
                             {errors.password && <p className="text-red-500 px-3">{errors.password.message}</p>}
                             {/* <a className="px-3  text-neutral-600 text-end hover:underline cursor-pointer text-primary" href="/forgot-password">Forgot password?</a> */}
                         </div>

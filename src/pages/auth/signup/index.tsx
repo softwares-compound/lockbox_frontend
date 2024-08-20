@@ -102,7 +102,7 @@ export function Signup() {
                         </div>
                         <div className="grid gap-2 ">
                             <div className="relative">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">Password<span className="text-red-500">*</span></Label>
                                 <Input
                                     id="password"
                                     type={passwordVisible ? "text" : "password"} // Toggle input type based on visibility state

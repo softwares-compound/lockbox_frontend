@@ -43,6 +43,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const res = await AXIOS_INSTANCE.post(AUTH_ENDPOINTS.LOGIN, {
                 email,
                 password,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
             toast.success("Signed In Successfully", { id: "signin" });
             const data = res.data;
@@ -57,25 +61,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    const signup = async (email: string, password: string, name: string, mobile: string, company?: string) => {
+    const signup = async (email: string, password: string, name: string, mobile_number: string, company?: string) => {
         try {
             const reqBody = {
                 email,
                 password,
                 name,
-                mobile,
+                mobile_number,
                 company,
             }
-            const res = await AXIOS_INSTANCE.post(AUTH_ENDPOINTS.REGISTER, reqBody);
+            const res = await AXIOS_INSTANCE.post(AUTH_ENDPOINTS.REGISTER, reqBody, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
             toast.success("Signed Up Successfully", { id: "signup" });
+            navigate("/sign-in");
             console.log(res.data);
             const data = res.data;
             setUserData({ ...data.user });
             setIsAuthenticated(true);
         } catch (error: any) {
-            if (error.response) {
-                handleErrors(error.response.data as ErrorResponse);
-            }
+            toast.error("Couldn't signed Up", { id: "signup" });
             return error;
         }
     };
