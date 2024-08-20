@@ -114,7 +114,7 @@ export function Signup() {
                                         },
                                         pattern: {
                                             value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/,
-                                            message: "Password must contain at least one [a-z], [A-Z], [0-9], and one special character [@$!%*?&]",
+                                            message: "Password must contain at least one [a-z], [A-Z], [0-9], and one special character [@$!%*?#&]",
                                         },
                                     })}
                                 />
