@@ -4,16 +4,17 @@ import toast from "react-hot-toast";
 import useErrorHandling, { ErrorResponse } from "@/hooks/errorHandling";
 import { AUTH_ENDPOINTS } from "@/config/api";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 type UserData = {
-    id: number;
+    id?: number;
     email: string;
     name: string;
     mobile: string;
     company?: string;
-    status: string;
+    status?: string;
     images?: string;
-    balance: number;
+    balance?: number;
     // other properties as per your application's requirement
 };
 
@@ -49,9 +50,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 },
             });
             toast.success("Signed In Successfully", { id: "signin" });
-            const data = res.data;
+            const data = res.data.data;
+            console.log(data);
+            // Store tokens in cookies
+            Cookies.set('refreshToken', data.refresh, { expires: 7 }); // 7 days expiry
+            Cookies.set('accessToken', data.access, { expires: data.expired_in_hours / 24 });
             navigate("/dashboard");
-            setUserData({ ...data.user });
+            setUserData((prev) => ({ ...prev, email: data.email, name: data.name, mobile: data.mobile_number, company: data.company }));
             setIsAuthenticated(true);
         } catch (error: any) {
             if (error.response) {

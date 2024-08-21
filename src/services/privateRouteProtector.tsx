@@ -9,7 +9,7 @@ type Props = {
 }
 
 
-const RouteProtector: React.FC<Props> = ({ children }) => {
+const PrivateRouteProtector: React.FC<Props> = ({ children }) => {
     const auth = useAuth()
     const navigate = useNavigate()
     // const { tenant } = useParams<{ tenant: string }>();
@@ -44,7 +44,6 @@ const RouteProtector: React.FC<Props> = ({ children }) => {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-
     return (
         <>
             {auth?.isAuthenticated === true ? (
@@ -54,4 +53,4 @@ const RouteProtector: React.FC<Props> = ({ children }) => {
     );
 }
 
-export default RouteProtector
+export default PrivateRouteProtector
