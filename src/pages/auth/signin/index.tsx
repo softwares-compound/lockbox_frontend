@@ -24,7 +24,12 @@ interface SigninFormData {
 }
 
 export function Signin() {
-    const { register, handleSubmit, formState: { errors } } = useForm<SigninFormData>();
+    const { register, handleSubmit, formState: { errors } } = useForm<SigninFormData>({
+        defaultValues: {
+            email: "one@gmail.com",
+            password: "HandOver#123!",
+        },
+    });
     const [isLoading, setIsLoading] = useState(false);
     const auth = useAuth();
 
