@@ -9,8 +9,6 @@ import PublicRouteProtector from "./services/publicRouteProtector";
 import DashboardLayout from "./pages/dashboard/layout";
 
 const Dashboard = () => {
-	// const authContext = useAuth();
-	// console.log(authContext);
 	return <div>
 		<p>Dashboard</p>
 	</div>;
