@@ -4,12 +4,13 @@ import "./App.css";
 import { Signin } from "./pages/auth/signin";
 import { Signup } from "./pages/auth/signup";
 import { ForgotPassword } from "./pages/auth/forget_password";
-import { useAuth } from "./context/authContext";
+// import { useAuth } from "./context/authContext";
 import PublicRouteProtector from "./services/publicRouteProtector";
+import DashboardLayout from "./pages/dashboard/layout";
 
 const Dashboard = () => {
-	const authContext = useAuth();
-	console.log(authContext);
+	// const authContext = useAuth();
+	// console.log(authContext);
 	return <div>
 		<p>Dashboard</p>
 	</div>;
@@ -34,7 +35,7 @@ function App() {
 
 			{/* PRIVATE ROUTES */}
 			{/* <Route path="/profile" element={<RouteProtector><Profile /> </RouteProtector>} /> */}
-			<Route path="/dashboard" element={<Dashboard />} />
+			<Route path="/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
 		</Routes>
 
 	);
