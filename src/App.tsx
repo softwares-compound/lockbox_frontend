@@ -7,6 +7,7 @@ import { ForgotPassword } from "./pages/auth/forget_password";
 // import { useAuth } from "./context/authContext";
 import PublicRouteProtector from "./services/publicRouteProtector";
 import DashboardLayout from "./pages/dashboard/layout";
+import ProfilePage from "./pages/dashboard/profile/profile";
 
 const Dashboard = () => {
 	return <div>
@@ -34,6 +35,7 @@ function App() {
 			{/* PRIVATE ROUTES */}
 			{/* <Route path="/profile" element={<RouteProtector><Profile /> </RouteProtector>} /> */}
 			<Route path="/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
+			<Route path="/dashboard/profile" element={<DashboardLayout><ProfilePage /></DashboardLayout>} />
 		</Routes>
 
 	);
