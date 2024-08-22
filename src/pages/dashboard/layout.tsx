@@ -22,7 +22,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                         src={image} // Replace with your logo path
                         alt="Logo"
                         // className="w-20 h-20 md:w-30 md:h-20" // Adjust size as needed
-                        width={200} // Adjust size as needed
+                        width={180} // Adjust size as needed
                         onClick={() => navigate('/dashboard')}
                     />
                 </a>
