@@ -11,12 +11,19 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { MoveLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 
 const ProfilePage: React.FC = () => {
     const authContext = useAuth();
+    const navigate = useNavigate();
     return (
         <div className='w-full text-start text-brand pb-10'>
+            <div className='mt-4 mb-5 md:-mb-10 flex justify-between px-4'>
+                <button className='flex items-center gap-2 font-bold' onClick={() => navigate("/dashboard")}><MoveLeft className="h-5 w-5" /><p>Back</p></button>
+                <div><Button variant="outline">Edit profile</Button></div>
+            </div>
             <div className="px-4 space-y-6 md:px-6">
                 <header className="space-y-1.5 flex justify-center">
                     <div className="flex flex-col items-center space-y-4">
@@ -33,9 +40,9 @@ const ProfilePage: React.FC = () => {
                             <p className="font-semibold text-2xl">{authContext?.userData?.company}</p>
                         </div>
                         <br />
-                        <div className='text-center min-w-[320px]'>
-                            <Label htmlFor="email" className=''>Email address</Label>
-                            <p className="placeholder:text-brand/40 border border-brand p-1 rounded-3xl text-center">{authContext?.userData?.email} </p>
+                        <div className='text-center w-full md:min-w-[320px]'>
+                            <Label htmlFor="email" className='md:text-xl'>Email address</Label>
+                            <p className="placeholder:text-brand/40 border text-lg md:text-xl border-brand p-1 rounded-3xl text-center">{authContext?.userData?.email} </p>
                         </div>
                     </div>
                 </header>

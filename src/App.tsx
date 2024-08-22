@@ -9,6 +9,7 @@ import PublicRouteProtector from "./services/publicRouteProtector";
 import DashboardLayout from "./pages/dashboard/layout";
 import ProfilePage from "./pages/dashboard/profile/profile";
 import PrivateRouteProtector from "./services/privateRouteProtector";
+import CreateTransaction from "./pages/dashboard/createTransaction";
 
 const Dashboard = () => {
 	return <div>
@@ -47,6 +48,14 @@ function App() {
 				element={
 					<PrivateRouteProtector>
 						<DashboardLayout><ProfilePage /></DashboardLayout>
+					</PrivateRouteProtector>
+				}
+			/>
+			<Route
+				path="/dashboard/create-transaction"
+				element={
+					<PrivateRouteProtector>
+						<DashboardLayout><CreateTransaction /></DashboardLayout>
 					</PrivateRouteProtector>
 				}
 			/>
