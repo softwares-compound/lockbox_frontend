@@ -16,20 +16,20 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
 
     return (
         <div className="text-sm md:text-xl lg:text-xl">
-            <nav className="flex items-center justify-between px-2 md:px-4 py-2 h-[7vh] bg-white dark:bg-gray-800">
+            <nav className="flex items-center justify-between px-2 md:px-4 py-2 h-[10vh] bg-white dark:bg-gray-800">
                 <a href="#" className="flex items-center gap-2">
                     <img
                         src={image} // Replace with your logo path
                         alt="Logo"
                         // className="w-20 h-20 md:w-30 md:h-20" // Adjust size as needed
-                        width={120} // Adjust size as needed
+                        width={200} // Adjust size as needed
                         onClick={() => navigate('/dashboard')}
                     />
                 </a>
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button variant="link" size="icon" className="">
-                            <AlignJustify className="h-8 w-8 md:h-10 md:w-10 text-brand" />
+                            <AlignJustify className="h- w- md:h-12 md:w-12 text-brand" />
                             <span className="sr-only">Toggle navigation menu</span>
                         </Button>
                     </SheetTrigger>
@@ -40,20 +40,20 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                 onClick={() => navigate('/dashboard/profile')}
                             >
                                 <div className="rounded-full border-2 border-brand">
-                                    <img src="https://via.placeholder.com/60" alt="" className="rounded-full" width={60} height={60} />
+                                    <img src="https://via.placeholder.com/60" alt="" className="rounded-full" width={80} height={80} />
                                 </div>
-                                <div className="text-sm md:text-xl">
-                                    <p className="font-medium">{authContext?.userData?.company}</p>
-                                    <p className="text-xs md:text-sm">{authContext?.userData?.email}</p>
+                                <div className="text-sm md:text-2xl">
+                                    <p className="font-medium ">{authContext?.userData?.company}</p>
+                                    <p className="text-lg md:text-base">{authContext?.userData?.email}</p>
                                 </div>
                             </div>
                             <div className="flex justify-between items-center gap-2 md:gap-4 bg-brand text-white p-2 rounded-3xl">
                                 <div>
-                                    <p className="text-xl md:text-xl font-medium">${authContext?.userData?.balance ?? 76786}</p>
+                                    <p className="text-xl md:text-3xl font-medium">${authContext?.userData?.balance ?? 76786}</p>
                                     <p className="text-sm md:text-xl">Current balance</p>
                                 </div>
                                 <div>
-                                    <Button variant="link" className="bg-white text-xs md:text-sm" onClick={() => navigate('/dashboard/transactions')}>
+                                    <Button variant="link" className="bg-white text-base md:text-xl" onClick={() => navigate('/dashboard/transactions')}>
                                         Manage
                                     </Button>
                                 </div>
@@ -70,13 +70,13 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                 </a>
                             </div>
                         </div>
-                        <footer className="mt-[5vh] text-center text-xs md:text-sm">
+                        <footer className="mt-[5vh] text-center text-sm md:text-base">
                             <p>Not you? <span><a href="#" className="text-brand hover:underline">Logout</a></span></p>
                         </footer>
                     </SheetContent>
                 </Sheet>
             </nav>
-            <div className="min-h-[93vh]">
+            <div className="min-h-[90vh]">
                 {children}
             </div>
         </div>
