@@ -34,7 +34,7 @@ const ProfilePage: React.FC = () => {
                 </header>
                 <div className="space-y-6">
                     <div className="space-y-2">
-                        <h2 className="text-lg font-semibold text-brand px-2">Personal Information</h2>
+                        <h2 className="text-xl font-semibold text-brand px-2">Personal Information</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
                                 <Label htmlFor="name" className=''>Name</Label>
@@ -55,7 +55,7 @@ const ProfilePage: React.FC = () => {
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <h2 className="text-lg font-semibold text-brand px-2">Manage</h2>
+                        <h2 className="text-xl font-semibold text-brand px-2">Manage</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
                                 <Button variant="outline" className='w-full border border-brand text-brand' onClick={() => setActiveTab(1)}>Change password</Button>
@@ -68,7 +68,7 @@ const ProfilePage: React.FC = () => {
                             </div>
                         </div>
                         {/* <div className="space-y-2">
-                            <h2 className="text-lg font-semibold text-brand">Change Password</h2>
+                            <h2 className="text-xl font-semibold text-brand">Change Password</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <Label htmlFor="current-password">Current Password</Label>

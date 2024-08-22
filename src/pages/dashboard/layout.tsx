@@ -15,7 +15,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     const navigate = useNavigate();
 
     return (
-        <div className="text-sm md:text-base lg:text-lg">
+        <div className="text-sm md:text-xl lg:text-xl">
             <nav className="flex items-center justify-between px-2 md:px-4 py-2 h-[7vh] bg-white dark:bg-gray-800">
                 <a href="#" className="flex items-center gap-2">
                     <img
@@ -42,15 +42,15 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                 <div className="rounded-full border-2 border-brand">
                                     <img src="https://via.placeholder.com/60" alt="" className="rounded-full" width={60} height={60} />
                                 </div>
-                                <div className="text-sm md:text-base">
+                                <div className="text-sm md:text-xl">
                                     <p className="font-medium">{authContext?.userData?.company}</p>
                                     <p className="text-xs md:text-sm">{authContext?.userData?.email}</p>
                                 </div>
                             </div>
                             <div className="flex justify-between items-center gap-2 md:gap-4 bg-brand text-white p-2 rounded-3xl">
                                 <div>
-                                    <p className="text-lg md:text-xl font-medium">${authContext?.userData?.balance ?? 76786}</p>
-                                    <p className="text-sm md:text-lg">Current balance</p>
+                                    <p className="text-xl md:text-xl font-medium">${authContext?.userData?.balance ?? 76786}</p>
+                                    <p className="text-sm md:text-xl">Current balance</p>
                                 </div>
                                 <div>
                                     <Button variant="link" className="bg-white text-xs md:text-sm" onClick={() => navigate('/dashboard/transactions')}>
@@ -59,13 +59,13 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                 </div>
                             </div>
                             <div className="flex flex-col gap-2 md:gap-4">
-                                <a href="#" className="text-sm md:text-lg font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
+                                <a href="#" className="text-sm md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                     Complete transactions
                                 </a>
-                                <a href="#" className="text-sm md:text-lg font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
+                                <a href="#" className="text-sm md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                     Manage payment methods
                                 </a>
-                                <a href="#" className="text-sm md:text-lg font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
+                                <a href="#" className="text-sm md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                     Manage subscription
                                 </a>
                             </div>
