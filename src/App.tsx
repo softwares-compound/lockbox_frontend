@@ -8,6 +8,8 @@ import { ForgotPassword } from "./pages/auth/forget_password";
 import PublicRouteProtector from "./services/publicRouteProtector";
 import DashboardLayout from "./pages/dashboard/layout";
 import ProfilePage from "./pages/dashboard/profile/profile";
+import PrivateRouteProtector from "./services/privateRouteProtector";
+import CreateTransaction from "./pages/dashboard/createTransaction";
 
 const Dashboard = () => {
 	return <div>
@@ -33,9 +35,30 @@ function App() {
 			<Route path="/reset-password" element={<ResetPassword />} /> */}
 
 			{/* PRIVATE ROUTES */}
-			{/* <Route path="/profile" element={<RouteProtector><Profile /> </RouteProtector>} /> */}
-			<Route path="/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
-			<Route path="/dashboard/profile" element={<DashboardLayout><ProfilePage /></DashboardLayout>} />
+			<Route
+				path="/dashboard"
+				element={
+					<PrivateRouteProtector>
+						<DashboardLayout><Dashboard /></DashboardLayout>
+					</PrivateRouteProtector>
+				}
+			/>
+			<Route
+				path="/dashboard/profile"
+				element={
+					<PrivateRouteProtector>
+						<DashboardLayout><ProfilePage /></DashboardLayout>
+					</PrivateRouteProtector>
+				}
+			/>
+			<Route
+				path="/dashboard/create-transaction"
+				element={
+					<PrivateRouteProtector>
+						<DashboardLayout><CreateTransaction /></DashboardLayout>
+					</PrivateRouteProtector>
+				}
+			/>
 		</Routes>
 
 	);

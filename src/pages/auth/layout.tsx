@@ -9,7 +9,7 @@ type Props = {
 const Layout: React.FC<Props> = ({ children }) => {
     const navigate = useNavigate()
     return (
-        <div className='w-full text-start min-h-screen text-base'>
+        <div className='w-full text-start min-h-screen text-xl'>
             <nav className='flex items-center p-4 min-h-[9vh]'>
                 <div className='flex items-center'>
                     <img

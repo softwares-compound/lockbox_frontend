@@ -33,8 +33,7 @@ const ChangePassword: React.FC = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-2">
-                <h2 className="text-lg font-semibold text-brand px-2">Change Password</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
                     <div className="grid gap-2">
                         <div className="relative">
                             <Label htmlFor="currentPassword">Current Password</Label>
