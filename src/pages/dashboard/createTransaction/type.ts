@@ -4,5 +4,5 @@ export interface CreateTransactionInputType {
     transaction_contract_file: File | null,
     additional_attachments: File[] | null,
     transaction_deadline: Date | undefined,
-    transaction_value: string,
+    transaction_value: { formatted: string | undefined, value: string | undefined },
 }

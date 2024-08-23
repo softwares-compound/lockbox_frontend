@@ -40,3 +40,25 @@ export function blobToDataUrl(blob: File): Promise<string> {
 			reader.readAsDataURL(blob);
 		});
 }
+
+/**
+ * Truncates a string and adds ellipsis in the middle.
+ *
+ * @param {string} str - The input string to truncate.
+ * @param {number} startChars - The number of characters to keep from the start of the string.
+ * @param {number} [endChars=3] - The number of characters to keep from the end of the string. Default is 3.
+ * @returns {string} The truncated string with ellipsis in the middle.
+ */
+export const addEllipsis = (str: string | undefined | null, startChars: number, endChars = 3): string => {
+  if (!str) {
+    return "";
+  }
+	if (str.length <= startChars + endChars) {
+		return str;
+	}
+
+	const start = str.slice(0, startChars);
+	const end = str.slice(-endChars);
+
+	return `${start}...${end}`;
+};

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { CreateTransactionInputType } from './type'
 import { Label } from '@/components/ui/label'
 import CurrencyInput from 'react-currency-input-field';
@@ -22,21 +21,22 @@ type Props = {
 }
 
 const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateTransactionInputType>({
-        defaultValues: formData,
-    })
     const [noDateError, setNoDateError] = useState(false)
+    const [transactionValueError, setTransactionValueError] = useState(false)
 
     const onSubmit = () => {
         if (!formData.transaction_deadline) {
             setNoDateError(true)
             return
+        } else if (!formData.transaction_value.value) {
+            setTransactionValueError(true)
+            return
         }
-        setCurrentStep(3)
+        setCurrentStep(4)
     }
-    console.log(formData)
+    console.log('===', formData.transaction_value.value)
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className=''>
+        <form className=''>
             <div className='my-20'>
                 <Label htmlFor="transaction_deadline">What is the transaction deadline?<span className="text-red-500 text-base">*</span></Label>
                 <br />
@@ -74,21 +74,29 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                         id="transaction_value"
                         // name="transaction_value"
                         placeholder="eg: 10,000"
-                        // defaultValue={1000}
+                        // defaultValue={""}
                         decimalsLimit={2}
-                        // onValueChange={(value, name, values) => console.log(value, name, values)}
-                        {...register('transaction_value', { required: 'Transaction value is required' })}
+                        value={formData.transaction_value.value}
+                        onValueChange={(_value, _name, values) => {
+                            setFormData({
+                                ...formData, transaction_value: {
+                                    float: values?.float ?? undefined,
+                                    formatted: values?.formatted,
+                                    value: values?.value
+                                }
+                            })
+                        }}
                         className="flex h-10 w-full text-center rounded-3xl border-2 border-brand bg-background px-3 py-2 text-base md:text-xl ring-offset-background file:border-0 file:bg-transparent file:text-xl file:font-medium placeholder:text-brand/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     />
                 </div>
-                {errors.transaction_value && <p className="text-red-500 text-base">{errors.transaction_value.message}</p>}
+                {transactionValueError && <p className="text-red-500 text-base">Transaction value is required</p>}
             </div>
             <div className='flex justify-end gap-6 my-20 '>
                 <Button variant="outline" onClick={() => setCurrentStep(2)}>
                     <span><ArrowLeft /></span>
                     <span>Previous</span>
                 </Button>
-                <Button type="submit" variant="outline">
+                <Button type="submit" variant="outline" onClick={onSubmit}>
                     <span>Review</span>
                     <span><ArrowRight /></span>
                 </Button>
