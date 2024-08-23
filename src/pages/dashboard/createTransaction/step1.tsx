@@ -33,7 +33,7 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                     // defaultValue={formData.counter_party}
                     {...register('counter_party', { required: 'Counter party is required' })}
                 />
-                {errors.counter_party && <p className="text-red-500">{errors.counter_party.message}</p>}
+                {errors.counter_party && <p className="text-red-500 text-base">{errors.counter_party.message}</p>}
             </div>
             <div className='space-y-2 '>
                 <p>What is your role in this transaction?</p>
@@ -59,7 +59,7 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                         />
                     </div>
                 </RadioGroup>
-                {errors.role && <p className="text-red-500">{errors.role.message}</p>}
+                {errors.role && <p className="text-red-500 text-base">{errors.role.message}</p>}
             </div>
             <div className='flex justify-end '>
                 <Button type="submit" variant="outline">

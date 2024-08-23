@@ -55,7 +55,7 @@ const ChangePassword: React.FC = () => {
                             </button>
                         </div>
                         {errors.currentPassword && (
-                            <p className="text-red-500 text-sm px-4">{errors.currentPassword.message}</p>
+                            <p className="text-red-500 text-base px-4">{errors.currentPassword.message}</p>
                         )}
                     </div>
                     <div className="grid gap-2">
@@ -86,7 +86,7 @@ const ChangePassword: React.FC = () => {
                             </button>
                         </div>
                         {errors.newPassword && (
-                            <p className="text-red-500 text-sm px-4">{errors.newPassword.message}</p>
+                            <p className="text-red-500 text-base px-4">{errors.newPassword.message}</p>
                         )}
 
                     </div>
@@ -104,7 +104,7 @@ const ChangePassword: React.FC = () => {
                                             value === newPassword || "Passwords do not match"
                                     })} />
                                 {errors.confirmPassword && (
-                                    <p className="text-red-500 text-sm px-4">{errors.confirmPassword.message}</p>
+                                    <p className="text-red-500 text-base px-4">{errors.confirmPassword.message}</p>
                                 )}
                             </div>
                         </div>

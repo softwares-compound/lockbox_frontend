@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CreateTransactionInputType } from './type'
 import { Label } from '@/components/ui/label'
@@ -34,18 +34,14 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
         maxSize: 1 * 1024 * 1024,
     } satisfies DropzoneOptions;
 
-    const onSubmit = (data: CreateTransactionInputType) => {
+    const onSubmit = () => {
         if (!formData.transaction_contract_file) {
             setNoTransactionContract(true)
             return
         }
-        setFormData({ ...formData, ...data })
         setCurrentStep(3)
     }
     console.log(formData)
-    useEffect(() => {
-
-    }, [formData])
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-10'>
             <div className=''>
@@ -80,7 +76,7 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                         }
                     </FileUploaderContent>
                 </FileUploader>
-                {noTransactionContract && <p className="text-red-500">{"Please upload transaction contract"}</p>}
+                {noTransactionContract && <p className="text-red-500 text-base">{"Please upload transaction contract"}</p>}
             </div>
             <div className='space-y-2 '>
                 <div className=''>

@@ -17,7 +17,7 @@ const CreateTransaction: React.FC = () => {
         counter_party: "",
         transaction_contract_file: null,
         additional_attachments: null,
-        transaction_deadline: null,
+        transaction_deadline: undefined,
         transaction_value: "",
     })
 
