@@ -3,6 +3,6 @@ export interface CreateTransactionInputType {
     counter_party: string,
     transaction_contract_file: File | null,
     additional_attachments: File[] | null,
-    transaction_deadline: Date | null,
-    transaction_value: string,
+    transaction_deadline: Date | undefined,
+    transaction_value: { float?: number | undefined, formatted: string | undefined, value: string | undefined },
 }

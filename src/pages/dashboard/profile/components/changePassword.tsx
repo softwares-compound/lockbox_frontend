@@ -38,7 +38,6 @@ const ChangePassword: React.FC = () => {
                         <div className="relative">
                             <Label htmlFor="currentPassword">Current Password</Label>
                             <Input
-                                className="placeholder:text-brand/40 border border-brand"
                                 id="currentPassword"
                                 placeholder="Enter your current password"
                                 type={currentPasswordVisible ? "text" : "password"}
@@ -56,14 +55,13 @@ const ChangePassword: React.FC = () => {
                             </button>
                         </div>
                         {errors.currentPassword && (
-                            <p className="text-red-500 text-sm px-4">{errors.currentPassword.message}</p>
+                            <p className="text-red-500 text-base px-4">{errors.currentPassword.message}</p>
                         )}
                     </div>
                     <div className="grid gap-2">
                         <div className="relative">
                             <Label htmlFor="newPassword">New Password</Label>
                             <Input
-                                className="placeholder:text-brand/40 border border-brand"
                                 id="newPassword"
                                 placeholder="Enter your new password"
                                 type={newPasswordVisible ? "text" : "password"}
@@ -88,7 +86,7 @@ const ChangePassword: React.FC = () => {
                             </button>
                         </div>
                         {errors.newPassword && (
-                            <p className="text-red-500 text-sm px-4">{errors.newPassword.message}</p>
+                            <p className="text-red-500 text-base px-4">{errors.newPassword.message}</p>
                         )}
 
                     </div>
@@ -96,7 +94,7 @@ const ChangePassword: React.FC = () => {
                         <div className="relative">
                             <div >
                                 <Label htmlFor="confirm-password">Confirm Password</Label>
-                                <Input className="placeholder:text-brand/40 border border-brand"
+                                <Input
                                     id="confirm-password"
                                     placeholder="Confirm your new password"
                                     type="password"
@@ -106,7 +104,7 @@ const ChangePassword: React.FC = () => {
                                             value === newPassword || "Passwords do not match"
                                     })} />
                                 {errors.confirmPassword && (
-                                    <p className="text-red-500 text-sm px-4">{errors.confirmPassword.message}</p>
+                                    <p className="text-red-500 text-base px-4">{errors.confirmPassword.message}</p>
                                 )}
                             </div>
                         </div>
