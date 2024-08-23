@@ -14,7 +14,9 @@ type Props = {
 }
 
 const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateTransactionInputType>()
+    const { register, handleSubmit, formState: { errors } } = useForm<CreateTransactionInputType>({
+        defaultValues: formData,
+    })
 
     const onSubmit = (data: CreateTransactionInputType) => {
         setFormData({ ...formData, ...data })
@@ -24,10 +26,11 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-10'>
             <div className=''>
-                <Label htmlFor="counter_party">Who is the counter party in the transaction?</Label>
+                <Label htmlFor="counter_party">Who is the counter party in the transaction?<span className="text-red-500">*</span></Label>
                 <Input
-                    className="placeholder:text-brand/40 border border-brand max-w-[360px] text-center mx-auto my-2"
+                    className=" max-w-[360px] text-center mx-auto my-2"
                     placeholder='Start typing...'
+                    // defaultValue={formData.counter_party}
                     {...register('counter_party', { required: 'Counter party is required' })}
                 />
                 {errors.counter_party && <p className="text-red-500">{errors.counter_party.message}</p>}

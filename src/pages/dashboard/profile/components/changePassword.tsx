@@ -38,7 +38,6 @@ const ChangePassword: React.FC = () => {
                         <div className="relative">
                             <Label htmlFor="currentPassword">Current Password</Label>
                             <Input
-                                className="placeholder:text-brand/40 border border-brand"
                                 id="currentPassword"
                                 placeholder="Enter your current password"
                                 type={currentPasswordVisible ? "text" : "password"}
@@ -63,7 +62,6 @@ const ChangePassword: React.FC = () => {
                         <div className="relative">
                             <Label htmlFor="newPassword">New Password</Label>
                             <Input
-                                className="placeholder:text-brand/40 border border-brand"
                                 id="newPassword"
                                 placeholder="Enter your new password"
                                 type={newPasswordVisible ? "text" : "password"}
@@ -96,7 +94,7 @@ const ChangePassword: React.FC = () => {
                         <div className="relative">
                             <div >
                                 <Label htmlFor="confirm-password">Confirm Password</Label>
-                                <Input className="placeholder:text-brand/40 border border-brand"
+                                <Input
                                     id="confirm-password"
                                     placeholder="Confirm your new password"
                                     type="password"

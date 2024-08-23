@@ -42,7 +42,7 @@ const ProfilePage: React.FC = () => {
                         <br />
                         <div className='text-center w-full md:min-w-[320px]'>
                             <Label htmlFor="email" className='md:text-xl'>Email address</Label>
-                            <p className="placeholder:text-brand/40 border text-lg md:text-xl border-brand p-1 rounded-3xl text-center">{authContext?.userData?.email} </p>
+                            <p className="placeholder:text-brand/40 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">{authContext?.userData?.email} </p>
                         </div>
                     </div>
                 </header>
@@ -73,7 +73,7 @@ const ProfilePage: React.FC = () => {
                             <div>
                                 <Dialog>
                                     <DialogTrigger asChild>
-                                        <Button variant="outline" className='w-full border border-brand text-brand'>Change password</Button>
+                                        <Button variant="outline" className='w-full border-2 border-brand text-brand'>Change password</Button>
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[425px]">
                                         <DialogHeader>
@@ -89,10 +89,10 @@ const ProfilePage: React.FC = () => {
                                 </Dialog>
                             </div>
                             <div>
-                                <Button disabled variant="outline" className='w-full border border-brand text-brand'>Manage payment methods</Button>
+                                <Button disabled variant="outline" className='w-full border-2 border-brand text-brand'>Manage payment methods</Button>
                             </div>
                             <div>
-                                <Button variant="outline" className='w-full border border-brand text-brand'>Manage subscription</Button>
+                                <Button variant="outline" className='w-full border-2 border-brand text-brand'>Manage subscription</Button>
                             </div>
                         </div>
                     </div>
