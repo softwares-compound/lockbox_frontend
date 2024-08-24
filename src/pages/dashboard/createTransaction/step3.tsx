@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { CreateTransactionInputType } from './type'
 import { Label } from '@/components/ui/label'
 import CurrencyInput from 'react-currency-input-field';
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Contrast, Loader2 } from 'lucide-react'
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
@@ -14,6 +14,10 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { Button } from '@/components/ui/button'
+import { AXIOS_INSTANCE } from '@/config/axios';
+import { CREATE_TRANSACTION_ENDPOINTS } from '@/config/api';
+// import toast from 'react-hot-toast';
+import Cookies from 'js-cookie';
 type Props = {
     formData: CreateTransactionInputType,
     setFormData: React.Dispatch<React.SetStateAction<CreateTransactionInputType>>
@@ -23,8 +27,9 @@ type Props = {
 const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
     const [noDateError, setNoDateError] = useState(false)
     const [transactionValueError, setTransactionValueError] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
-    const onSubmit = () => {
+    const handelSaveToDraft = async () => {
         if (!formData.transaction_deadline) {
             setNoDateError(true)
             return
@@ -32,9 +37,51 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
             setTransactionValueError(true)
             return
         }
-        setCurrentStep(4)
+        try {
+            console.log(formData)
+            setIsLoading(true)
+            if (formData.id) {
+                const resp = await AXIOS_INSTANCE.patch(`${CREATE_TRANSACTION_ENDPOINTS.UPDATE_TRANSACTION}/${formData.id}`, {
+                    contrast: [formData.transaction_contract_file],
+                    attachments: formData.additional_attachments,
+                    end_date: formData.transaction_deadline,
+                    budget: formData.transaction_value.value,
+                    status: 1,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                console.log(resp.data.data)
+                setCurrentStep(4)
+                // toast.success("Transaction updated successfully")
+            } else {
+                const resp = await AXIOS_INSTANCE.post(CREATE_TRANSACTION_ENDPOINTS.SAVE_TO_DRAFT, {
+                    contrast: [formData.transaction_contract_file],
+                    attachments: formData.additional_attachments,
+                    end_date: formData.transaction_deadline,
+                    budget: formData.transaction_value.value,
+                    status: 7,
+                },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                )
+                console.log(resp.data.data)
+                setCurrentStep(4)
+                // toast.success("Transaction saved to draft successfully")
+            }
+        } catch (error: Error | any) {
+            console.log(error.response.data)
+        } finally {
+            setIsLoading(false)
+        }
     }
-    console.log('===', formData.transaction_value.value)
+
     return (
         <form className=''>
             <div className='my-20'>
@@ -96,9 +143,14 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                     <span><ArrowLeft /></span>
                     <span>Previous</span>
                 </Button>
-                <Button type="submit" variant="outline" onClick={onSubmit}>
-                    <span>Review</span>
-                    <span><ArrowRight /></span>
+                <Button type="submit" variant="outline" onClick={handelSaveToDraft} disabled={isLoading} className='min-w-20'>
+                    {
+                        isLoading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+                            : <>
+                                <span>Review</span>
+                                <span><ArrowRight /></span>
+                            </>
+                    }
                 </Button>
             </div>
         </form>
