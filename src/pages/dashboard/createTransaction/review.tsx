@@ -65,7 +65,13 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     <div className='overflow-hidden'>
                         <Label htmlFor="name" className=''>Transaction contract</Label>
-                        <p className="placeholder:text-brand/40 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">{addEllipsis(formData.transaction_contract_file?.name, 25, 5)} </p>
+                        <div className="placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">
+                            {
+                                formData.transaction_contract_file?.map((file, index) => (
+                                    <p key={index}>{addEllipsis(file.file.name, 15, 5)}</p>
+                                ))
+                            }
+                        </div>
                     </div>
                     <div>
                         <Label htmlFor="email" className=''>Transaction deadline</Label>
@@ -80,7 +86,7 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep }) => {
                         <div className="placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">
                             {
                                 formData.additional_attachments?.map((attachment, index) => (
-                                    <p key={index}>{addEllipsis(attachment.name, 15, 5)}</p>
+                                    <p key={index}>{addEllipsis(attachment.file.name, 15, 5)}</p>
                                 ))
                             }
                         </div>

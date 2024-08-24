@@ -44,7 +44,7 @@ function App() {
 				}
 			/>
 			<Route
-				path="/dashboard/profile"
+				path="//profile"
 				element={
 					<PrivateRouteProtector>
 						<DashboardLayout><ProfilePage /></DashboardLayout>
@@ -52,7 +52,7 @@ function App() {
 				}
 			/>
 			<Route
-				path="/dashboard/create-transaction"
+				path="//create-transaction"
 				element={
 					<PrivateRouteProtector>
 						<DashboardLayout><CreateTransaction /></DashboardLayout>

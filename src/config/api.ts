@@ -16,3 +16,7 @@ export const CREATE_TRANSACTION_ENDPOINTS = {
     GET_TRANSACTION: "general/v1/contract",
     GET_TRANSACTION_LIST: "general/v1/contract",
 }
+
+export const FILE_UPLOAD_URL = {
+    GET_URL: "general/v1/upload-url",
+}
