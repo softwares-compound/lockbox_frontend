@@ -16,7 +16,7 @@ export interface CreateTransactionInputType {
     role: string | "customer" | "vendor",
     counter_party: string,
     transaction_contract_file: FileWithExtension[] ,
-    additional_attachments: File[] ,
+    additional_attachments: FileWithExtension[] ,
     transaction_deadline: Date | undefined,
     transaction_value: { float?: number | undefined, formatted: string | undefined, value: string | undefined },
 }

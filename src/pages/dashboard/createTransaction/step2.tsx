@@ -79,7 +79,7 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
         }
         setCurrentStep(3)
     }
-    // console.log(formData)
+    // console.log("step 2===>> ", formData)
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-10'>
             <div className=''>

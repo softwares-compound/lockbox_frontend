@@ -19,10 +19,11 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
     })
 
     const onSubmit = (data: CreateTransactionInputType) => {
-        setFormData({ ...formData, ...data })
+        console.log(data)
+        setFormData({ ...data, ...formData })
         setCurrentStep(2)
     }
-
+    // console.log("step 1===>> ", formData)
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-10'>
             <div className=''>

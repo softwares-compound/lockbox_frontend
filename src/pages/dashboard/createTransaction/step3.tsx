@@ -18,6 +18,7 @@ import { AXIOS_INSTANCE } from '@/config/axios';
 import { CREATE_TRANSACTION_ENDPOINTS } from '@/config/api';
 // import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
+import { useAuth } from '@/context/authContext';
 type Props = {
     formData: CreateTransactionInputType,
     setFormData: React.Dispatch<React.SetStateAction<CreateTransactionInputType>>
@@ -25,6 +26,7 @@ type Props = {
 }
 
 const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
+    const authContext = useAuth();
     const [noDateError, setNoDateError] = useState(false)
     const [transactionValueError, setTransactionValueError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -40,17 +42,20 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
         try {
             console.log(formData)
             setIsLoading(true)
+            const contracts = formData.transaction_contract_file.map(file => file.key)
+            const attachments = formData.additional_attachments.map(file => file.key)
             if (formData.id) {
                 const resp = await AXIOS_INSTANCE.patch(`${CREATE_TRANSACTION_ENDPOINTS.UPDATE_TRANSACTION}/${formData.id}`, {
-                    contrast: [formData.transaction_contract_file],
-                    attachments: formData.additional_attachments,
+                    contracts,
+                    attachments,
                     end_date: formData.transaction_deadline,
                     budget: formData.transaction_value.value,
                     status: 1,
+                    customer: formData.role === "customer" ? authContext?.userData?.email : formData.counter_party,
+                    vendor: formData.role === "vendor" ? authContext?.userData?.email : formData.counter_party,
                 }, {
                     headers: {
                         'Authorization': `Bearer ${Cookies.get('accessToken')}`,
-                        'Content-Type': 'multipart/form-data'
                     }
                 })
                 console.log(resp.data.data)
@@ -58,16 +63,17 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                 // toast.success("Transaction updated successfully")
             } else {
                 const resp = await AXIOS_INSTANCE.post(CREATE_TRANSACTION_ENDPOINTS.SAVE_TO_DRAFT, {
-                    contrast: [formData.transaction_contract_file],
-                    attachments: formData.additional_attachments,
+                    contracts,
+                    attachments,
                     end_date: formData.transaction_deadline,
                     budget: formData.transaction_value.value,
                     status: 7,
+                    customer: formData.role === "customer" ? authContext?.userData?.email : formData.counter_party,
+                    vendor: formData.role === "vendor" ? authContext?.userData?.email : formData.counter_party,
                 },
                     {
                         headers: {
                             'Authorization': `Bearer ${Cookies.get('accessToken')}`,
-                            'Content-Type': 'multipart/form-data'
                         }
                     }
                 )
@@ -81,7 +87,7 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
             setIsLoading(false)
         }
     }
-
+    // console.log("step 3===>> ", formData)
     return (
         <form className=''>
             <div className='my-20'>
@@ -143,7 +149,7 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                     <span><ArrowLeft /></span>
                     <span>Previous</span>
                 </Button>
-                <Button type="submit" variant="outline" onClick={handelSaveToDraft} disabled={isLoading} className='min-w-20'>
+                <Button type="button" variant="outline" onClick={handelSaveToDraft} disabled={isLoading} className='min-w-20'>
                     {
                         isLoading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
                             : <>
