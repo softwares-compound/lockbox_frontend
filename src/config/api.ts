@@ -7,3 +7,12 @@ export const AUTH_ENDPOINTS = {
     VERIFY_EMAIL: "/verify-email",
     VERIFY_TOKEN: "/verify-token",
 }
+
+
+export const CREATE_TRANSACTION_ENDPOINTS = {
+    CREATE_TRANSACTION: "general/v1/contract",
+    SAVE_TO_DRAFT: "general/v1/contract",
+    UPDATE_TRANSACTION: "general/v1/contract",
+    GET_TRANSACTION: "general/v1/contract",
+    GET_TRANSACTION_LIST: "general/v1/contract",
+}

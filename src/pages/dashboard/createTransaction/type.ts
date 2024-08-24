@@ -1,4 +1,5 @@
 export interface CreateTransactionInputType {
+    id?: string,
     role: string | "customer" | "vendor",
     counter_party: string,
     transaction_contract_file: File | null,

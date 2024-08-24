@@ -36,6 +36,8 @@ const PrivateRouteProtector: React.FC<Props> = ({ children }) => {
                 auth?.setIsAuthenticated(false);
                 auth?.setUserData(null);
                 navigate(AUTH_ENDPOINTS.LOGIN, { replace: true });
+                Cookies.remove('accessToken');
+                Cookies.remove('refreshToken');
             } finally {
                 setIsLoading(false);
             }
