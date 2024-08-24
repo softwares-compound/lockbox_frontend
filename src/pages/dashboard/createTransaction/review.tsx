@@ -68,7 +68,7 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep }) => {
                         <div className="placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">
                             {
                                 formData.transaction_contract_file?.map((file, index) => (
-                                    <p key={index}>{addEllipsis(file.name, 15, 5)}</p>
+                                    <p key={index}>{addEllipsis(file.file.name, 15, 5)}</p>
                                 ))
                             }
                         </div>
@@ -86,7 +86,7 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep }) => {
                         <div className="placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">
                             {
                                 formData.additional_attachments?.map((attachment, index) => (
-                                    <p key={index}>{addEllipsis(attachment.name, 15, 5)}</p>
+                                    <p key={index}>{addEllipsis(attachment.file.name, 15, 5)}</p>
                                 ))
                             }
                         </div>

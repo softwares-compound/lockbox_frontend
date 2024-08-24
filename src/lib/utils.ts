@@ -1,10 +1,19 @@
+import { FileWithExtension } from "@/pages/dashboard/createTransaction/type";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+
+// *************** //
+// *************** //
+// *************** //
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+
+// *************** //
+// *************** //
+// *************** //
 
 export function replacePathSegment(url: string, newSegment: string): string {
     // Use URL constructor to parse the input URL
@@ -25,6 +34,12 @@ export function replacePathSegment(url: string, newSegment: string): string {
     return parsedUrl.toString();
 }
 
+
+// *************** //
+// *************** //
+// *************** //
+
+
 export function blobToDataUrl(blob: File): Promise<string> {
 		return new Promise((resolve, reject) => {
 			const reader = new FileReader();
@@ -40,6 +55,10 @@ export function blobToDataUrl(blob: File): Promise<string> {
 			reader.readAsDataURL(blob);
 		});
 }
+
+// *************** //
+// *************** //
+// *************** //
 
 /**
  * Truncates a string and adds ellipsis in the middle.
@@ -61,4 +80,75 @@ export const addEllipsis = (str: string | undefined | null, startChars: number, 
 	const end = str.slice(-endChars);
 
 	return `${start}...${end}`;
+};
+
+
+// *************** //
+// *************** //
+// *************** //
+
+type FileTypeCount = {
+    extension: string;
+    count: number;
+};
+
+type FileCountResult = {
+    count: FileTypeCount[];
+};
+
+export function getFileExtension(fileName: string): string | null {
+    const parts = fileName.split('.');
+    if (parts.length < 2) {
+        console.warn(`File has no extension: ${fileName}`);
+        return null; // or you could throw an error here
+    }
+    return parts.pop()?.toLowerCase() || null;
+}
+
+export function countFileTypes(files: { name: string }[]): FileCountResult {
+    const fileCounts: { [key: string]: number } = {};
+
+    files.forEach(file => {
+        try {
+            const extension = getFileExtension(file.name);
+            if (extension) {
+                fileCounts[extension] = (fileCounts[extension] || 0) + 1;
+            }
+        } catch (error) {
+            console.error(`Error processing file: ${file.name}`, error);
+        }
+    });
+
+    const result: FileTypeCount[] = Object.keys(fileCounts).map(extension => ({
+        extension,
+        count: fileCounts[extension],
+    }));
+
+    return { count: result };
+}
+
+
+// *************** //
+// *************** //
+// *************** //
+
+
+// Function to update files with key, extension, and url based on the file type/extension
+export const updateFilesWithUrls = (files: FileWithExtension[], uploadedFiles: { key: string, extension: string, url: string }[]) => {
+    return files.map(fileWithExtension => {
+        const matchingUploadedFile = uploadedFiles.find(uploadedFile => 
+            uploadedFile.extension === fileWithExtension.file.name.split('.').pop()
+        );
+
+        if (matchingUploadedFile) {
+            return {
+                ...fileWithExtension,
+                key: matchingUploadedFile.key,
+                extension: matchingUploadedFile.extension,
+                url: matchingUploadedFile.url,
+            };
+        }
+
+        return fileWithExtension;
+    });
 };
