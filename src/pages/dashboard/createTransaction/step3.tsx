@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { CreateTransactionInputType } from './type'
 import { Label } from '@/components/ui/label'
 import CurrencyInput from 'react-currency-input-field';
-import { ArrowLeft, ArrowRight, Contrast, Loader2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
