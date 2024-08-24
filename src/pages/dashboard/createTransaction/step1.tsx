@@ -29,9 +29,14 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                 <Label htmlFor="counter_party">Who is the counter party in the transaction?<span className="text-red-500">*</span></Label>
                 <Input
                     className=" max-w-[360px] text-center mx-auto my-2"
-                    placeholder='Start typing...'
+                    placeholder='something@example.com'
                     // defaultValue={formData.counter_party}
-                    {...register('counter_party', { required: 'Counter party is required' })}
+                    {...register('counter_party', {
+                        required: 'Counter party email is required', pattern: {
+                            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                            message: "Invalid email address",
+                        },
+                    })}
                 />
                 {errors.counter_party && <p className="text-red-500 text-base">{errors.counter_party.message}</p>}
             </div>

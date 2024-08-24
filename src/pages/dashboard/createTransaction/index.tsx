@@ -16,8 +16,8 @@ const CreateTransaction: React.FC = () => {
     const [formData, setFormData] = useState<CreateTransactionInputType>({
         role: "customer",
         counter_party: "",
-        transaction_contract_file: null,
-        additional_attachments: null,
+        transaction_contract_file: [],
+        additional_attachments: [],
         transaction_deadline: undefined,
         transaction_value: {
             formatted: "",
@@ -28,7 +28,7 @@ const CreateTransaction: React.FC = () => {
     return (
         <div className='w-full text-start text-brand pb-10'>
             <div className='mt-4 mb-5 md:-mb-5 flex justify-between px-4'>
-                <button className='flex items-center gap-2 font-bold' onClick={() => navigate("/dashboard")}><MoveLeft className="h-5 w-5" /><p>Back</p></button>
+                <button className='flex items-center gap-2 font-bold' onClick={() => navigate("/")}><MoveLeft className="h-5 w-5" /><p>Back</p></button>
             </div>
             {
                 currentStep > 3 ? <Review formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} /> :

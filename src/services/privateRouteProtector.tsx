@@ -38,6 +38,7 @@ const PrivateRouteProtector: React.FC<Props> = ({ children }) => {
                 navigate(AUTH_ENDPOINTS.LOGIN, { replace: true });
                 Cookies.remove('accessToken');
                 Cookies.remove('refreshToken');
+
             } finally {
                 setIsLoading(false);
             }

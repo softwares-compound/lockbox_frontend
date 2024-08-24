@@ -9,7 +9,6 @@ import {
     FileInput,
     FileUploaderContent,
 } from "@/components/ui/file-uploader";
-import { DropzoneOptions } from "react-dropzone";
 
 type Props = {
     formData: CreateTransactionInputType,
@@ -22,17 +21,6 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
         defaultValues: formData,
     })
     const [noTransactionContract, setNoTransactionContract] = useState<boolean>(false)
-    const dropzone = {
-        accept: {
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
-            'application/pdf': ['.pdf'],
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
-            'image/*': ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp'], // You can add more image formats if needed
-        },
-        multiple: true,
-        maxFiles: 10,
-        maxSize: 1 * 1024 * 1024,
-    } satisfies DropzoneOptions;
 
     const onSubmit = () => {
         if (!formData.transaction_contract_file) {
@@ -47,15 +35,14 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
             <div className=''>
                 <Label htmlFor="counter_party">Upload transaction contract<span className="text-red-500">*</span></Label>
                 <FileUploader
-                    value={formData.transaction_contract_file ? [formData.transaction_contract_file] : []}
+                    value={formData.transaction_contract_file}
                     onValueChange={(fileList) => {
                         if (fileList && fileList.length) {
                             setNoTransactionContract(false)
-                            const f = fileList[fileList.length - 1]
-                            setFormData((prev) => ({ ...prev, transaction_contract_file: f }))
+                            setFormData((prev) => ({ ...prev, transaction_contract_file: [...fileList, ...prev.transaction_contract_file] }))
                         }
                     }}
-                    dropzoneOptions={dropzone}
+                    dropzoneOptions={{ multiple: true, maxFiles: 100, maxSize: 10 * 1024 * 1024 * 1024 }}
                     className=""
                 >
                     <FileInput className='max-w-[420px] text-center mx-auto my-2'>
@@ -66,14 +53,14 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                         </div>
                     </FileInput>
                     <FileUploaderContent className="">
-                        {
-                            formData.transaction_contract_file ? (
-                                <div className=' max-w-[720px] mx-auto flex gap-4 items-center'>
-                                    <X className="h-6 w-6 cursor-pointer hover:text-red-600" onClick={() => setFormData((prev) => ({ ...prev, transaction_contract_file: null }))} />
-                                    <p>{formData.transaction_contract_file?.name}</p>
+                        <div className=' max-w-[720px] mx-auto'>
+                            {formData.transaction_contract_file?.map((file, i) => (
+                                <div key={i} className=' flex gap-4 items-center'>
+                                    <X className="h-6 w-6 cursor-pointer hover:text-red-600" onClick={() => setFormData((prev) => ({ ...prev, transaction_contract_file: prev.transaction_contract_file?.filter((_, index) => index !== i) || null }))} />
+                                    <p >{file.name}</p>
                                 </div>
-                            ) : null
-                        }
+                            ))}
+                        </div>
                     </FileUploaderContent>
                 </FileUploader>
                 {noTransactionContract && <p className="text-red-500 text-base">{"Please upload transaction contract"}</p>}
@@ -88,7 +75,7 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                                 setFormData((prev) => ({ ...prev, additional_attachments: file }))
                             }
                         }}
-                        dropzoneOptions={dropzone}
+                        dropzoneOptions={{ multiple: true, maxFiles: 100, maxSize: 10 * 1024 * 1024 * 1024 }}
                         className=""
                     >
                         <FileInput className='max-w-[420px] text-center mx-auto my-2'>
