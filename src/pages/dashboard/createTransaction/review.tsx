@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CreateTransactionInputType } from './type'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 import { addEllipsis } from '@/lib/utils'
+import { useAuth } from '@/context/authContext'
+import { AXIOS_INSTANCE } from '@/config/axios'
+import { CREATE_TRANSACTION_ENDPOINTS } from '@/config/api'
+import Cookies from 'js-cookie'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 type Props = {
     formData: CreateTransactionInputType,
@@ -13,10 +19,38 @@ type Props = {
 }
 
 const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
+    const authContext = useAuth();
+    const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate()
 
-
-    const handleSubmit = () => {
-        console.log(formData)
+    const handleSubmit = async () => {
+        try {
+            setIsLoading(true)
+            const contracts = formData.transaction_contract_file.map(file => file.key)
+            const attachments = formData.additional_attachments.map(file => file.key)
+            if (formData.id) {
+                const resp = await AXIOS_INSTANCE.patch(`${CREATE_TRANSACTION_ENDPOINTS.UPDATE_TRANSACTION}/${formData.id}`, {
+                    contracts,
+                    attachments,
+                    end_date: formData.transaction_deadline,
+                    budget: formData.transaction_value.value,
+                    status: 1,
+                    customer: role === "customer" ? authContext?.userData?.email : formData.counter_party,
+                    vendor: role === "vendor" ? authContext?.userData?.email : formData.counter_party,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                    }
+                })
+                console.log(resp.data.data)
+                navigate("/dashboard")
+                toast.success("Transaction created successfully")
+            }
+        } catch (error: Error | any) {
+            toast.error(error.response.data.message)
+        } finally {
+            setIsLoading(false)
+        }
     }
     return (
         <div className="px-4 space-y-20 md:px-14 lg:px-20 text-center ">
@@ -100,8 +134,11 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
                     <span><ArrowLeft /></span>
                     <span>Previous</span>
                 </Button>
-                <Button type="submit" variant="default" className='px-14' onClick={handleSubmit}>
-                    <span>Submit</span>
+                <Button type="submit" variant="default" className='px-14 min-w-20' onClick={handleSubmit}>
+                    {
+                        isLoading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> :
+                            <span>Create transaction</span>
+                    }
                 </Button>
             </div>
 

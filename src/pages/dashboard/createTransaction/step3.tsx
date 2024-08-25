@@ -42,7 +42,6 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
             return
         }
         try {
-            console.log(formData)
             setIsLoading(true)
             const contracts = formData.transaction_contract_file.map(file => file.key)
             const attachments = formData.additional_attachments.map(file => file.key)
@@ -137,6 +136,7 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
                         decimalsLimit={2}
                         value={formData.transaction_value.value}
                         onValueChange={(_value, _name, values) => {
+                            setTransactionValueError(false)
                             setFormData({
                                 ...formData, transaction_value: {
                                     float: values?.float ?? undefined,

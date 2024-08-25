@@ -35,6 +35,7 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role, s
                 <Input
                     className=" max-w-[360px] text-center mx-auto my-2"
                     placeholder='something@example.com'
+                    disabled={formData.id ? true : false}
                     // onChange={(e) => setFormData({ ...formData, counter_party: e.target.value })}
                     // defaultValue={formData.counter_party}
                     {...register('counter_party', {
