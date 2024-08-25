@@ -13,7 +13,7 @@ export type FileUploadApiResponse = {
 
 export interface CreateTransactionInputType {
     id?: string,
-    role: string | "customer" | "vendor",
+    // role: string | "customer" | "vendor",
     counter_party: string,
     transaction_contract_file: FileWithExtension[] ,
     additional_attachments: FileWithExtension[] ,

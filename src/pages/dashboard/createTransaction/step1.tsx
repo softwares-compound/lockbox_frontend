@@ -9,21 +9,25 @@ import { ArrowRight } from 'lucide-react'
 
 type Props = {
     formData: CreateTransactionInputType,
-    setFormData: React.Dispatch<React.SetStateAction<CreateTransactionInputType>>
-    setCurrentStep: React.Dispatch<React.SetStateAction<number>>
+    setFormData: React.Dispatch<React.SetStateAction<CreateTransactionInputType>>,
+    setCurrentStep: React.Dispatch<React.SetStateAction<number>>,
+    role: string,
+    setRole: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
+const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role, setRole }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<CreateTransactionInputType>({
         defaultValues: formData,
     })
 
     const onSubmit = (data: CreateTransactionInputType) => {
-        console.log(data)
-        setFormData({ ...data, ...formData })
+        // console.log(data)
+        setFormData({ ...data })
         setCurrentStep(2)
     }
-    // console.log("step 1===>> ", formData)
+    console.log("step 1===>> ", formData)
+    console.log("role ===>> ", role)
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-10'>
             <div className=''>
@@ -31,6 +35,7 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                 <Input
                     className=" max-w-[360px] text-center mx-auto my-2"
                     placeholder='something@example.com'
+                    // onChange={(e) => setFormData({ ...formData, counter_party: e.target.value })}
                     // defaultValue={formData.counter_party}
                     {...register('counter_party', {
                         required: 'Counter party email is required', pattern: {
@@ -45,15 +50,17 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                 <p>What is your role in this transaction?</p>
                 <RadioGroup
                     className='flex gap-2 justify-center items-center'
-                    onValueChange={(value) => setFormData({ ...formData, role: value })}
-                    value={formData.role}
+                    onValueChange={(value) => {
+                        setRole(value);
+                    }}
+                    // defaultValue={formData.role}
+                    value={role}
                 >
                     <div className="space-y-2  flex flex-col justify-center items-center">
                         <Label htmlFor="customer">Customer</Label>
                         <RadioGroupItem
                             value="customer"
                             id="customer"
-                            {...register('role', { required: 'Role is required' })}
                         />
                     </div>
                     <div className="space-y-2  flex flex-col justify-center items-center">
@@ -61,11 +68,9 @@ const Step1: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                         <RadioGroupItem
                             value="vendor"
                             id="vendor"
-                            {...register('role', { required: 'Role is required' })}
                         />
                     </div>
                 </RadioGroup>
-                {errors.role && <p className="text-red-500 text-base">{errors.role.message}</p>}
             </div>
             <div className='flex justify-end '>
                 <Button type="submit" variant="outline">

@@ -9,9 +9,10 @@ type Props = {
     formData: CreateTransactionInputType,
     setFormData: React.Dispatch<React.SetStateAction<CreateTransactionInputType>>
     setCurrentStep: React.Dispatch<React.SetStateAction<number>>
+    role: string
 }
 
-const Review: React.FC<Props> = ({ formData, setCurrentStep }) => {
+const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
 
 
     const handleSubmit = () => {
@@ -37,7 +38,7 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep }) => {
                     <div className='bg-brand rounded-full w-2 h-2'></div>
                     <div className='bg-brand rounded-full w-2 h-2'></div>
                     <div className='bg-brand rounded-full w-2 h-2 md:block hidden'></div>
-                    <div className={`rounded-full border-[5px] border-brand w-20 md:w-24 h-20 md:h-24 flex justify-center items-center bg-white text-brand `}>{formData.role}</div>
+                    <div className={`rounded-full border-[5px] border-brand w-20 md:w-24 h-20 md:h-24 flex justify-center items-center bg-white text-brand `}>{role}</div>
                 </div>
             </div>
             <div className='md:px-32'>

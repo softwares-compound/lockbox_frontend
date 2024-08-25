@@ -14,7 +14,7 @@ const CreateTransaction: React.FC = () => {
     const navigate = useNavigate()
     const [currentStep, setCurrentStep] = useState(1)
     const [formData, setFormData] = useState<CreateTransactionInputType>({
-        role: "customer",
+        // role: "customer",
         counter_party: "",
         transaction_contract_file: [],
         additional_attachments: [],
@@ -24,6 +24,7 @@ const CreateTransaction: React.FC = () => {
             value: "",
         },
     })
+    const [role, setRole] = useState("customer")
 
     return (
         <div className='w-full text-start text-brand pb-10'>
@@ -31,7 +32,7 @@ const CreateTransaction: React.FC = () => {
                 <button className='flex items-center gap-2 font-bold' onClick={() => navigate("/")}><MoveLeft className="h-5 w-5" /><p>Back</p></button>
             </div>
             {
-                currentStep > 3 ? <Review formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} /> :
+                currentStep > 3 ? <Review formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} role={role} /> :
                     <div className="px-4 space-y-10 md:px-14 lg:px-20 text-center ">
                         <p className='text-3xl'>
                             Create new transaction
@@ -57,9 +58,9 @@ const CreateTransaction: React.FC = () => {
                                 <div className={`rounded-full w-10 h-10 flex justify-center items-center ${currentStep === 3 ? 'bg-brand text-white' : 'bg-white text-brand border-2 border-brand'}`}>3</div>
                             </div>
                         </div>
-                        {currentStep === 1 && <Step1 formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} />}
-                        {currentStep === 2 && <Step2 formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} />}
-                        {currentStep === 3 && <Step3 formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} />}
+                        {currentStep === 1 && <Step1 formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} role={role} setRole={setRole} />}
+                        {currentStep === 2 && <Step2 formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} role={role} setRole={setRole} />}
+                        {currentStep === 3 && <Step3 formData={formData} setFormData={setFormData} setCurrentStep={setCurrentStep} role={role} setRole={setRole} />}
                     </div>
             }
         </div>
