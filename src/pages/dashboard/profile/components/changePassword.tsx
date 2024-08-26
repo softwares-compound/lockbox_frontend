@@ -1,10 +1,8 @@
-// import { Button, Input } from '@headlessui/react';
-// import { Label } from '@radix-ui/react-label';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'lucide-react';
-import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type ChangePasswordFormInputs = {
@@ -110,8 +108,6 @@ const ChangePassword: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <div className="mt-8 flex justify-end">
                 <Button variant="default">Save</Button>
