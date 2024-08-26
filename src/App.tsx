@@ -10,12 +10,8 @@ import DashboardLayout from "./pages/dashboard/layout";
 import ProfilePage from "./pages/dashboard/profile/profile";
 import PrivateRouteProtector from "./services/privateRouteProtector";
 import CreateTransaction from "./pages/dashboard/createTransaction";
+import Contract from "./pages/dashboard/contract";
 
-const Dashboard = () => {
-	return <div>
-		<p>Dashboard</p>
-	</div>;
-}
 
 function App() {
 	return (
@@ -39,12 +35,12 @@ function App() {
 				path="/dashboard"
 				element={
 					<PrivateRouteProtector>
-						<DashboardLayout><Dashboard /></DashboardLayout>
+						<DashboardLayout><Contract /></DashboardLayout>
 					</PrivateRouteProtector>
 				}
 			/>
 			<Route
-				path="//profile"
+				path="/profile"
 				element={
 					<PrivateRouteProtector>
 						<DashboardLayout><ProfilePage /></DashboardLayout>
@@ -52,7 +48,7 @@ function App() {
 				}
 			/>
 			<Route
-				path="//create-transaction"
+				path="/create-transaction"
 				element={
 					<PrivateRouteProtector>
 						<DashboardLayout><CreateTransaction /></DashboardLayout>

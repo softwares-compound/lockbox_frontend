@@ -90,7 +90,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                     </Sheet>
                 </div>
             </nav>
-            <div className="min-h-[88vh] md:px-10">
+            <div className="min-h-[88vh] md:pl-5">
                 {children}
             </div>
         </div>
