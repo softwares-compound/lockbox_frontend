@@ -14,7 +14,7 @@ const Sidebar: React.FC<{ className?: string }> = ({ className }) => {
                     <img src={logo} width="150" />
                 </Link>
                 <div className="px-4 py-2">
-                    <h2 className="mb-2 px-2 text-base text-start font-semibold tracking-tight flex items-center justify-start">
+                    <h2 className="mb-2 px-2 text-xl text-start font-semibold tracking-tight flex items-center justify-start">
                         <LayoutGrid className="mr-2 h-4 w-4" />
                         Dashboard
                     </h2>
@@ -34,7 +34,7 @@ const Sidebar: React.FC<{ className?: string }> = ({ className }) => {
                     </div>
                 </div>
                 {/* <div className="px-4 py-2">
-                    <h2 className="mb-2 px-2 text-base text-start font-semibold tracking-tight">
+                    <h2 className="mb-2 px-2 text-xl text-start font-semibold tracking-tight">
                         Library
                     </h2>
                     <div className="space-y-1">

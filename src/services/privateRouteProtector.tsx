@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { AXIOS_INSTANCE } from '@/config/axios';
 import { useAuth } from '@/context/authContext';
 import { AUTH_ENDPOINTS } from '@/config/api';
+import Cookies from 'js-cookie';
+import BrandLoader from '@/components/brandLoader';
 
 type Props = {
     children: ReactNode
@@ -19,13 +21,13 @@ const PrivateRouteProtector: React.FC<Props> = ({ children }) => {
         async function checkStatus() {
             try {
                 setIsLoading(true);
-                const res = await AXIOS_INSTANCE.get("auth/validation/", {
-                    withCredentials: true,
+                const accessToken = Cookies.get('accessToken');
+                const res = await AXIOS_INSTANCE.get("auth/v1/validation", {
                     headers: {
-                        "X-Request-ID": localStorage.getItem("X-Request-ID"),
+                        "Authorization": `Bearer ${accessToken}`,
                     },
                 });
-                const data = await res.data;
+                const data = await res.data.data;
                 auth?.setIsAuthenticated(true);
                 auth?.setUserData({ ...data });
                 // const newPath = location.pathname.replace(`/${tenant}`, `/${localStorage.getItem("X-Request-ID")}`);
@@ -34,6 +36,9 @@ const PrivateRouteProtector: React.FC<Props> = ({ children }) => {
                 auth?.setIsAuthenticated(false);
                 auth?.setUserData(null);
                 navigate(AUTH_ENDPOINTS.LOGIN, { replace: true });
+                Cookies.remove('accessToken');
+                Cookies.remove('refreshToken');
+
             } finally {
                 setIsLoading(false);
             }
@@ -42,7 +47,7 @@ const PrivateRouteProtector: React.FC<Props> = ({ children }) => {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <BrandLoader />;
     }
     return (
         <>

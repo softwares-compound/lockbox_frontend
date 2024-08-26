@@ -51,7 +51,7 @@ export function SignupForm() {
                         Sign up with GitHub
                     </Button>
                 </div>
-                <div className="mt-4 text-center text-base">
+                <div className="mt-4 text-center text-xl">
                     Already have an account?{" "}
                     <Link to="#" className="underline">
                         Sign in
