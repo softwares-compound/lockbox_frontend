@@ -33,6 +33,18 @@ const ContractList: React.FC = () => {
                 <p className='text-xl md:text-xl'>Walmart</p>
                 <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
             </div>
+            <div className="p-2 py-4 my-1 bg-white text-brand">
+                <p className='text-xl md:text-xl'>Walmart</p>
+                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
+            </div>
+            <div className="p-2 py-4 my-1 bg-white text-brand">
+                <p className='text-xl md:text-xl'>Walmart</p>
+                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
+            </div>
+            <div className="p-2 py-4 my-1 bg-white text-brand">
+                <p className='text-xl md:text-xl'>Walmart</p>
+                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
+            </div>
         </div>
     )
 }
