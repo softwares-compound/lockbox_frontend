@@ -2,7 +2,6 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AXIOS_INSTANCE } from '@/config/axios';
 import { useAuth } from '@/context/authContext';
-import { AUTH_ENDPOINTS } from '@/config/api';
 import Cookies from 'js-cookie';
 import BrandLoader from '@/components/brandLoader';
 
@@ -35,7 +34,7 @@ const PrivateRouteProtector: React.FC<Props> = ({ children }) => {
             } catch (error) {
                 auth?.setIsAuthenticated(false);
                 auth?.setUserData(null);
-                navigate(AUTH_ENDPOINTS.LOGIN, { replace: true });
+                navigate("/login", { replace: true });
                 Cookies.remove('accessToken');
                 Cookies.remove('refreshToken');
 

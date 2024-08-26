@@ -25,3 +25,11 @@ export const SUBSCRIPTION_ENDPOINTS = {
     SUBSCRIPTION_LIST: "general/v1/subscription",
     SUBSCRIPTION_UPDATE: "general/v1/subscription",
 }
+
+export const CONTRACTS_ENDPOINTS = {
+    GET_CONTRACT_LIST: "general/v1/contract",
+    GET_CONTRACT: "general/v1/contract",
+    CREATE_CONTRACT: "general/v1/contract",
+    UPDATE_CONTRACT: "general/v1/contract",
+    DELETE_CONTRACT: "general/v1/contract",
+}

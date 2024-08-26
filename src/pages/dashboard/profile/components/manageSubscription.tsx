@@ -56,6 +56,7 @@ const ManageSubscription: React.FC = () => {
                 },
             });
             toast.success("Subscription updated successfully")
+            void getSubscriptionList()
         } catch (error: Error | any) {
             toast.error(error.response.data.message)
         } finally {
