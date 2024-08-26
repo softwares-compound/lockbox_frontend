@@ -23,9 +23,11 @@ type Props = {
     formData: CreateTransactionInputType,
     setFormData: React.Dispatch<React.SetStateAction<CreateTransactionInputType>>
     setCurrentStep: React.Dispatch<React.SetStateAction<number>>
+    role: string,
+    setRole: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
+const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role }) => {
     const authContext = useAuth();
     const [noDateError, setNoDateError] = useState(false)
     const [transactionValueError, setTransactionValueError] = useState(false)
@@ -40,7 +42,6 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
             return
         }
         try {
-            console.log(formData)
             setIsLoading(true)
             const contracts = formData.transaction_contract_file.map(file => file.key)
             const attachments = formData.additional_attachments.map(file => file.key)
@@ -51,8 +52,8 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                     end_date: formData.transaction_deadline,
                     budget: formData.transaction_value.value,
                     status: 1,
-                    customer: formData.role === "customer" ? authContext?.userData?.email : formData.counter_party,
-                    vendor: formData.role === "vendor" ? authContext?.userData?.email : formData.counter_party,
+                    customer: role === "customer" ? authContext?.userData?.email : formData.counter_party,
+                    vendor: role === "vendor" ? authContext?.userData?.email : formData.counter_party,
                 }, {
                     headers: {
                         'Authorization': `Bearer ${Cookies.get('accessToken')}`,
@@ -62,14 +63,17 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                 setCurrentStep(4)
                 // toast.success("Transaction updated successfully")
             } else {
+                console.log("auth---", authContext?.userData?.email)
+                console.log("counter_party---", formData.counter_party)
+                console.log("role---", role)
                 const resp = await AXIOS_INSTANCE.post(CREATE_TRANSACTION_ENDPOINTS.SAVE_TO_DRAFT, {
                     contracts,
                     attachments,
                     end_date: formData.transaction_deadline,
                     budget: formData.transaction_value.value,
                     status: 7,
-                    customer: formData.role === "customer" ? authContext?.userData?.email : formData.counter_party,
-                    vendor: formData.role === "vendor" ? authContext?.userData?.email : formData.counter_party,
+                    customer: role === "customer" ? authContext?.userData?.email : formData.counter_party,
+                    vendor: role === "vendor" ? authContext?.userData?.email : formData.counter_party,
                 },
                     {
                         headers: {
@@ -87,7 +91,8 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
             setIsLoading(false)
         }
     }
-    // console.log("step 3===>> ", formData)
+    console.log("step 3===>> ", formData)
+    console.log("role ===>> ", role)
     return (
         <form className=''>
             <div className='my-20'>
@@ -131,6 +136,7 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                         decimalsLimit={2}
                         value={formData.transaction_value.value}
                         onValueChange={(_value, _name, values) => {
+                            setTransactionValueError(false)
                             setFormData({
                                 ...formData, transaction_value: {
                                     float: values?.float ?? undefined,

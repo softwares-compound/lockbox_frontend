@@ -19,6 +19,8 @@ type Props = {
     formData: CreateTransactionInputType,
     setFormData: React.Dispatch<React.SetStateAction<CreateTransactionInputType>>
     setCurrentStep: React.Dispatch<React.SetStateAction<number>>
+    role: string,
+    setRole: React.Dispatch<React.SetStateAction<string>>
 }
 
 const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
@@ -73,13 +75,14 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
     }
 
     const onSubmit = async () => {
-        if (!formData.transaction_contract_file) {
+        // console.log(formData.transaction_contract_file.length)
+        if (!formData.transaction_contract_file.length) {
             setNoTransactionContract(true)
             return
         }
         setCurrentStep(3)
     }
-    // console.log("step 2===>> ", formData)
+    console.log("step 2===>> ", formData)
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-10'>
             <div className=''>
@@ -161,7 +164,6 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                     </FileUploader>
                     {errors.counter_party && <p className="text-red-500">{errors.counter_party.message}</p>}
                 </div>
-                {errors.role && <p className="text-red-500">{errors.role.message}</p>}
             </div>
             <div className='flex justify-end gap-6 '>
                 <Button variant="outline" onClick={() => setCurrentStep(1)}>

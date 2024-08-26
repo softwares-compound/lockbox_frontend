@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { MoveLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import ManageSubscription from './components/manageSubscription';
 
 
 const ProfilePage: React.FC = () => {
@@ -92,7 +93,22 @@ const ProfilePage: React.FC = () => {
                                 <Button disabled variant="outline" className='w-full border-2 border-brand text-brand'>Manage payment methods</Button>
                             </div>
                             <div>
-                                <Button variant="outline" className='w-full border-2 border-brand text-brand'>Manage subscription</Button>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="outline" className='w-full border-2 border-brand text-brand'>Manage subscription</Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="max-w-full md:w-2/3 lg:w-2/4 xl:w-1/2" >
+                                        <DialogHeader>
+                                            <DialogTitle className=" text-2xl md:text-3xl font-semibold text-brand px-2">Manage  Subscription</DialogTitle>
+                                            <DialogDescription className="text-base text-brand/50 px-2">
+                                                Subscribe and save on this transaction
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                        <div className="py-2">
+                                            <ManageSubscription />
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                         </div>
                     </div>
