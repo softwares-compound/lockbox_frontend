@@ -20,12 +20,12 @@ type ContractInfoType = {
     id: number;
     customer: {
         id: number;
-        email: string;
+        name: string;
         filled: number;
     };
     vendor: {
         id: number;
-        email: string;
+        name: string;
         filled: number;
     };
     lockbox: {
@@ -66,24 +66,6 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
     const [isSwitchedCustomer, setIsSwitchedCustomer] = useState(false);
     const [selectedContract, setSelectedContract] = useState<string>("");
 
-    const getContractList = async () => {
-        try {
-            setIsContractListLoading(true);
-            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT_LIST}`, {
-                headers: {
-                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
-                }
-            });
-            setContractList(resp.data.data.results);
-            // console.log("=========>>>", resp.data.data.results)
-            setIsContractListLoading(false);
-        } catch (error: Error | any) {
-            toast.error("Failed to fetch contract list");
-        } finally {
-            setIsContractListLoading(false);
-        }
-
-    };
 
     const getContract = async (id: number) => {
         setSelectedContract(id.toString())
@@ -103,6 +85,29 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             setIsContractLoading(false);
         }
     };
+
+    const getContractList = async () => {
+        try {
+            setIsContractListLoading(true);
+            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT_LIST}`, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                }
+            });
+            setContractList(resp.data.data.results);
+            // console.log("=========>>>", resp.data.data.results)
+            const firstContract = resp.data.data.results[0];
+            getContract(firstContract.id);
+            setSelectedContract(firstContract.id.toString());
+            setIsContractListLoading(false);
+        } catch (error: Error | any) {
+            toast.error("Failed to fetch contract list");
+        } finally {
+            setIsContractListLoading(false);
+        }
+
+    };
+
 
 
     const value = {

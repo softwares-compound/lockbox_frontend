@@ -5,6 +5,24 @@ import ContractList from './contractList'
 import ContractStatus from './contractStatus'
 import DetailAndActions from './detailAndActions'
 import { useContract } from '@/context/contractContext'
+import { Loader2 } from 'lucide-react'
+import Modal from 'react-modal';
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        border: 'none',
+        background: 'none',
+    },
+    overlay: {
+        backgroundColor: 'rgba(60, 79, 195, 0.44)',
+    },
+};
 
 const Contract: React.FC = () => {
     const contractContext = useContract()
@@ -15,6 +33,14 @@ const Contract: React.FC = () => {
 
     return (
         <main className="w-full text-center text-2xl ">
+            <Modal
+                isOpen={contractContext?.isContractLoading === true || contractContext?.isContractListLoading === true}
+                style={customStyles}
+                // className={ }
+                contentLabel="Example Modal"
+            >
+                <Loader2 className="mx-auto h-10 w-10 text-brand animate-spin" />
+            </Modal>
             <div className="mx-auto w-full  ">
                 <h1 className="sr-only">Page title</h1>
                 {/* Main 3 column grid */}
