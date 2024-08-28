@@ -1,28 +1,60 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@headlessui/react'
 import ContractList from './contractList'
 import ContractStatus from './contractStatus'
 import DetailAndActions from './detailAndActions'
+import { useContract } from '@/context/contractContext'
+import { Loader2 } from 'lucide-react'
+import Modal from 'react-modal';
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        border: 'none',
+        background: 'none',
+    },
+    overlay: {
+        backgroundColor: 'rgba(60, 79, 195, 0.44)',
+    },
+};
 
 const Contract: React.FC = () => {
-    const [enabled, setEnabled] = useState(false)
+    const contractContext = useContract()
+
+    useEffect(() => {
+        void contractContext?.getContractList()
+    }, [])
+
     return (
         <main className="w-full text-center text-2xl ">
+            <Modal
+                isOpen={contractContext?.isContractLoading === true || contractContext?.isContractListLoading === true}
+                style={customStyles}
+                // className={ }
+                contentLabel="Example Modal"
+            >
+                <Loader2 className="mx-auto h-10 w-10 text-brand animate-spin" />
+            </Modal>
             <div className="mx-auto w-full  ">
                 <h1 className="sr-only">Page title</h1>
                 {/* Main 3 column grid */}
                 <div className="grid grid-cols-1 items-start md:grid-cols-3 lg:gap-0 ">
                     {/* Left column */}
                     <div className="grid grid-cols-1">
-                        <section aria-labelledby="section-2-title" className=' h-screen bg-brand text-white px-4 py-0 rounded-t-3xl'>
+                        <section aria-labelledby="section-2-title" className=' md:h-screen bg-brand text-white px-4 py-0 rounded-t-3xl'>
                             <div className="my-4">
                                 <p className='my-1'>Transaction</p>
                                 <div className="flex justify-center items-center ">
                                     <Label htmlFor="type" className='text-white'>Customer</Label>
                                     <Switch
-                                        checked={enabled}
-                                        onChange={setEnabled}
+                                        checked={contractContext?.isSwitchedCustomer}
+                                        onChange={contractContext?.setIsSwitchedCustomer}
                                         className="group relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-indigo-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-offset-2 data-[checked]:bg-indigo-200"
                                     >
                                         <span

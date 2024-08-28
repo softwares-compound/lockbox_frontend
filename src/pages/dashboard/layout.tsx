@@ -17,7 +17,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     return (
         <div className="text-base md:text-xl lg:text-xl">
             <nav className="flex items-center justify-between px-2 md:px-4 py-2 h-[10vh] bg-white dark:bg-gray-800">
-                <a onClick={() => navigate('/create-transaction')} className="flex items-center gap-2">
+                <a onClick={() => navigate('/dashboard')} className="flex items-center gap-2">
                     <img
                         src={image} // Replace with your logo path
                         alt="Logo"
@@ -72,10 +72,10 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                     {/* <button onClick={() => navigate('/create-transaction')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Manage payment methods
                                     </button> */}
-                                    <SheetClose onClick={() => navigate('/create-transaction')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
+                                    <SheetClose onClick={() => navigate('/profile')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Manage subscription
                                     </SheetClose>
-                                    <SheetClose onClick={() => navigate('/create-transaction')} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
+                                    <SheetClose onClick={() => navigate('/dashboard')} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Transaction drafts
                                     </SheetClose>
                                     <SheetClose onClick={() => navigate('/create-transaction')} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">

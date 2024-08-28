@@ -1,50 +1,25 @@
+import { useContract } from '@/context/contractContext'
 import React from 'react'
 
 // type Props = {}
 
 const ContractList: React.FC = () => {
+    const contractContext = useContract()
     return (
-        <div className="overflow-auto  md:h-[80vh] h-[50vh] rounded-t-3xl px-4">
-            <div className="p-2 py-4 my-1 bg-white text-brand rounded-t-3xl">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-yellow-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-red-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-yellow-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
-            </div>
-            <div className="p-2 py-4 my-1 bg-white text-brand">
-                <p className='text-xl md:text-xl'>Walmart</p>
-                <p className='text-base md:text-lg text-green-500'>pending walmart's approval</p>
-            </div>
+        <div className="overflow-auto  md:h-[80vh] h-[70vh] rounded-t-3xl px-4">
+            {
+                contractContext?.contractList?.map((contract, index) => (
+                    <button
+                        key={index}
+                        className={`p-2 py-4 my-1 w-full text-brand cursor-pointer hover:bg-[#c4cdff] ${contractContext.selectedContract === String(contract.id) ? 'bg-[#c4cdff]' : 'bg-white'} ${index === 0 ? 'rounded-t-3xl' : ''}`}
+                        onClick={() => contractContext.getContract(contract.id)}
+                        disabled={contractContext.isContractLoading}
+                    >
+                        <p className='text-xl'>{contract.counter_party.email}</p>
+                        <p className={`text-base md:text-lg text-[${contract.message.hex}]`}>{contract.message.text}</p>
+                    </button>
+                ))
+            }
         </div>
     )
 }

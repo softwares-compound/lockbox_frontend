@@ -1,38 +1,57 @@
 import { CONTRACTS_ENDPOINTS } from "@/config/api";
 import { AXIOS_INSTANCE } from "@/config/axios";
+import Cookies from "js-cookie";
 import { createContext, useContext, useState } from "react";
 import toast from "react-hot-toast";
 
-export type ContractListType = {
-    id: number
-    name: string
-    description: string
-    status: number
-    created_at: string
-    updated_at: string
+export interface ContractListType {
+    id: number;
+    counter_party: {
+        id: number;
+        email: string;
+    };
+    message: {
+        text: string;
+        hex: string;
+    };
 }
 
-export type ContractType = {
-    id: number
-    name: string
-    description: string
-    status: number
-    message: string
-    amount: number
-    transaction_contract: string[]
-    additional_attachments: string[]
-    transaction_deadline: Date
-    transaction_value: number
-    action: string
-    created_at: string
-    updated_at: string
-}
+type ContractInfoType = {
+    id: number;
+    customer: {
+        id: number;
+        name: string;
+        filled: number;
+    };
+    vendor: {
+        id: number;
+        name: string;
+        filled: number;
+    };
+    lockbox: {
+        amount: number;
+        filled: number;
+    };
+    contract: string[];
+    attachments: string[];
+    end_date: string;
+    budget: string;
+    message: {
+        text: string;
+        hex: string;
+        step: number;
+    };
+};
 
 type ContractContextType = {
-    contract: ContractType | null
+    contract: ContractInfoType | null
     contractList: ContractListType[]
     isContractListLoading: boolean
     isContractLoading: boolean
+    isSwitchedCustomer: boolean
+    setIsSwitchedCustomer: React.Dispatch<React.SetStateAction<boolean>>
+    selectedContract: string
+    setSelectedContract: React.Dispatch<React.SetStateAction<string>>
     getContractList: () => Promise<void>
     getContract: (id: number) => Promise<void>
 }
@@ -40,16 +59,46 @@ type ContractContextType = {
 const ContractContext = createContext<ContractContextType | null>(null);
 
 export const ContractProvider = ({ children }: { children: React.ReactNode }) => {
-    const [contract, setContract] = useState<ContractType | null>(null);
+    const [contract, setContract] = useState<ContractInfoType | null>(null);
     const [contractList, setContractList] = useState<ContractListType[]>([]);
     const [isContractListLoading, setIsContractListLoading] = useState(false);
     const [isContractLoading, setIsContractLoading] = useState(false);
+    const [isSwitchedCustomer, setIsSwitchedCustomer] = useState(false);
+    const [selectedContract, setSelectedContract] = useState<string>("");
+
+
+    const getContract = async (id: number) => {
+        setSelectedContract(id.toString())
+        try {
+            setIsContractLoading(true);
+            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT}/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                }
+            });
+            setContract(resp.data.data);
+            console.log(resp.data.data);
+            setIsContractLoading(false);
+        } catch (error: Error | any) {
+            toast.error("Failed to fetch contract");
+        } finally {
+            setIsContractLoading(false);
+        }
+    };
 
     const getContractList = async () => {
         try {
             setIsContractListLoading(true);
-            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT_LIST}`);
-            setContractList(resp.data.data);
+            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT_LIST}`, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                }
+            });
+            setContractList(resp.data.data.results);
+            // console.log("=========>>>", resp.data.data.results)
+            const firstContract = resp.data.data.results[0];
+            getContract(firstContract.id);
+            setSelectedContract(firstContract.id.toString());
             setIsContractListLoading(false);
         } catch (error: Error | any) {
             toast.error("Failed to fetch contract list");
@@ -59,26 +108,17 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
 
     };
 
-    const getContract = async (id: number) => {
-        try {
-            setIsContractLoading(true);
-            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT}/${id}`);
-            setContract(resp.data.data);
-            setIsContractLoading(false);
-        } catch (error: Error | any) {
-            toast.error("Failed to fetch contract");
-        } finally {
-            setIsContractLoading(false);
-        }
-    };
+
 
     const value = {
         contract,
         contractList,
         isContractListLoading,
         isContractLoading,
+        isSwitchedCustomer, setIsSwitchedCustomer,
         getContractList,
         getContract,
+        selectedContract, setSelectedContract
     };
 
     return (
