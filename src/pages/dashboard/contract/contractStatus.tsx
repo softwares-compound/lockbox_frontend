@@ -6,13 +6,13 @@ const ContractStatus: React.FC = () => {
     return (
 
         <div className="overflow-hidden bg-white text-brand ">
-            <div className="mt-[3px] sm:px-2 md:px-20 ">
+            <div className="mt-[3px] px-2 md:px-20 ">
                 <p className='text-2xl md:text-3xl'>
                     Review transaction request to
                 </p>
                 <div className='my-12'>
                     <div className='mx-auto max-w-3xl flex justify-between items-center'>
-                        <div className={`rounded-full border-[5px] border-brand w-20 md:w-24 h-20 md:h-24 flex justify-center items-center bg-brand text-white `}>You</div>
+                        <div className={`rounded-full border-[5px] border-brand w-20 md:w-32 h-20 md:h-32 flex justify-center items-center bg-brand text-white `}>You</div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
@@ -25,7 +25,7 @@ const ContractStatus: React.FC = () => {
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className='bg-brand rounded-full w-2 h-2 md:block hidden'></div>
-                        <div className={`rounded-full border-[5px] border-brand w-20 md:w-24 h-20 md:h-24 flex justify-center items-center bg-white text-brand `}>You</div>
+                        <div className={`rounded-full border-[5px] border-brand w-20 md:w-32 h-20 md:h-32 flex justify-center items-center bg-white text-brand `}>You</div>
                     </div>
                 </div>
                 <div className='px-6 md:px-10 lg:px-28 my-12'>
