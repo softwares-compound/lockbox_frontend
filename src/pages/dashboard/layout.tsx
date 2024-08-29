@@ -84,7 +84,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                 </div>
                             </div>
                             <footer className="mt-[5vh] text-center text-base md:text-base">
-                                <p>Not you? <span><button onClick={() => navigate('/create-transaction')} className="text-brand hover:underline">Logout</button></span></p>
+                                <p>Not you? <span><button onClick={() => authContext?.logout()} className="text-brand hover:underline">Logout</button></span></p>
                             </footer>
                         </SheetContent>
                     </Sheet>

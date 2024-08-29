@@ -41,6 +41,7 @@ type ContractInfoType = {
         hex: string;
         step: number;
     };
+    actions: string[];
 };
 
 type ContractContextType = {
@@ -77,7 +78,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
                 }
             });
             setContract(resp.data.data);
-            console.log(resp.data.data);
+            // console.log(resp.data.data);
             setIsContractLoading(false);
         } catch (error: Error | any) {
             toast.error("Failed to fetch contract");
