@@ -33,3 +33,16 @@ export const CONTRACTS_ENDPOINTS = {
     UPDATE_CONTRACT: "general/v1/contract",
     DELETE_CONTRACT: "general/v1/contract",
 }
+
+export const CONTRACT_ACTIONS_ENDPOINTS = {
+    CANCEL: "general/v1/contract/action",
+    DECLINE: "general/v1/contract/action",
+    MODIFY: "general/v1/contract/action",
+    APPROVE: "general/v1/contract/action",
+    SUBMIT: "general/v1/contract/action",
+    EDIT: "general/v1/contract/action",
+    RESUBMIT: "general/v1/contract/action",
+    VIEW: "general/v1/contract/action",
+    REVIEW: "general/v1/contract/action",
+    INCOMPLETE: "general/v1/contract/action",
+}

@@ -22,7 +22,7 @@ const ContractStatus: React.FC = () => {
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className='bg-brand rounded-full w-2 h-2 md:block hidden'></div>
-                        <div className={`rounded-full border-[5px] border-brand w-32 h-32 md:w-52 md:h-52 flex flex-col justify-center items-center bg-white text-brand`}>
+                        <div className={`rounded-full border-[5px] border-brand w-32 h-32 md:w-52 md:h-52 flex flex-col justify-center items-center ${contractContext?.contract?.lockbox.filled === 1 ? 'bg-brand text-white' : 'bg-white text-brand'}`}>
                             <p className="font-bold">${contractContext?.contract?.lockbox.amount ?? 0}</p>
                             <p className="text-lg">Transaction lockbox</p>
                         </div>

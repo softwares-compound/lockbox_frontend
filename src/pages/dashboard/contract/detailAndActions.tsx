@@ -10,7 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Paperclip } from 'lucide-react'
+import { Loader2, Paperclip } from 'lucide-react'
 
 
 const DetailAndActions: React.FC = () => {
@@ -63,9 +63,16 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("CANCEL") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button variant="outline" className=' border hover:text-white w-full '>
-                            <span className='px-1 text-lg'>cancel transaction </span>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            variant="outline"
+                            className=' border hover:text-white w-full '
+                            onClick={() => contractContext.cancelTransaction(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.cancelTransaction}
+                        >
+                            {
+                                contractContext.loading.cancelTransaction ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : <span className='px-1 text-lg'>cancel transaction </span>
+                            }
                         </Button>
                     </div>
                 )
@@ -73,9 +80,14 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("MODIFY") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button type="submit" variant="outline" className=' min-w-20 border hover:text-white w-full' >
-                            <span className='px-1 text-lg'>edit transaction</span>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit" variant="outline"
+                            className=' min-w-20 border hover:text-white w-full'
+                            onClick={() => contractContext.editTransaction(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.editTransaction}
+                        >
+                            {contractContext.loading.editTransaction ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : <span className='px-1 text-lg'>edit transaction </span>}
                         </Button>
                     </div>
                 )
@@ -83,8 +95,14 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("DECLINE") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button type="submit" variant="outline" className=' min-w-20 bg-red-500 hover:bg-red-700 hover:text-white text-white border-0 outline-none  w-full' >
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 bg-red-500 hover:bg-red-700 hover:text-white text-white border-0 outline-none  w-full'
+                            onClick={() => contractContext.declineTransaction(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.declineTransaction}
+                        >
                             <span className='px-1 text-lg'>decline transaction </span>
                         </Button>
                     </div>
@@ -93,9 +111,17 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("APPROVE") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button type="submit" variant="outline" className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none w-full' >
-                            <span className='px-1 text-lg'>approve transaction </span>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none w-full'
+                            onClick={() => contractContext.approveTransaction(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.approveTransaction}
+                        >
+                            {
+                                contractContext.loading.approveTransaction ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : <span className='px-1 text-lg'>approve transaction </span>
+                            }
                         </Button>
                     </div>
                 )
@@ -103,9 +129,17 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("REVIEW") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button type="submit" variant="outline" className=' min-w-20 bg-red-500 hover:bg-red-700 hover:text-white text-white border-0 outline-none w-full' >
-                            <span className='px-1 text-lg'>review feedback </span>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 bg-red-500 hover:bg-red-700 hover:text-white text-white border-0 outline-none w-full'
+                            onClick={() => contractContext.reviewFeedback(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.reviewFeedback}
+                        >
+                            {
+                                contractContext.loading.reviewFeedback ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : <span className='px-1 text-lg'>review feedback </span>
+                            }
                         </Button>
                     </div>
                 )
@@ -113,9 +147,17 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("SUBMIT") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button type="submit" variant="outline" className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none  w-full' >
-                            <span className='px-1 text-lg'>submit deliverable </span>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none  w-full'
+                            onClick={() => contractContext.submitDeliverables(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.submitDeliverables}
+                        >
+                            {
+                                contractContext.loading.submitDeliverables ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : <span className='px-1 text-lg'>submit deliverable </span>
+                            }
                         </Button>
                     </div>
                 )
@@ -123,9 +165,17 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("RESUBMIT") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button type="submit" variant="outline" className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none w-full' >
-                            <span className='px-1 text-lg'>re-submit deliverable </span>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none w-full'
+                            onClick={() => contractContext.resubmitDeliverables(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.resubmitDeliverables}
+                        >
+                            {
+                                contractContext.loading.resubmitDeliverables ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : <span className='px-1 text-lg'>resubmit deliverable </span>
+                            }
                         </Button>
                     </div>
                 )
@@ -133,9 +183,17 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("VIEW") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button type="submit" variant="outline" className=' min-w-20 border hover:text-white w-full' >
-                            <span className='px-1 text-lg'>view deliverable </span>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 border hover:text-white w-full'
+                            onClick={() => contractContext.viewDeliverables(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.viewDeliverables}
+                        >
+                            {
+                                contractContext.loading.viewDeliverables ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : <span className='px-1 text-lg'>view deliverable </span>
+                            }
                         </Button>
                     </div>
                 )
@@ -143,9 +201,17 @@ const DetailAndActions: React.FC = () => {
             {
                 contractContext?.contract?.actions.includes("EDIT") && (
                     <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>a</Label>
-                        <Button type="submit" variant="outline" className=' min-w-20 border hover:text-white w-full' >
-                            <span className='px-1 text-lg'>edit deliverable </span>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 border hover:text-white w-full'
+                            onClick={() => contractContext.editDeliverables(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.editDeliverable}
+                        >
+                            {
+                                contractContext.loading.editDeliverable ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : <span className='px-1 text-lg'>edit deliverable </span>
+                            }
                         </Button>
                     </div>
                 )
