@@ -11,8 +11,15 @@ const ContractList: React.FC = () => {
                 contractContext?.contractList?.map((contract, index) => (
                     <button
                         key={index}
-                        className={`p-2 py-4 my-1 w-full text-brand cursor-pointer hover:bg-[#c4cdff] ${contractContext.selectedContract === String(contract.id) ? 'bg-[#c4cdff]' : 'bg-white'} ${index === 0 ? 'rounded-t-3xl' : ''}`}
-                        onClick={() => contractContext.getContract(contract.id)}
+                        className={`
+                                p-2 py-4 my-1 w-full text-brand cursor-pointer hover:bg-[#c4cdff] 
+                                ${contractContext.selectedContract === String(contract.id) ? 'bg-[#c4cdff]' : 'bg-white'} 
+                                ${index === 0 ? 'rounded-t-3xl' : ''}`
+                        }
+                        onClick={() => {
+                            contractContext.getContract(contract.id)
+                            console.log(contract.message.hex)
+                        }}
                         disabled={contractContext.isContractLoading}
                     >
                         <p className='text-xl'>{contract.counter_party.email}</p>
