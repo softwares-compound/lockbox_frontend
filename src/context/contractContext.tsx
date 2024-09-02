@@ -54,6 +54,23 @@ type LoadingTypes = {
     viewDeliverables: boolean,
     editDeliverable: boolean,
 }
+
+type ModalStateType = {
+    submitDeliverables: boolean,
+    resubmitDeliverables: boolean,
+    editDeliverable: boolean
+    viewDeliverables: boolean
+    reviewFeedback: boolean
+    editTransaction: boolean
+}
+
+export type FileWithExtension = {
+    key: string;
+    extension: string;
+    url: string;
+    file: File;  // Adding the actual File object
+};
+
 type ContractContextType = {
     contract: ContractInfoType | null
     contractList: ContractListType[]
@@ -71,10 +88,18 @@ type ContractContextType = {
     editTransaction: (id: number) => Promise<void>
     approveTransaction: (id: number) => Promise<void>
     reviewFeedback: (id: number) => Promise<void>
-    submitDeliverables: (id: number) => Promise<void>
+    submitDeliverables: (id: number, body: {
+        text: string
+        fileData: FileWithExtension[]
+    }) => Promise<void>
     resubmitDeliverables: (id: number) => Promise<void>
     viewDeliverables: (id: number) => Promise<void>
     loading: LoadingTypes
+    setLoading: React.Dispatch<React.SetStateAction<LoadingTypes>>
+    modalDataLoading: boolean
+    setModalDataLoading: React.Dispatch<React.SetStateAction<boolean>>
+    modalState: ModalStateType
+    setModalState: React.Dispatch<React.SetStateAction<ModalStateType>>
 
 }
 
@@ -89,14 +114,23 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
     const [selectedContract, setSelectedContract] = useState<string>("");
     const [loading, setLoading] = useState<LoadingTypes>({
         cancelTransaction: false,
-        editTransaction: false,
+        editTransaction: false, //-> modify
         declineTransaction: false,
         approveTransaction: false,
         reviewFeedback: false,
         submitDeliverables: false,
         resubmitDeliverables: false,
         viewDeliverables: false,
+        editDeliverable: false, //-> edit
+    });
+    const [modalDataLoading, setModalDataLoading] = useState<boolean>(false);
+    const [modalState, setModalState] = useState<ModalStateType>({
+        submitDeliverables: false,
+        resubmitDeliverables: false,
+        viewDeliverables: false,
         editDeliverable: false,
+        reviewFeedback: false,
+        editTransaction: false
     });
 
 
@@ -152,28 +186,13 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 }
             });
+            toast.success("Contract cancelled successfully");
         } catch (error: Error | any) {
             toast.error("Failed to cancel contract");
         } finally {
             setLoading({ ...loading, cancelTransaction: false });
-        }
-    }
-
-    const approveTransaction = async (id: number) => {
-        try {
-            setLoading({ ...loading, approveTransaction: true });
-            await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.APPROVE}/${id}`,
-                {
-                    action: "APPROVE",
-                }, {
-                headers: {
-                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
-                }
-            });
-        } catch (error: Error | any) {
-            toast.error("Failed to approve contract");
-        } finally {
-            setLoading({ ...loading, approveTransaction: false });
+            getContract(id);
+            getContractList();
         }
     }
 
@@ -191,22 +210,58 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             toast.error("Failed to decline contract");
         } finally {
             setLoading({ ...loading, declineTransaction: false });
+            getContract(id);
+            getContractList();
         }
     }
 
-    const submitDeliverables = async (id: number) => {
+    const approveTransaction = async (id: number) => {
+        try {
+            setLoading({ ...loading, approveTransaction: true });
+            await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.APPROVE}/${id}`,
+                {
+                    action: "APPROVE",
+                }, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                }
+            });
+
+        } catch (error: Error | any) {
+            toast.error("Failed to approve contract");
+        } finally {
+            setLoading({ ...loading, approveTransaction: false });
+            getContract(id);
+            getContractList();
+        }
+    }
+
+
+
+    const submitDeliverables = async (id: number, body: {
+        text: string
+        fileData: FileWithExtension[]
+    }) => {
         try {
             setLoading({ ...loading, submitDeliverables: true });
             await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.SUBMIT}/${id}`, {
                 action: "SUBMIT",
+                deliverable: {
+                    text: body.text,
+                    fileData: body.fileData.map((file: FileWithExtension) => file.key),
+                }
             }, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 }
             });
+            toast.success("deliverables submitted successfully");
         } catch (error: Error | any) {
             toast.error("Failed to submit contract");
         } finally {
+            getContract(id);
+            getContractList();
+            setModalState({ ...modalState, submitDeliverables: false });
             setLoading({ ...loading, submitDeliverables: false });
         }
     }
@@ -224,6 +279,8 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         } catch (error: Error | any) {
             toast.error("Failed to review contract");
         } finally {
+            getContract(id);
+            getContractList();
             setLoading({ ...loading, reviewFeedback: false });
         }
     }
@@ -241,6 +298,8 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         } catch (error: Error | any) {
             toast.error("Failed to edit contract");
         } finally {
+            getContract(id);
+            getContractList();
             setLoading({ ...loading, editTransaction: false });
         }
     }
@@ -259,6 +318,8 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         } catch (error: Error | any) {
             toast.error("Failed to re-submit contract");
         } finally {
+            getContract(id);
+            getContractList();
             setLoading({ ...loading, resubmitDeliverables: false });
         }
     }
@@ -316,7 +377,9 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         resubmitDeliverables,
         viewDeliverables,
         editDeliverables,
-        loading
+        loading, setLoading,
+        modalDataLoading, setModalDataLoading,
+        modalState, setModalState,
     };
 
     return (
