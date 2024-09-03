@@ -90,7 +90,11 @@ type ContractContextType = {
     declineTransaction: (id: number) => Promise<void>
     editTransaction: (id: number) => Promise<void>
     approveTransaction: (id: number) => Promise<void>
-    reviewFeedback: (id: number) => Promise<void>
+    reviewFeedback: (id: number) => Promise<
+        {
+            text: string
+            files: string[]
+        }>
     submitDeliverables: (id: number, body: {
         text: string
         fileData: FileWithExtension[]
@@ -100,7 +104,7 @@ type ContractContextType = {
         fileData: FileWithExtension[]
     }) => Promise<void>
     viewDeliverables: (id: number) => Promise<{
-        comment: string
+        text: string
         files: string[]
     }>
     loading: LoadingTypes
@@ -316,27 +320,30 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             });
             return resp.data.data
         } catch (error: Error | any) {
-            return { comment: "", files: [] }
             toast.error("Failed to view deliverables");
+            return { text: "", files: [] }
         } finally {
             setLoading({ ...loading, viewDeliverables: false });
         }
     }
 
     const reviewFeedback = async (id: number) => {
+        console.log("review feedback", id)
         try {
             setLoading({ ...loading, reviewFeedback: true });
-            await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.REVIEW}/${id}`, {
+            const resp = await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.REVIEW}/${id}`, {
                 action: "REVIEW",
             }, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 }
             });
+            return resp.data.data
         } catch (error: Error | any) {
             toast.error("Failed to review contract");
+            return { text: "", files: [] }
         } finally {
-            getContract(id);
+            // getContract(id);
             // getContractList();
             setLoading({ ...loading, reviewFeedback: false });
         }
@@ -380,10 +387,13 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 }
             });
+            toast.success("deliverables edited successfully");
         } catch (error: Error | any) {
             toast.error("Failed to edit deliverables");
         } finally {
             setLoading({ ...loading, editDeliverable: false });
+            setModalState({ ...modalState, editDeliverable: false });
+            getContract(id);
         }
     }
 

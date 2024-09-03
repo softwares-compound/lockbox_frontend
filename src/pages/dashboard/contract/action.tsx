@@ -15,6 +15,7 @@ import SubmitDeliverable from './modalContent/submitDeliverable'
 import ResubmitDeliverable from './modalContent/resubmitDeliverable'
 import ViewDeliverable from './modalContent/viewDeliverable'
 import EditDeliverable from './modalContent/editDeliverable'
+import ReviewFeedback from './modalContent/reviewFeedback'
 
 const Action: React.FC = () => {
     const contractContext = useContract()
@@ -54,6 +55,26 @@ const Action: React.FC = () => {
                                 contractContext.loading.declineTransaction
                                     ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
                                     : <span className='px-1 text-lg'>decline transaction </span>
+                            }
+                        </Button>
+                    </div>
+                )
+            }
+            {
+                contractContext?.contract?.actions.includes("APPROVE") && (
+                    <div>
+                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none w-full'
+                            onClick={() => contractContext.approveTransaction(Number(contractContext?.contract?.id))}
+                            disabled={contractContext.loading.approveTransaction}
+                        >
+                            {
+                                contractContext.loading.approveTransaction
+                                    ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+                                    : <span className='px-1 text-lg'>approve transaction </span>
                             }
                         </Button>
                     </div>
@@ -100,43 +121,35 @@ const Action: React.FC = () => {
             {/* ***************** */}
             {/* ***************** */}
             {/* ***************** */}
+
             {
-                contractContext?.contract?.actions.includes("APPROVE") && (
+                contractContext?.contract?.actions.includes("REVIEW") || true && (
                     <div>
                         <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
-                        <Button
-                            type="submit"
-                            variant="outline"
-                            className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none w-full'
-                            onClick={() => contractContext.approveTransaction(Number(contractContext?.contract?.id))}
-                            disabled={contractContext.loading.approveTransaction}
-                        >
-                            {
-                                contractContext.loading.approveTransaction
-                                    ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-                                    : <span className='px-1 text-lg'>approve transaction </span>
-                            }
-                        </Button>
-                    </div>
-                )
-            }
-            {
-                contractContext?.contract?.actions.includes("REVIEW") && (
-                    <div>
-                        <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
-                        <Button
-                            type="submit"
-                            variant="outline"
-                            className=' min-w-20 bg-red-500 hover:bg-red-700 hover:text-white text-white border-0 outline-none w-full'
-                            onClick={() => contractContext.reviewFeedback(Number(contractContext?.contract?.id))}
-                            disabled={contractContext.loading.reviewFeedback}
-                        >
-                            {
-                                contractContext.loading.reviewFeedback
-                                    ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-                                    : <span className='px-1 text-lg'>review feedback </span>
-                            }
-                        </Button>
+
+                        <Dialog open={contractContext?.modalState.reviewFeedback} onOpenChange={(state) => contractContext?.setModalState({ ...contractContext?.modalState, reviewFeedback: state })}>
+                            <DialogTrigger asChild>
+                                <Button
+                                    type="submit"
+                                    variant="outline"
+                                    className=' min-w-20 bg-red-500 hover:bg-red-700 hover:text-white text-white border-0 outline-none w-full'
+                                    onClick={() => contractContext?.reviewFeedback(Number(contractContext?.contract?.id))}
+                                    disabled={contractContext?.loading.reviewFeedback}
+                                >
+                                    {
+                                        contractContext?.loading.reviewFeedback
+                                            ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+                                            : <span className='px-1 text-lg'>review feedback </span>
+                                    }
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px] bg-brand text-white border-2 border-white">
+                                <DialogHeader>
+                                    <DialogTitle className=" text-xl md:text-2xl text-center font-semibold text-white px-2">view deliverable</DialogTitle>
+                                </DialogHeader>
+                                <ReviewFeedback />
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 )
             }
@@ -236,7 +249,7 @@ const Action: React.FC = () => {
                     <div>
                         <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
 
-                        <Dialog open={contractContext?.modalState.viewDeliverables} onOpenChange={(state) => contractContext?.setModalState({ ...contractContext?.modalState, viewDeliverables: state })}>
+                        <Dialog open={contractContext?.modalState.editDeliverable} onOpenChange={(state) => contractContext?.setModalState({ ...contractContext?.modalState, editDeliverable: state })}>
                             <DialogTrigger asChild>
                                 <Button
                                     type="submit"
@@ -244,7 +257,7 @@ const Action: React.FC = () => {
                                     className=' min-w-20 border hover:text-white w-full'
                                 >
                                     {
-                                        contractContext.loading.editDeliverable
+                                        contractContext?.loading.editDeliverable
                                             ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
                                             : <span className='px-1 text-lg'>edit deliverable </span>
                                     }
