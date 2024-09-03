@@ -83,7 +83,10 @@ type ContractContextType = {
     getContractList: () => Promise<void>
     getContract: (id: number) => Promise<void>
     cancelTransaction: (id: number) => Promise<void>
-    editDeliverables: (id: number) => Promise<void>
+    editDeliverables: (id: number, body: {
+        text: string
+        fileData: FileWithExtension[]
+    }) => Promise<void>
     declineTransaction: (id: number) => Promise<void>
     editTransaction: (id: number) => Promise<void>
     approveTransaction: (id: number) => Promise<void>
@@ -360,11 +363,18 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
 
 
 
-    const editDeliverables = async (id: number) => {
+    const editDeliverables = async (id: number, body: {
+        text: string
+        fileData: FileWithExtension[]
+    }) => {
         try {
             setLoading({ ...loading, editDeliverable: true });
             await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.EDIT}/${id}`, {
                 action: "EDIT",
+                deliverable: {
+                    text: body.text,
+                    fileData: body.fileData.map((file: FileWithExtension) => file.key),
+                }
             }, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,

@@ -18,6 +18,6 @@ ACTIONS = {
     'REVIEW': 'review feedback',
     'SUBMIT': 'submit deliverables', \\//
     'RESUBMIT': 're-submit deliverables', \\//
-    'VIEW': 'view deliverables',
+    'VIEW': 'view deliverables', \\// ------
     'EDIT': 'edit deliverables'
 }
