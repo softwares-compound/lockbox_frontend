@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import { FILE_UPLOAD_URL } from '@/config/api'
+import { AXIOS_INSTANCE } from '@/config/axios'
 import { Label } from '@/components/ui/label'
 import { Loader2, Paperclip, X } from 'lucide-react'
 import { FileInput, FileUploader, FileUploaderContent } from '@/components/ui/file-uploader'
 import { Textarea } from '@/components/ui/textarea'
-import { addEllipsis, countFileTypes, updateFilesWithUrls } from '@/lib/utils'
-import toast from 'react-hot-toast'
-import { AXIOS_INSTANCE } from '@/config/axios'
-import Cookies from 'js-cookie'
-import { FILE_UPLOAD_URL } from '@/config/api'
 import { FileWithExtension, useContract } from '@/context/contractContext'
+import { addEllipsis, countFileTypes, updateFilesWithUrls } from '@/lib/utils'
+import Cookies from 'js-cookie'
+import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { Button } from '@/components/ui/button'
 
 type FormDataType = {
@@ -16,7 +16,7 @@ type FormDataType = {
     fileData: FileWithExtension[]
 }
 
-const SubmitDeliverable: React.FC = () => {
+const ResubmitDeliverable: React.FC = () => {
     const contractContext = useContract()
     const [formData, setFormData] = useState<FormDataType>({
         text: "",
@@ -69,7 +69,7 @@ const SubmitDeliverable: React.FC = () => {
             setErrors(true)
             return
         }
-        await contractContext?.submitDeliverables(Number(contractContext?.contract?.id), formData as FormDataType)
+        await contractContext?.resubmitDeliverables(Number(contractContext?.contract?.id), formData as FormDataType)
     }
     return (
         <div>
@@ -129,16 +129,16 @@ const SubmitDeliverable: React.FC = () => {
                 variant="outline"
                 className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none  w-full'
                 onClick={handleSubmit}
-                disabled={contractContext?.loading.submitDeliverables}
+                disabled={contractContext?.loading.resubmitDeliverables}
             >
                 {
-                    contractContext?.loading.submitDeliverables
+                    contractContext?.loading.resubmitDeliverables
                         ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-                        : <span className='px-1 text-lg'>submit deliverable </span>
+                        : <span className='px-1 text-lg'>re-submit deliverables </span>
                 }
             </Button>
         </div>
     )
 }
 
-export default SubmitDeliverable
+export default ResubmitDeliverable

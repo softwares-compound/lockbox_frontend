@@ -83,7 +83,10 @@ type ContractContextType = {
     getContractList: () => Promise<void>
     getContract: (id: number) => Promise<void>
     cancelTransaction: (id: number) => Promise<void>
-    editDeliverables: (id: number) => Promise<void>
+    editDeliverables: (id: number, body: {
+        text: string
+        fileData: FileWithExtension[]
+    }) => Promise<void>
     declineTransaction: (id: number) => Promise<void>
     editTransaction: (id: number) => Promise<void>
     approveTransaction: (id: number) => Promise<void>
@@ -92,8 +95,14 @@ type ContractContextType = {
         text: string
         fileData: FileWithExtension[]
     }) => Promise<void>
-    resubmitDeliverables: (id: number) => Promise<void>
-    viewDeliverables: (id: number) => Promise<void>
+    resubmitDeliverables: (id: number, body: {
+        text: string
+        fileData: FileWithExtension[]
+    }) => Promise<void>
+    viewDeliverables: (id: number) => Promise<{
+        comment: string
+        files: string[]
+    }>
     loading: LoadingTypes
     setLoading: React.Dispatch<React.SetStateAction<LoadingTypes>>
     modalDataLoading: boolean
@@ -192,7 +201,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         } finally {
             setLoading({ ...loading, cancelTransaction: false });
             getContract(id);
-            getContractList();
+            // getContractList();
         }
     }
 
@@ -211,7 +220,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         } finally {
             setLoading({ ...loading, declineTransaction: false });
             getContract(id);
-            getContractList();
+            // getContractList();
         }
     }
 
@@ -232,7 +241,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         } finally {
             setLoading({ ...loading, approveTransaction: false });
             getContract(id);
-            getContractList();
+            // getContractList();
         }
     }
 
@@ -260,9 +269,57 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             toast.error("Failed to submit contract");
         } finally {
             getContract(id);
-            getContractList();
+            // getContractList();
             setModalState({ ...modalState, submitDeliverables: false });
             setLoading({ ...loading, submitDeliverables: false });
+        }
+    }
+
+    const resubmitDeliverables = async (id: number, body: {
+        text: string
+        fileData: FileWithExtension[]
+    }) => {
+        try {
+            setLoading({ ...loading, resubmitDeliverables: true });
+            await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.RESUBMIT}/${id}`,
+                {
+                    action: "RESUBMIT",
+                    deliverable: {
+                        text: body.text,
+                        fileData: body.fileData.map((file: FileWithExtension) => file.key),
+                    }
+                }, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                }
+            });
+            toast.success("deliverables resubmitted successfully");
+        } catch (error: Error | any) {
+            toast.error("Failed to re-submit contract");
+        } finally {
+            getContract(id);
+            // getContractList();
+            setModalState({ ...modalState, resubmitDeliverables: false });
+            setLoading({ ...loading, resubmitDeliverables: false });
+        }
+    }
+
+    const viewDeliverables = async (id: number) => {
+        try {
+            setLoading({ ...loading, viewDeliverables: true });
+            const resp = await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.VIEW}/${id}`, {
+                action: "VIEW",
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                }
+            });
+            return resp.data.data
+        } catch (error: Error | any) {
+            return { comment: "", files: [] }
+            toast.error("Failed to view deliverables");
+        } finally {
+            setLoading({ ...loading, viewDeliverables: false });
         }
     }
 
@@ -280,7 +337,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             toast.error("Failed to review contract");
         } finally {
             getContract(id);
-            getContractList();
+            // getContractList();
             setLoading({ ...loading, reviewFeedback: false });
         }
     }
@@ -299,53 +356,25 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             toast.error("Failed to edit contract");
         } finally {
             getContract(id);
-            getContractList();
+            // getContractList();
             setLoading({ ...loading, editTransaction: false });
         }
     }
 
-    const resubmitDeliverables = async (id: number) => {
-        try {
-            setLoading({ ...loading, resubmitDeliverables: true });
-            await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.RESUBMIT}/${id}`,
-                {
-                    action: "RESUBMIT",
-                }, {
-                headers: {
-                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
-                }
-            });
-        } catch (error: Error | any) {
-            toast.error("Failed to re-submit contract");
-        } finally {
-            getContract(id);
-            getContractList();
-            setLoading({ ...loading, resubmitDeliverables: false });
-        }
-    }
 
-    const viewDeliverables = async (id: number) => {
-        try {
-            setLoading({ ...loading, viewDeliverables: true });
-            await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.VIEW}/${id}`, {
-                action: "VIEW",
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
-                }
-            });
-        } catch (error: Error | any) {
-            toast.error("Failed to view deliverables");
-        } finally {
-            setLoading({ ...loading, viewDeliverables: false });
-        }
-    }
 
-    const editDeliverables = async (id: number) => {
+    const editDeliverables = async (id: number, body: {
+        text: string
+        fileData: FileWithExtension[]
+    }) => {
         try {
             setLoading({ ...loading, editDeliverable: true });
             await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.EDIT}/${id}`, {
                 action: "EDIT",
+                deliverable: {
+                    text: body.text,
+                    fileData: body.fileData.map((file: FileWithExtension) => file.key),
+                }
             }, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,

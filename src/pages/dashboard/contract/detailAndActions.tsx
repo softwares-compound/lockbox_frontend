@@ -61,8 +61,6 @@ const DetailAndActions: React.FC = () => {
                     </Dialog>
                 </div>
             </div>
-
-
             <Action />
 
 
