@@ -76,10 +76,16 @@ const EditDeliverable: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsDataLoading(true)
-            const resp = await contractContext?.viewDeliverables(Number(contractContext?.contract?.id))
-            setFormData({ text: resp?.comment ?? "", fileData: resp?.files.map((file) => ({ key: "", extension: "", url: file, file: {} as File })) ?? [] })
-            setIsDataLoading(false)
+            try {
+                setIsDataLoading(true)
+                const resp = await contractContext?.viewDeliverables(Number(contractContext?.contract?.id))
+                console.log("resp", resp)
+                setFormData({ text: resp?.text ?? "", fileData: resp?.files.map((file) => ({ key: "", extension: "", url: file, file: {} as File })) ?? [] })
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setIsDataLoading(false)
+            }
         }
         fetchData()
     }, [])
@@ -151,7 +157,7 @@ const EditDeliverable: React.FC = () => {
                             {
                                 contractContext?.loading.resubmitDeliverables
                                     ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-                                    : <span className='px-1 text-lg'>re-submit deliverables </span>
+                                    : <span className='px-1 text-lg'>submit</span>
                             }
                         </Button>
                     </div>

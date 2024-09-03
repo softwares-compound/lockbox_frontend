@@ -1,4 +1,3 @@
-
 import { Label } from '@/components/ui/label'
 import { Loader2, Paperclip } from 'lucide-react'
 import { useContract } from '@/context/contractContext'
@@ -10,7 +9,7 @@ type FormDataType = {
     files: string[]
 }
 
-const ViewDeliverable: React.FC = () => {
+const ReviewFeedback: React.FC = () => {
     const contractContext = useContract()
     const [formData, setFormData] = useState<FormDataType>({
         text: "",
@@ -20,15 +19,14 @@ const ViewDeliverable: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsDataLoading(true)
-            const resp = await contractContext?.viewDeliverables(Number(contractContext?.contract?.id))
-            console.log("resp --------------", resp)
+            const resp = await contractContext?.reviewFeedback(Number(contractContext?.contract?.id))
             setFormData({ text: resp?.text ?? "", files: resp?.files ?? [] })
             setIsDataLoading(false)
         }
         fetchData()
     }, [])
     const handleSubmit = async () => {
-        // await contractContext?.viewDeliverables(Number(contractContext?.contract?.id), formData as FormDataType)
+        contractContext?.setModalState((prev) => ({ ...prev, reviewFeedback: false }))
     }
     return (
         <div>
@@ -61,13 +59,11 @@ const ViewDeliverable: React.FC = () => {
                             variant="outline"
                             className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none  w-full'
                             onClick={handleSubmit}
-                        // disabled={contractContext?.loading.ViewDeliverables}
                         >
                             {
-                                // contractContext?.loading.ViewDeliverables
                                 false
                                     ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-                                    : <span className='px-1 text-lg'>submit feedback </span>
+                                    : <span className='px-1 text-lg'>close</span>
                             }
                         </Button>
                     </div>
@@ -76,4 +72,4 @@ const ViewDeliverable: React.FC = () => {
     )
 }
 
-export default ViewDeliverable
+export default ReviewFeedback

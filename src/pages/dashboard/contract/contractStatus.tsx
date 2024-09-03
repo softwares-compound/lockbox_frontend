@@ -5,7 +5,7 @@ import React from 'react'
 
 const ContractStatus: React.FC = () => {
     const contractContext = useContract()
-    console.log(contractContext?.contract?.message)
+    // console.log(contractContext?.contract?.message)
     return (
 
         <div className=" bg-white text-brand ">
