@@ -13,11 +13,36 @@ import {
 import { Loader2 } from 'lucide-react'
 import SubmitDeliverable from './modalContent/submitDeliverable'
 import ResubmitDeliverable from './modalContent/resubmitDeliverable'
+import ViewDeliverable from './modalContent/viewDeliverable'
 
 const Action: React.FC = () => {
     const contractContext = useContract()
     return (
         <>
+            <div>
+                <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
+                <Dialog open={contractContext?.modalState.viewDeliverables} onOpenChange={(state) => contractContext?.setModalState({ ...contractContext?.modalState, viewDeliverables: state })}>
+                    <DialogTrigger asChild>
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className=' min-w-20 border hover:text-white w-full'
+                        >
+                            {
+                                contractContext?.loading.viewDeliverables
+                                    ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+                                    : <span className='px-1 text-lg'>view deliverable </span>
+                            }
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] bg-brand text-white border-2 border-white">
+                        <DialogHeader>
+                            <DialogTitle className=" text-xl md:text-2xl text-center font-semibold text-white px-2">view deliverable</DialogTitle>
+                        </DialogHeader>
+                        <ViewDeliverable />
+                    </DialogContent>
+                </Dialog>
+            </div>
             {
                 contractContext?.contract?.actions.includes("CANCEL") && (
                     <div>

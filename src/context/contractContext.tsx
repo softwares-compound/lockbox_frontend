@@ -96,7 +96,10 @@ type ContractContextType = {
         text: string
         fileData: FileWithExtension[]
     }) => Promise<void>
-    viewDeliverables: (id: number) => Promise<void>
+    viewDeliverables: (id: number) => Promise<{
+        comment: string
+        files: string[]
+    }>
     loading: LoadingTypes
     setLoading: React.Dispatch<React.SetStateAction<LoadingTypes>>
     modalDataLoading: boolean
@@ -298,6 +301,25 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         }
     }
 
+    const viewDeliverables = async (id: number) => {
+        try {
+            setLoading({ ...loading, viewDeliverables: true });
+            const resp = await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.VIEW}/${id}`, {
+                action: "VIEW",
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                }
+            });
+            return resp.data.data
+        } catch (error: Error | any) {
+            return { comment: "", files: [] }
+            toast.error("Failed to view deliverables");
+        } finally {
+            setLoading({ ...loading, viewDeliverables: false });
+        }
+    }
+
     const reviewFeedback = async (id: number) => {
         try {
             setLoading({ ...loading, reviewFeedback: true });
@@ -337,22 +359,6 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
     }
 
 
-    const viewDeliverables = async (id: number) => {
-        try {
-            setLoading({ ...loading, viewDeliverables: true });
-            await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.VIEW}/${id}`, {
-                action: "VIEW",
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
-                }
-            });
-        } catch (error: Error | any) {
-            toast.error("Failed to view deliverables");
-        } finally {
-            setLoading({ ...loading, viewDeliverables: false });
-        }
-    }
 
     const editDeliverables = async (id: number) => {
         try {
