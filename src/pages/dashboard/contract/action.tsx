@@ -123,7 +123,7 @@ const Action: React.FC = () => {
             {/* ***************** */}
 
             {
-                contractContext?.contract?.actions.includes("REVIEW") || true && (
+                contractContext?.contract?.actions.includes("REVIEW") && (
                     <div>
                         <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
 
