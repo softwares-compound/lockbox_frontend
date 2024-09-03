@@ -44,7 +44,7 @@ const Contract: React.FC = () => {
             <div className="mx-auto w-full  ">
                 <h1 className="sr-only">Page title</h1>
                 {/* Main 3 column grid */}
-                <div className="grid grid-cols-1 items-start md:grid-cols-3 lg:gap-0 ">
+                <div className="grid grid-cols-1 items-start lg:grid-cols-3 lg:gap-0 ">
                     {/* Left column */}
                     <div className="grid grid-cols-1">
                         <section aria-labelledby="section-2-title" className=' md:h-screen bg-brand text-white px-4 py-0 rounded-t-3xl'>
@@ -72,7 +72,7 @@ const Contract: React.FC = () => {
 
 
                     {/* Right column */}
-                    <div className="md:col-span-2 flex flex-col justify-between h-full">
+                    <div className=" lg:col-span-2 flex flex-col justify-between h-full">
                         <section aria-labelledby="section-1-title" className="py-10">
                             <ContractStatus />
                         </section>

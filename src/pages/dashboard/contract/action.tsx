@@ -12,11 +12,12 @@ import {
 } from "@/components/ui/dialog"
 import { Loader2 } from 'lucide-react'
 import SubmitDeliverable from './modalContent/submitDeliverable'
+import ResubmitDeliverable from './modalContent/resubmitDeliverable'
 
 const Action: React.FC = () => {
     const contractContext = useContract()
     return (
-        <div>
+        <>
             {
                 contractContext?.contract?.actions.includes("CANCEL") && (
                     <div>
@@ -145,14 +146,12 @@ const Action: React.FC = () => {
                     <div>
                         <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
 
-                        <Dialog open={contractContext.modalState.submitDeliverables}>
+                        <Dialog open={contractContext.modalState.submitDeliverables} onOpenChange={(state) => contractContext.setModalState({ ...contractContext.modalState, submitDeliverables: state })}>
                             <DialogTrigger asChild>
                                 <Button
                                     type="submit"
                                     variant="outline"
                                     className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none  w-full'
-                                    onClick={() => contractContext.setModalState({ ...contractContext.modalState, submitDeliverables: true })}
-                                // disabled={contractContext.loading.submitDeliverables}
                                 >
                                     {
                                         contractContext.loading.submitDeliverables
@@ -178,19 +177,27 @@ const Action: React.FC = () => {
                 contractContext?.contract?.actions.includes("RESUBMIT") && (
                     <div>
                         <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
-                        <Button
-                            type="submit"
-                            variant="outline"
-                            className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none w-full'
-                            onClick={() => contractContext.resubmitDeliverables(Number(contractContext?.contract?.id))}
-                            disabled={contractContext.loading.resubmitDeliverables}
-                        >
-                            {
-                                contractContext.loading.resubmitDeliverables
-                                    ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-                                    : <span className='px-1 text-lg'>resubmit deliverable </span>
-                            }
-                        </Button>
+                        <Dialog open={contractContext.modalState.resubmitDeliverables} onOpenChange={(state) => contractContext.setModalState({ ...contractContext.modalState, resubmitDeliverables: state })}>
+                            <DialogTrigger asChild>
+                                <Button
+                                    type="submit"
+                                    variant="outline"
+                                    className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none w-full'
+                                >
+                                    {
+                                        contractContext.loading.resubmitDeliverables
+                                            ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+                                            : <span className='px-1 text-lg'>resubmit deliverable </span>
+                                    }
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px] bg-brand text-white border-2 border-white">
+                                <DialogHeader>
+                                    <DialogTitle className=" text-xl md:text-2xl text-center font-semibold text-white px-2">re-submit transaction details</DialogTitle>
+                                </DialogHeader>
+                                <ResubmitDeliverable />
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 )
             }
@@ -234,7 +241,7 @@ const Action: React.FC = () => {
                     </div>
                 )
             }
-        </div>
+        </>
     )
 }
 
