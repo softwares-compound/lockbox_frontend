@@ -11,13 +11,14 @@ import ProfilePage from "./pages/dashboard/profile/profile";
 import PrivateRouteProtector from "./services/privateRouteProtector";
 import CreateTransaction from "./pages/dashboard/createTransaction";
 import Contract from "./pages/dashboard/contract";
+import NotFound from "./pages/errors/NotFound";
 
 
 function App() {
 	return (
 		<Routes>
 			{/* ERRORS */}
-
+			<Route path="*" element={<NotFound />} />
 
 			{/* PUBLIC ROUTES */}
 			<Route path="/" element={<PublicRouteProtector><Signin /></PublicRouteProtector>} />
