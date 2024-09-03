@@ -15,9 +15,9 @@ ACTIONS = {
     'MODIFY': 'edit transaction',
     'DECLINE': 'decline transaction', \\//
     'APPROVE': 'approve transaction', \\//
-    'REVIEW': 'review feedback',
+    'REVIEW': 'review feedback', \\//
     'SUBMIT': 'submit deliverables', \\//
     'RESUBMIT': 're-submit deliverables', \\//
     'VIEW': 'view deliverables', \\// ------
-    'EDIT': 'edit deliverables'
+    'EDIT': 'edit deliverables' \\//
 }

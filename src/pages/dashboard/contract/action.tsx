@@ -145,7 +145,7 @@ const Action: React.FC = () => {
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[425px] bg-brand text-white border-2 border-white">
                                 <DialogHeader>
-                                    <DialogTitle className=" text-xl md:text-2xl text-center font-semibold text-white px-2">view deliverable</DialogTitle>
+                                    <DialogTitle className=" text-xl md:text-2xl text-center font-semibold text-white px-2">review transaction feedback</DialogTitle>
                                 </DialogHeader>
                                 <ReviewFeedback />
                             </DialogContent>
