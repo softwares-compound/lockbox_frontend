@@ -21,7 +21,14 @@ const DetailAndActions: React.FC = () => {
             <div className='overflow-hidden col-span-1 '>
                 <Label htmlFor="name" className='text-white '>contract</Label>
                 <div className="flex justify-start items-center px-4 gap-2 placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand bg-white text-brand p-1 rounded-3xl text-center">
-                    <Paperclip /> <a href={contractContext?.contract?.contract ? contractContext?.contract?.contract[0] : ""} target="_blank">document.pdf</a>
+                    {
+                        contractContext?.contract?.contract ?
+                            <>
+                                <Paperclip /> <a href={contractContext?.contract?.contract ? contractContext?.contract?.contract[0] : ""} target="_blank">document.pdf</a>
+                            </>
+                            : <p className='text-center'>No document</p>
+                    }
+
                 </div>
             </div>
             <div className='col-span-1 '>
