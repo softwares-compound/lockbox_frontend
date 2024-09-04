@@ -22,7 +22,7 @@ const ContractList: React.FC = () => {
                         }}
                         disabled={contractContext.isContractLoading}
                     >
-                        <p className='text-xl'>{contract.counter_party.email}</p>
+                        <p className='text-xl font-bold'>{contract.counter_party.email}</p>
                         <p className={`text-base md:text-lg text-[${contract.message.hex}]`}>{contract.message.text}</p>
                     </button>
                 ))
