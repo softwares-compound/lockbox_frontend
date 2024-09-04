@@ -63,9 +63,6 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
                 setCurrentStep(4)
                 // toast.success("Transaction updated successfully")
             } else {
-                console.log("auth---", authContext?.userData?.email)
-                console.log("counter_party---", formData.counter_party)
-                console.log("role---", role)
                 const resp = await AXIOS_INSTANCE.post(CREATE_TRANSACTION_ENDPOINTS.SAVE_TO_DRAFT, {
                     contracts,
                     attachments,
@@ -91,8 +88,6 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
             setIsLoading(false)
         }
     }
-    console.log("step 3===>> ", formData)
-    console.log("role ===>> ", role)
     return (
         <form className=''>
             <div className='my-20'>
@@ -126,7 +121,7 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
                 {noDateError && <p className="text-red-500 text-base">{"Transaction deadline is required"}</p>}
             </div>
             <div className='my-20'>
-                <Label htmlFor="transaction_value">Who is the counter party in the transaction?<span className="text-red-500">*</span></Label>
+                <Label htmlFor="transaction_value">Value<span className="text-red-500">*</span></Label>
                 <div className='max-w-[360px] mx-auto'>
                     <CurrencyInput
                         id="transaction_value"

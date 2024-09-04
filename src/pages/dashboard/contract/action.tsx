@@ -16,9 +16,11 @@ import ResubmitDeliverable from './modalContent/resubmitDeliverable'
 import ViewDeliverable from './modalContent/viewDeliverable'
 import EditDeliverable from './modalContent/editDeliverable'
 import ReviewFeedback from './modalContent/reviewFeedback'
+import EditTransaction from './modalContent/editTransaction'
 
 const Action: React.FC = () => {
     const contractContext = useContract()
+    console.log(contractContext?.contract)
     return (
         <>
             {
@@ -88,31 +90,27 @@ const Action: React.FC = () => {
                     <div>
                         <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
 
-                        <Dialog>
+                        <Dialog open={contractContext?.modalState.editTransaction} onOpenChange={(state) => contractContext?.setModalState({ ...contractContext?.modalState, editTransaction: state })}>
                             <DialogTrigger asChild>
                                 <Button
                                     type="submit" variant="outline"
                                     className=' min-w-20 border hover:text-white w-full'
-                                    onClick={() => contractContext.editTransaction(Number(contractContext?.contract?.id))}
-                                // disabled={contractContext.loading.editTransaction}
                                 >
                                     {
-                                        contractContext.loading.editTransaction
+                                        contractContext?.loading.editTransaction
                                             ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
                                             : <span className='px-1 text-lg'>edit transaction </span>
                                     }
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-[425px]">
+                            <DialogContent className="sm:max-w-[425px] bg-brand text-white border-2 border-white">
                                 <DialogHeader>
-                                    <DialogTitle className=" text-2xl md:text-3xl font-semibold text-brand px-2">Attachment</DialogTitle>
-                                    <DialogDescription className="text-base text-brand/50 px-2">
+                                    <DialogTitle className=" text-2xl md:text-3xl font-semibold px-2">Attachment</DialogTitle>
+                                    <DialogDescription className="text-base  px-2">
                                         Additional attachments uploaded while creation the contract.
                                     </DialogDescription>
                                 </DialogHeader>
-                                <div className="py-2">
-                                    hello world
-                                </div>
+                                <EditTransaction />
                             </DialogContent>
                         </Dialog>
                     </div>
@@ -122,6 +120,10 @@ const Action: React.FC = () => {
             {/* ***************** */}
             {/* ***************** */}
 
+
+            {/* ###################################### */}
+            {/* ########## OPEN MODAL ############# */}
+            {/* ###################################### */}
             {
                 contractContext?.contract?.actions.includes("REVIEW") && (
                     <div>
@@ -153,9 +155,6 @@ const Action: React.FC = () => {
                     </div>
                 )
             }
-            {/* ###################################### */}
-            {/* ########## OPEN MODAL ############# */}
-            {/* ###################################### */}
             {
                 contractContext?.contract?.actions.includes("SUBMIT") && (
                     <div>

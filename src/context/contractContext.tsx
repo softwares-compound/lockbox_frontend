@@ -17,6 +17,7 @@ export interface ContractListType {
 }
 
 type ContractInfoType = {
+    deadline: string | number | Date;
     id: number;
     customer: {
         id: number;
@@ -88,7 +89,12 @@ type ContractContextType = {
         fileData: FileWithExtension[]
     }) => Promise<void>
     declineTransaction: (id: number) => Promise<void>
-    editTransaction: (id: number) => Promise<void>
+    editTransaction: (id: number, body: {
+        deadline: Date | undefined
+        transaction_value: { float?: number | undefined, formatted: string | undefined, value: string | undefined }
+        contract_file: FileWithExtension[]
+        additional_attachments: FileWithExtension[]
+    }) => Promise<void>
     approveTransaction: (id: number) => Promise<void>
     reviewFeedback: (id: number) => Promise<
         {
@@ -349,16 +355,27 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         }
     }
 
-    const editTransaction = async (id: number) => {
+    const editTransaction = async (id: number, body: {
+        deadline: Date | undefined
+        transaction_value: { float?: number | undefined, formatted: string | undefined, value: string | undefined }
+        contract_file: FileWithExtension[]
+        additional_attachments: FileWithExtension[]
+    }) => {
         try {
             setLoading({ ...loading, editTransaction: true });
             await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.EDIT}/${id}`, {
                 action: "MODIFY",
+                contract: body.contract_file.map((file: FileWithExtension) => file.key),
+                additional_attachments: body.additional_attachments.map((file: FileWithExtension) => file.key),
+                end_date: body.deadline,
+                budget: body.transaction_value.value,
+                status: 1
             }, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 }
             });
+            toast.success("Contract updated successfully");
         } catch (error: Error | any) {
             toast.error("Failed to edit contract");
         } finally {
