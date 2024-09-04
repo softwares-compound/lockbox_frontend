@@ -19,7 +19,7 @@ import ManageSubscription from './components/manageSubscription';
 const ProfilePage: React.FC = () => {
     const authContext = useAuth();
     const navigate = useNavigate();
-    console.log(authContext?.userData)
+
     return (
         <div className='w-full text-start text-brand pb-10'>
             <div className='mt-4 mb-5 md:-mb-10 flex justify-between px-4'>

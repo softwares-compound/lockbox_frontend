@@ -5,20 +5,18 @@ import { Label } from '@/components/ui/label'
 import { CalendarIcon, Loader2, Paperclip, X } from 'lucide-react'
 import { FileInput, FileUploader, FileUploaderContent } from '@/components/ui/file-uploader'
 import { FileWithExtension, useContract } from '@/context/contractContext'
-import { countFileTypes, updateFilesWithUrls } from '@/lib/utils'
+import { cn, countFileTypes, updateFilesWithUrls } from '@/lib/utils'
 import CurrencyInput from 'react-currency-input-field';
 import Cookies from 'js-cookie'
-// import { format } from "date-fns"
+import { format } from "date-fns"
 import toast from 'react-hot-toast'
 import { Button } from '@/components/ui/button'
-// import { Calendar } from "@/components/ui/calendar"
-// import {
-//     Popover,
-//     PopoverContent,
-//     PopoverTrigger,
-// } from "@/components/ui/popover"
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { Calendar } from "@/components/ui/calendar"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 
 type FormDataType = {
     deadline: Date | undefined
@@ -118,10 +116,10 @@ const EditTransaction: React.FC = () => {
 
     return (
         <div>
-            <div className='my-4'>
+            <div className='my-4 '>
                 <Label htmlFor="deadline" className='text-center text-white'>What is the transaction deadline?<span className="text-red-500 text-base">*</span></Label>
                 <br />
-                {/* <Popover>
+                <Popover>
                     <PopoverTrigger asChild>
                         <Button
                             variant={"outline"}
@@ -143,17 +141,15 @@ const EditTransaction: React.FC = () => {
                                 setFormData({ ...formData, deadline: value })
                             }}
                             initialFocus={true}
-                            className='z-50'
                         />
                     </PopoverContent>
-                        
-                </Popover> */}
-                <div className='w-full border-2  h-10 bg-white rounded-full flex justify-center'>
+                </Popover>
+                {/* <div className='w-full border-2  h-10 bg-white rounded-full flex justify-center'>
                     <DatePicker className={"w-full mx-auto h-9  text-center text-xl rounded-full text-brand px-2 border-none outline-none"} icon={<CalendarIcon className="mr-2 h-5 w-5 text-brand/50" />} selected={formData.deadline} onChange={(value) => {
                         setNoDateError(false)
                         setFormData({ ...formData, deadline: value ? new Date(value) : undefined })
                     }} />
-                </div>
+                </div> */}
                 {noDateError && <p className="text-red-500 text-base">{"Transaction deadline is required"}</p>}
             </div>
             <div className='my-4'>

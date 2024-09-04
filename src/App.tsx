@@ -12,6 +12,8 @@ import PrivateRouteProtector from "./services/privateRouteProtector";
 import CreateTransaction from "./pages/dashboard/createTransaction";
 import Contract from "./pages/dashboard/contract";
 import NotFound from "./pages/errors/NotFound";
+import Wallet from "./pages/dashboard/wallet";
+import EditTransaction from "./pages/dashboard/editTransaction";
 
 
 function App() {
@@ -53,6 +55,22 @@ function App() {
 				element={
 					<PrivateRouteProtector>
 						<DashboardLayout><CreateTransaction /></DashboardLayout>
+					</PrivateRouteProtector>
+				}
+			/>
+			<Route
+				path="/edit-transaction/:id"
+				element={
+					<PrivateRouteProtector>
+						<DashboardLayout><EditTransaction /></DashboardLayout>
+					</PrivateRouteProtector>
+				}
+			/>
+			<Route
+				path="/wallet"
+				element={
+					<PrivateRouteProtector>
+						<DashboardLayout><Wallet /></DashboardLayout>
 					</PrivateRouteProtector>
 				}
 			/>
