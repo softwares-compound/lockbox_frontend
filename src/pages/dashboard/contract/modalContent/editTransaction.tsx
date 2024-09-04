@@ -52,6 +52,7 @@ const EditTransaction: React.FC = () => {
 
     const [noDateError, setNoDateError] = useState<boolean>(false)
     const [transactionValueError, setTransactionValueError] = useState<boolean>(false)
+    const [contractFileError, setContractFileError] = useState<boolean>(false)
 
     async function uploadFilesToUrls(filesWithUrl: FileWithExtension[]) {
         try {
@@ -106,6 +107,10 @@ const EditTransaction: React.FC = () => {
             setTransactionValueError(true)
             return
         }
+        if (formData.contract_file.length === 0) {
+            setContractFileError(true)
+            return
+        }
 
         await contractContext?.editTransaction(Number(contractContext?.contract?.id), formData as FormDataType)
 
@@ -144,7 +149,7 @@ const EditTransaction: React.FC = () => {
                         
                 </Popover> */}
                 <div className='w-full border-2  h-10 bg-white rounded-full flex justify-center'>
-                    <DatePicker className={"w-full mx-auto h-9  text-center text-xl rounded-full text-brand px-2"} icon={<CalendarIcon className="mr-2 h-5 w-5 text-brand/50" />} selected={formData.deadline} onChange={(value) => {
+                    <DatePicker className={"w-full mx-auto h-9  text-center text-xl rounded-full text-brand px-2 border-none outline-none"} icon={<CalendarIcon className="mr-2 h-5 w-5 text-brand/50" />} selected={formData.deadline} onChange={(value) => {
                         setNoDateError(false)
                         setFormData({ ...formData, deadline: value ? new Date(value) : undefined })
                     }} />
@@ -188,6 +193,7 @@ const EditTransaction: React.FC = () => {
                                 url: "",
                                 file: file,
                             }))
+                            setContractFileError(false)
                             void getFileUploadUrls(dataToStore, "contract")
                         }
                     }}
@@ -212,6 +218,7 @@ const EditTransaction: React.FC = () => {
                         </div>
                     </FileUploaderContent>
                 </FileUploader>
+                {contractFileError && <p className="text-red-500 text-base">Transaction value is required</p>}
             </div>
             <div className='my-4 py-2'>
                 <Label htmlFor="counter_party" className='text-center text-white'>upload addition attachments</Label>
