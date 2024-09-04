@@ -76,7 +76,7 @@ const Contract: React.FC = () => {
                         <section aria-labelledby="section-1-title" className="py-10">
                             <ContractStatus />
                         </section>
-                        <section aria-labelledby="section-1-title" className="p-10 bg-brand text-white">
+                        <section aria-labelledby="section-1-title" className="p-10 py-20 bg-brand text-white">
                             <DetailAndActions />
                         </section >
                     </div >
