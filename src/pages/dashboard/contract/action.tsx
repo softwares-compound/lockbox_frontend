@@ -5,7 +5,6 @@ import { useContract } from '@/context/contractContext'
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -16,11 +15,11 @@ import ResubmitDeliverable from './modalContent/resubmitDeliverable'
 import ViewDeliverable from './modalContent/viewDeliverable'
 import EditDeliverable from './modalContent/editDeliverable'
 import ReviewFeedback from './modalContent/reviewFeedback'
-import EditTransaction from './modalContent/editTransaction'
-
+import { useNavigate } from 'react-router-dom'
 const Action: React.FC = () => {
     const contractContext = useContract()
-    console.log(contractContext?.contract)
+    const navigate = useNavigate()
+
     return (
         <>
             {
@@ -89,30 +88,31 @@ const Action: React.FC = () => {
                 contractContext?.contract?.actions.includes("MODIFY") && (
                     <div>
                         <Label htmlFor="phone" className='text-brand cursor-default'>.</Label>
-
-                        <Dialog open={contractContext?.modalState.editTransaction} onOpenChange={(state) => contractContext?.setModalState({ ...contractContext?.modalState, editTransaction: state })}>
+                        <Button
+                            type="submit" variant="outline"
+                            className=' min-w-20 border hover:text-white w-full'
+                            onClick={() => navigate(`/edit-transaction/${Number(contractContext?.contract?.id)}`)}
+                        >
+                            {
+                                contractContext?.loading.editTransaction
+                                    ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+                                    : <span className='px-1 text-lg'>edit transaction </span>
+                            }
+                        </Button>
+                        {/* <Dialog open={contractContext?.modalState.editTransaction} onOpenChange={(state) => contractContext?.setModalState({ ...contractContext?.modalState, editTransaction: state })}>
                             <DialogTrigger asChild>
-                                <Button
-                                    type="submit" variant="outline"
-                                    className=' min-w-20 border hover:text-white w-full'
-                                >
-                                    {
-                                        contractContext?.loading.editTransaction
-                                            ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-                                            : <span className='px-1 text-lg'>edit transaction </span>
-                                    }
-                                </Button>
+                                
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[425px] bg-brand text-white border-2 border-white">
                                 <DialogHeader>
-                                    <DialogTitle className=" text-2xl md:text-3xl font-semibold px-2">Attachment</DialogTitle>
+                                    <DialogTitle className=" text-2xl md:text-3xl font-semibold px-2">Edit transaction</DialogTitle>
                                     <DialogDescription className="text-base  px-2">
-                                        Additional attachments uploaded while creation the contract.
+                                        Change the details as per the requirements.
                                     </DialogDescription>
                                 </DialogHeader>
                                 <EditTransaction />
                             </DialogContent>
-                        </Dialog>
+                        </Dialog> */}
                     </div>
                 )
             }

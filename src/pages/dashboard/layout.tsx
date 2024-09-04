@@ -60,7 +60,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                         <p className="text-base md:text-xl">Current balance</p>
                                     </div>
                                     <SheetClose>
-                                        <Button variant="link" className="bg-white text-base md:text-xl" onClick={() => navigate('//transactions')}>
+                                        <Button variant="link" className="bg-white text-base md:text-xl" onClick={() => navigate('/wallet')}>
                                             Manage
                                         </Button>
                                     </SheetClose>
