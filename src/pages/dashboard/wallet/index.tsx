@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Label } from "@/components/ui/label"
-import { useAuth } from '@/context/authContext';
+// import { useAuth } from '@/context/authContext';
 import { Loader2, MoveLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import CurrencyInput from 'react-currency-input-field';
 import { Button } from '@/components/ui/button';
+import { loadStripe } from '@stripe/stripe-js';
+import { AXIOS_INSTANCE } from '@/config/axios';
+import Cookies from 'js-cookie';
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
 
 const Wallet: React.FC = () => {
-    const authContext = useAuth();
+    // const authContext = useAuth();
     const navigate = useNavigate();
     const [transactionValue, setTransactionValue] = useState<{
         float: number | undefined,
@@ -22,6 +25,27 @@ const Wallet: React.FC = () => {
     });
     const [transactionValueError, setTransactionValueError] = useState(false)
     const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async () => {
+        try {
+            setLoading(true);
+            const stripe = await loadStripe(STRIPE_PUBLISHABLE_KEY);
+            console.log(stripe)
+            const resp = await AXIOS_INSTANCE.post("/auth/v1/checkout", {
+                amount: transactionValue.value
+            }, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("accessToken")}`
+                }
+            })
+            console.log(resp)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    };
+
     return (
         <div className='w-full text-start text-brand pb-10'>
             <div className='mt-4 mb-5 md:-mb-10 flex justify-between px-4'>
@@ -55,6 +79,7 @@ const Wallet: React.FC = () => {
                                     // min={100}
                                     className="flex h-10 w-full text-center rounded-3xl border-2 border-brand bg-background px-3 py-2 text-base md:text-xl ring-offset-background file:border-0 file:bg-transparent file:text-xl file:font-medium placeholder:text-brand/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 />
+                                <p className='text-red-500 text-base'>{transactionValueError ? "Please enter a value greater or equal to $100" : ""}</p>
                             </div>
                         </div>
                         <div>
@@ -68,7 +93,11 @@ const Wallet: React.FC = () => {
                             <br />
                             <br />
                             <Button variant="default" disabled={loading} onClick={() => {
-                                setLoading(true)
+                                if (transactionValue.value && Number(transactionValue.value) >= 100) {
+                                    handleSubmit()
+                                } else {
+                                    setTransactionValueError(true)
+                                }
                             }} className='w-60'>
                                 {
                                     loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
