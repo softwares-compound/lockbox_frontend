@@ -39,9 +39,18 @@ const ContractStatus: React.FC = () => {
                     <div className='mx-auto max-w-3xl flex justify-between items-center'>
                         <div className={`rounded-full w-10 h-10 flex justify-center items-center border-2 ${contractContext?.contract?.message.step === 1 ? 'bg-brand text-white' : 'bg-white text-brand'} relative`}>
                             <p>1</p>
-                            <p className={`absolute top-10 -left-4 text-[${contractContext?.contract?.message.hex}] text-base`}>
+                            {
+                                contractContext?.contract?.message.hex === "#d6b91d" ?
+                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
+                                    : contractContext?.contract?.message.hex === "#2ed279" ?
+                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
+                                        : contractContext?.contract?.message.hex === "#e40000" ?
+                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#e40000]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
+                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-brand`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
+                            }
+                            {/* <p className={`absolute top-10 -left-4 text-[${contractContext?.contract?.message.hex}] text-base`}>
                                 {contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}
-                            </p>
+                            </p> */}
                         </div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
@@ -52,9 +61,15 @@ const ContractStatus: React.FC = () => {
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className={`rounded-full w-10 h-10 flex justify-center items-center border-2 ${contractContext?.contract?.message.step === 2 ? 'bg-brand text-white' : 'bg-white text-brand'} relative`}>
                             <p>2</p>
-                            <p className={`absolute top-10 -left-4 text-[${contractContext?.contract?.message.hex}] text-base`}>
-                                {contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}
-                            </p>
+                            {
+                                contractContext?.contract?.message.hex === "#d6b91d" ?
+                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
+                                    : contractContext?.contract?.message.hex === "#2ed279" ?
+                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
+                                        : contractContext?.contract?.message.hex === "#e40000" ?
+                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#e40000]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
+                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-brand`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
+                            }
                         </div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
@@ -65,9 +80,15 @@ const ContractStatus: React.FC = () => {
                         <div className='bg-brand rounded-full w-2 h-2'></div>
                         <div className={`rounded-full w-10 h-10 flex justify-center items-center border-2 ${contractContext?.contract?.message.step === 3 ? 'bg-brand text-white' : 'bg-white text-brand'} relative`}>
                             <p>3</p>
-                            <p className={`absolute top-10 -left-4 text-[${contractContext?.contract?.message.hex}] text-base`}>
-                                {contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}
-                            </p>
+                            {
+                                contractContext?.contract?.message.hex === "#d6b91d" ?
+                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
+                                    : contractContext?.contract?.message.hex === "#2ed279" ?
+                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
+                                        : contractContext?.contract?.message.hex === "#e40000" ?
+                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#e40000]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
+                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-brand`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
+                            }
                         </div>
                     </div>
                 </div>
