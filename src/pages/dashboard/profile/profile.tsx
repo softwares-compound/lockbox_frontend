@@ -14,6 +14,7 @@ import {
 import { MoveLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ManageSubscription from './components/manageSubscription';
+import { addEllipsis } from '@/lib/utils';
 
 
 const ProfilePage: React.FC = () => {
@@ -44,7 +45,7 @@ const ProfilePage: React.FC = () => {
                         <br />
                         <div className='text-center w-full md:min-w-[320px]'>
                             <Label htmlFor="email" className='md:text-xl'>Email address</Label>
-                            <p className="placeholder:text-brand/40 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">{authContext?.userData?.email} </p>
+                            <p className="placeholder:text-brand/40 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">{addEllipsis(authContext?.userData?.email, 50, 15)} </p>
                         </div>
                     </div>
                 </header>
@@ -71,7 +72,7 @@ const ProfilePage: React.FC = () => {
                         </div>
                     </div> */}
                     <div className="space-y-2 mt-20">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <Dialog>
                                     <DialogTrigger asChild>
@@ -90,9 +91,9 @@ const ProfilePage: React.FC = () => {
                                     </DialogContent>
                                 </Dialog>
                             </div>
-                            <div>
+                            {/* <div>
                                 <Button disabled variant="outline" className='w-full border-2 border-brand text-brand'>Manage payment methods</Button>
-                            </div>
+                            </div> */}
                             <div>
                                 <Dialog>
                                     <DialogTrigger asChild>

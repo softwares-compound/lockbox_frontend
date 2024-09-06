@@ -120,9 +120,10 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
                         <Label htmlFor="phone" className=''>Attachments</Label>
                         <div className="placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">
                             {
-                                formData.additional_attachments?.map((attachment, index) => (
-                                    <p key={index}>{addEllipsis(attachment.file.name, 15, 5)}</p>
-                                ))
+                                formData.additional_attachments?.length > 0 ?
+                                    formData.additional_attachments?.map((attachment, index) => (
+                                        <p key={index}>{addEllipsis(attachment.file.name, 15, 5)}</p>
+                                    )) : <p className='text-brand text-center mx-auto'>No attachments</p>
                             }
                         </div>
                     </div>

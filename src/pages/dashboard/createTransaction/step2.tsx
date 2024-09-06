@@ -82,7 +82,7 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
         }
         setCurrentStep(3)
     }
-    console.log("step 2===>> ", formData)
+    // console.log("step 2===>> ", formData)
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-10'>
             <div className=''>
@@ -174,7 +174,7 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                     {
                         isLoading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
                             : <>
-                                <span>Review</span>
+                                <span>Next</span>
                                 <span><ArrowRight /></span>
                             </>
                     }

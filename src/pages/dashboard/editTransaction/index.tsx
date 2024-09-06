@@ -236,7 +236,7 @@ const EditTransaction: React.FC = () => {
                             </div>
                         </FileUploaderContent>
                     </FileUploader>
-                    {contractFileError && <p className="text-red-500 text-base">Transaction value is required</p>}
+                    {contractFileError && <p className="text-red-500 text-base">Contract file is required</p>}
                 </div>
                 <div className='my-4 py-2'>
                     <Label htmlFor="counter_party" className='text-center text-brand'>upload addition attachments</Label>
