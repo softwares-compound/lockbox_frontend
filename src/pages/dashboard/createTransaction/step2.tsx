@@ -64,9 +64,9 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
             })
             const fileWithKeyAndUrl = updateFilesWithUrls(files, response.data.data)
             if (fileType === "contract") {
-                setFormData((prev) => ({ ...prev, transaction_contract_file: [...fileWithKeyAndUrl, ...prev.transaction_contract_file] }))
+                setFormData((prev) => ({ ...prev, transaction_contract_file: [...fileWithKeyAndUrl] }))
             } else {
-                setFormData((prev) => ({ ...prev, additional_attachments: [...fileWithKeyAndUrl, ...prev.additional_attachments] }))
+                setFormData((prev) => ({ ...prev, additional_attachments: [...fileWithKeyAndUrl] }))
             }
             void uploadFilesToUrls(fileWithKeyAndUrl)
         } catch (error: Error | any) {
@@ -82,7 +82,7 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
         }
         setCurrentStep(3)
     }
-    console.log("step 2===>> ", formData)
+    // console.log("step 2===>> ", formData)
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-10'>
             <div className=''>
@@ -174,7 +174,7 @@ const Step2: React.FC<Props> = ({ formData, setFormData, setCurrentStep }) => {
                     {
                         isLoading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
                             : <>
-                                <span>Review</span>
+                                <span>Next</span>
                                 <span><ArrowRight /></span>
                             </>
                     }

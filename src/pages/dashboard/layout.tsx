@@ -1,10 +1,20 @@
 import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import image from '@/assets/logo_full.png';
+import image from "@/assets/logo_full.png"
 import { AlignJustify } from "lucide-react";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/authContext";
+import { formatNumberWithCommas } from "@/lib/utils";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import ManageSubscription from "./profile/components/manageSubscription";
 
 type Props = {
     children: ReactNode;
@@ -17,12 +27,13 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     return (
         <div className="text-base md:text-xl lg:text-xl">
             <nav className="flex items-center justify-between px-2 md:px-4 py-2 h-[10vh] bg-white dark:bg-gray-800">
-                <a onClick={() => navigate('/dashboard')} className="flex items-center gap-2">
+                <a onClick={() => navigate('/dashboard')} className="flex items-center gap-2 pb-2">
                     <img
                         src={image} // Replace with your logo path
                         alt="Logo"
                         // className="w-20 h-20 md:w-30 md:h-20" // Adjust size as needed
                         width={150} // Adjust size as needed
+                        className=""
                         onClick={() => navigate('/dashboard')}
                     />
                 </a>
@@ -56,11 +67,11 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                 </SheetClose>
                                 <div className="flex justify-between items-center gap-2 md:gap-4 bg-brand text-white p-2 rounded-3xl">
                                     <div>
-                                        <p className="text-xl md:text-3xl font-medium">${authContext?.userData?.balance ?? 76786}</p>
+                                        <p className="text-xl md:text-3xl font-medium">${formatNumberWithCommas(authContext?.userData?.balance) ?? 0}</p>
                                         <p className="text-base md:text-xl">Current balance</p>
                                     </div>
                                     <SheetClose>
-                                        <Button variant="link" className="bg-white text-base md:text-xl" onClick={() => navigate('/wallet')}>
+                                        <Button variant="link" className="bg-white text-base md:text-xl hover:no-underline" onClick={() => navigate('/wallet')}>
                                             Manage
                                         </Button>
                                     </SheetClose>
@@ -72,9 +83,26 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                     {/* <button onClick={() => navigate('/create-transaction')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Manage payment methods
                                     </button> */}
-                                    <SheetClose onClick={() => navigate('/profile')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
-                                        Manage subscription
-                                    </SheetClose>
+                                    <div onClick={() => navigate('/profile')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 cursor-pointer rounded-3xl">
+                                        <div>
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <p className='w-full '>Manage subscription</p>
+                                                </DialogTrigger>
+                                                <DialogContent className="max-w-full md:w-2/3 lg:w-2/4 xl:w-1/2" >
+                                                    <DialogHeader>
+                                                        <DialogTitle className=" text-2xl md:text-3xl font-semibold text-brand px-2">Manage  Subscription</DialogTitle>
+                                                        <DialogDescription className="text-base text-brand/50 px-2">
+                                                            Subscribe and save on this transaction
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <div className="py-2">
+                                                        <ManageSubscription />
+                                                    </div>
+                                                </DialogContent>
+                                            </Dialog>
+                                        </div>
+                                    </div>
                                     <SheetClose onClick={() => navigate('/dashboard')} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Transaction drafts
                                     </SheetClose>

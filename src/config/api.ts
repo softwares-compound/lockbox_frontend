@@ -23,7 +23,7 @@ export const FILE_UPLOAD_URL = {
 
 export const SUBSCRIPTION_ENDPOINTS = {
     SUBSCRIPTION_LIST: "general/v1/subscription",
-    SUBSCRIPTION_UPDATE: "general/v1/subscription",
+    SUBSCRIPTION_UPDATE: "general/v1/subscribe",
 }
 
 export const CONTRACTS_ENDPOINTS = {

@@ -22,11 +22,11 @@ const DetailAndActions: React.FC = () => {
                 <Label htmlFor="name" className='text-white '>contract</Label>
                 <div className="flex justify-start items-center px-4 gap-2 placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand bg-white text-brand p-1 rounded-3xl text-center">
                     {
-                        contractContext?.contract?.contract ?
+                        contractContext?.contract?.contract && contractContext?.contract?.contract.length ?
                             <>
-                                <Paperclip /> <a href={contractContext?.contract?.contract ? contractContext?.contract?.contract[0] : ""} target="_blank">document.pdf</a>
+                                <Paperclip /> <a href={contractContext?.contract?.contract ? contractContext?.contract?.contract[0].url : ""} target="_blank">document.pdf</a>
                             </>
-                            : <p className='text-center'>No document</p>
+                            : <p className='text-center mx-auto'>No document</p>
                     }
 
                 </div>
@@ -59,7 +59,7 @@ const DetailAndActions: React.FC = () => {
                                 {
                                     contractContext?.contract?.attachments?.map((attachment, index) => (
                                         <div className='flex justify-between items-center px-4 min-h-10 border-2 text-lg md:text-xl border-brand bg-white text-brand p-1 rounded-3xl text-center'>
-                                            <Paperclip /> <a key={index} href={attachment} target="_blank"> attachment {index + 1}</a> <span></span>
+                                            <Paperclip /> <a key={index} href={attachment.url} target="_blank"> attachment {index + 1}</a> <span></span>
                                         </div>
                                     ))
                                 }

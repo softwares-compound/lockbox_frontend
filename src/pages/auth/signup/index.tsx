@@ -121,7 +121,7 @@ export function Signup() {
                                 <button
                                     type="button"
                                     onClick={togglePasswordVisibility}
-                                    className="absolute inset-y-0 right-0 top-5 pr-3 flex items-center text-gray-600"
+                                    className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-gray-600"
                                 >
                                     {passwordVisible ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
                                 </button>

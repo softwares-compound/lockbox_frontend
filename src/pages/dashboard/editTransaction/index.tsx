@@ -39,7 +39,7 @@ const EditTransaction: React.FC = () => {
         additional_attachments: [],
         contract_file: [],
     })
-    // console.log("no contract===========")
+    // console.log("no contract===========", contractContext?.contract)
     useEffect(() => {
         if (!contractContext?.contract) {
             navigate("/dashboard")
@@ -50,18 +50,8 @@ const EditTransaction: React.FC = () => {
                     formatted: contractContext?.contract?.budget,
                     value: contractContext?.contract?.budget,
                 },
-                additional_attachments: contractContext?.contract?.attachments ? contractContext?.contract?.attachments.map((fileUrl) => ({
-                    key: "",
-                    extension: "",
-                    url: fileUrl,
-                    file: {} as File
-                })) : [],
-                contract_file: contractContext?.contract?.contract ? contractContext?.contract?.contract.map((fileUrl) => ({
-                    key: "",
-                    extension: "",
-                    url: fileUrl,
-                    file: {} as File
-                })) : [],
+                additional_attachments: contractContext?.contract?.attachments ? contractContext?.contract?.attachments : [],
+                contract_file: contractContext?.contract?.contract ? contractContext?.contract?.contract : [],
             })
         }
     }, [])
@@ -75,6 +65,7 @@ const EditTransaction: React.FC = () => {
             toast.loading("Uploading files...")
             // Create an array of promises for each file upload
             const uploadPromises = filesWithUrl.map(async (fileInfo) => {
+                // console.log("=-=-=-", fileInfo)
                 const response = await AXIOS_INSTANCE.put(fileInfo.url, fileInfo.file, {
                     headers: {
                         'Content-Type': "multipart/form-data",
@@ -93,7 +84,9 @@ const EditTransaction: React.FC = () => {
     }
 
     const getFileUploadUrls = async (files: FileWithExtension[], fileType: "contract" | "additional") => {
+        // console.log("files added ===>>> ", files)
         const fileList = files.map(file => file.file)
+        console.log(fileList)
         try {
             const response = await AXIOS_INSTANCE.post(FILE_UPLOAD_URL.GET_URL, {
                 count: countFileTypes(fileList).count
@@ -103,17 +96,19 @@ const EditTransaction: React.FC = () => {
                 }
             })
             const fileWithKeyAndUrl = updateFilesWithUrls(files, response.data.data)
+            // console.log(fileWithKeyAndUrl)
+            // console.log(formData.contract_file)
             if (fileType === "contract") {
-                setFormData((prev) => ({ ...prev, contract_file: [...fileWithKeyAndUrl, ...prev.contract_file] }))
+                setFormData((prev) => ({ ...prev, contract_file: [...fileWithKeyAndUrl] }))
             } else {
-                setFormData((prev) => ({ ...prev, additional_attachments: [...fileWithKeyAndUrl, ...prev.additional_attachments] }))
+                setFormData((prev) => ({ ...prev, additional_attachments: [...fileWithKeyAndUrl], }))
             }
             void uploadFilesToUrls(fileWithKeyAndUrl)
         } catch (error: Error | any) {
             toast.error(error.response.data.message)
         }
     }
-
+    // console.log("=-=-=-=-=", formData)
     const handleSubmit = async () => {
         if (!formData.deadline) {
             setNoDateError(true)
@@ -128,9 +123,11 @@ const EditTransaction: React.FC = () => {
             return
         }
 
+        // console.log(formData)
         await contractContext?.editTransaction(Number(contractContext?.contract?.id), formData as FormDataType)
 
     }
+    // console.log("=========", formData)
     // console.log(contractContext?.contract)
 
     return (
@@ -208,7 +205,7 @@ const EditTransaction: React.FC = () => {
                         value={formData.contract_file.map((data) => data.file)}
                         onValueChange={(fileList) => {
                             if (fileList && fileList.length) {
-                                const dataToStore = fileList.map((file) => ({
+                                const dataToStore = fileList.filter((file) => file instanceof File && file.name).map((file) => ({
                                     key: "",
                                     extension: "",
                                     url: "",
@@ -233,13 +230,13 @@ const EditTransaction: React.FC = () => {
                                 {formData.contract_file?.map((_file, i) => (
                                     <div key={i} className=' flex gap-4 items-center'>
                                         <X className="h-6 w-6 cursor-pointer hover:text-red-600" onClick={() => setFormData((prev) => ({ ...prev, contract_file: prev.contract_file?.filter((_, index) => index !== i) || null }))} />
-                                        <p className='text-brand text-xl'>{"document" + " " + (i + 1)}</p>
+                                        <a href={_file.url} className='text-brand text-xl'>{"document" + " " + (i + 1)}</a>
                                     </div>
                                 ))}
                             </div>
                         </FileUploaderContent>
                     </FileUploader>
-                    {contractFileError && <p className="text-red-500 text-base">Transaction value is required</p>}
+                    {contractFileError && <p className="text-red-500 text-base">Contract file is required</p>}
                 </div>
                 <div className='my-4 py-2'>
                     <Label htmlFor="counter_party" className='text-center text-brand'>upload addition attachments</Label>
@@ -247,12 +244,13 @@ const EditTransaction: React.FC = () => {
                         value={formData.additional_attachments.map((data) => data.file)}
                         onValueChange={(fileList) => {
                             if (fileList && fileList.length) {
-                                const dataToStore = fileList.map((file) => ({
+                                const dataToStore = fileList.filter((file) => file instanceof File && file.name).map((file) => ({
                                     key: "",
                                     extension: "",
                                     url: "",
                                     file: file,
                                 }))
+                                setContractFileError(false)
                                 void getFileUploadUrls(dataToStore, "additional")
                             }
                         }}

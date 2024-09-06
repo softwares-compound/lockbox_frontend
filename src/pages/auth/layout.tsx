@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import image from '@/assets/logo_full.png';
+import image from '@/assets/logo_full.png'
 import { useNavigate } from 'react-router-dom';
 
 type Props = {

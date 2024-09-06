@@ -34,18 +34,8 @@ const EditTransaction: React.FC = () => {
             formatted: contractContext?.contract?.budget,
             value: contractContext?.contract?.budget,
         },
-        additional_attachments: contractContext?.contract?.attachments ? contractContext?.contract?.attachments.map((fileUrl) => ({
-            key: "",
-            extension: "",
-            url: fileUrl,
-            file: {} as File
-        })) : [],
-        contract_file: contractContext?.contract?.contract ? contractContext?.contract?.contract.map((fileUrl) => ({
-            key: "",
-            extension: "",
-            url: fileUrl,
-            file: {} as File
-        })) : [],
+        additional_attachments: contractContext?.contract?.attachments ? contractContext?.contract.attachments : [],
+        contract_file: contractContext?.contract?.contract ? contractContext?.contract?.contract : [],
     })
 
     const [noDateError, setNoDateError] = useState<boolean>(false)

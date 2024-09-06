@@ -19,6 +19,7 @@ import { CREATE_TRANSACTION_ENDPOINTS } from '@/config/api';
 // import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/context/authContext';
+import toast, { Renderable, Toast, ValueFunction } from 'react-hot-toast';
 type Props = {
     formData: CreateTransactionInputType,
     setFormData: React.Dispatch<React.SetStateAction<CreateTransactionInputType>>
@@ -45,16 +46,22 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
             setIsLoading(true)
             const contracts = formData.transaction_contract_file.map(file => file.key)
             const attachments = formData.additional_attachments.map(file => file.key)
+            // console.log({
+            //     id: formData.id,
+            //     customer: role === "customer" ? authContext?.userData?.email : formData.counter_party,
+            //     vendor: role === "vendor" ? authContext?.userData?.email : formData.counter_party,
+            // })
+            const payload = {
+                contracts,
+                attachments,
+                end_date: formData.transaction_deadline,
+                budget: formData.transaction_value.value,
+                status: 7,
+                customer: role === "customer" ? authContext?.userData?.email : formData.counter_party,
+                vendor: role === "vendor" ? authContext?.userData?.email : formData.counter_party,
+            }
             if (formData.id) {
-                const resp = await AXIOS_INSTANCE.patch(`${CREATE_TRANSACTION_ENDPOINTS.UPDATE_TRANSACTION}/${formData.id}`, {
-                    contracts,
-                    attachments,
-                    end_date: formData.transaction_deadline,
-                    budget: formData.transaction_value.value,
-                    status: 1,
-                    customer: role === "customer" ? authContext?.userData?.email : formData.counter_party,
-                    vendor: role === "vendor" ? authContext?.userData?.email : formData.counter_party,
-                }, {
+                const resp = await AXIOS_INSTANCE.patch(`${CREATE_TRANSACTION_ENDPOINTS.UPDATE_TRANSACTION}/${formData.id}`, payload, {
                     headers: {
                         'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                     }
@@ -63,15 +70,7 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
                 setCurrentStep(4)
                 // toast.success("Transaction updated successfully")
             } else {
-                const resp = await AXIOS_INSTANCE.post(CREATE_TRANSACTION_ENDPOINTS.SAVE_TO_DRAFT, {
-                    contracts,
-                    attachments,
-                    end_date: formData.transaction_deadline,
-                    budget: formData.transaction_value.value,
-                    status: 7,
-                    customer: role === "customer" ? authContext?.userData?.email : formData.counter_party,
-                    vendor: role === "vendor" ? authContext?.userData?.email : formData.counter_party,
-                },
+                const resp = await AXIOS_INSTANCE.post(CREATE_TRANSACTION_ENDPOINTS.SAVE_TO_DRAFT, payload,
                     {
                         headers: {
                             'Authorization': `Bearer ${Cookies.get('accessToken')}`,
@@ -83,6 +82,14 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
                 // toast.success("Transaction saved to draft successfully")
             }
         } catch (error: Error | any) {
+            if (error.response.data.additional_message) {
+                error.response.data.additional_message.map(
+                    (message: {
+                        customer: Renderable | ValueFunction<Renderable, Toast>;
+                        vendor: Renderable | ValueFunction<Renderable, Toast>;
+                    }) => toast.error(message.customer ? message.customer : message.vendor))
+            }
+            // toast.error(error.response.data.message)
             console.log(error.response.data)
         } finally {
             setIsLoading(false)
@@ -114,6 +121,7 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
                                 setNoDateError(false)
                                 setFormData({ ...formData, transaction_deadline: value })
                             }}
+                            disabled={{ before: new Date() }}
                             initialFocus
                         />
                     </PopoverContent>

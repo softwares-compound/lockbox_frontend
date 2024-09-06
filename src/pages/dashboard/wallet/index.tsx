@@ -89,7 +89,7 @@ const Wallet: React.FC = () => {
                         <br />
                         <div className='text-center w-full md:w-[640px] text-lg '>
                             <p className='font-bold'>Note:</p>
-                            <p>These funds will be added to your wallet will be spend on contract creation.</p>
+                            <p>These funds will be added to your wallet and spent on contract creation.</p>
                             <br />
                             <br />
                             <Button variant="default" disabled={loading} onClick={() => {

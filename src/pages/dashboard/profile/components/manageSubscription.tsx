@@ -93,7 +93,7 @@ const ManageSubscription: React.FC = () => {
                                             <Button variant={updatedPlan === plan.id ? "default" : "outline"} onClick={() => setUpdatedPlan(plan.id)}>
                                                 {plan.price}
                                             </Button>
-                                            {authContext?.userData?.subscription === plan.id ? <p className='text-large text-brand/50'>Currency plan</p> : ""}
+                                            {authContext?.userData?.subscription === plan.id ? <p className='text-large text-brand/50'>Current plan</p> : ""}
                                         </div>
                                     </TableCell>
                                 </TableRow>
