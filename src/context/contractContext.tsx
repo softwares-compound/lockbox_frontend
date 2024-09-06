@@ -16,6 +16,13 @@ export interface ContractListType {
     };
 }
 
+export type FileWithExtension = {
+    key: string;
+    extension: string;
+    url: string;
+    file: File;  // Adding the actual File object
+};
+
 type ContractInfoType = {
     deadline: string | number | Date;
     id: number;
@@ -33,8 +40,8 @@ type ContractInfoType = {
         amount: number;
         filled: number;
     };
-    contract: string[];
-    attachments: string[];
+    contract: FileWithExtension[];
+    attachments: FileWithExtension[];
     end_date: string;
     budget: string;
     message: {
@@ -64,13 +71,6 @@ type ModalStateType = {
     reviewFeedback: boolean
     editTransaction: boolean
 }
-
-export type FileWithExtension = {
-    key: string;
-    extension: string;
-    url: string;
-    file: File;  // Adding the actual File object
-};
 
 type ContractContextType = {
     contract: ContractInfoType | null
@@ -162,8 +162,20 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 }
             });
-            setContract(resp.data.data);
-            // console.log(resp.data.data);
+            setContract({
+                id: resp.data.data.id,
+                customer: resp.data.data.customer,
+                vendor: resp.data.data.vendor,
+                lockbox: resp.data.data.lockbox,
+                contract: resp.data.data.contract,
+                attachments: resp.data.data.attachments,
+                deadline: "",
+                budget: resp.data.data.budget,
+                message: resp.data.data.message,
+                actions: resp.data.data.actions,
+                end_date: resp.data.data.end_date
+            });
+            // console.log(resp.data.data.contract[0].key);
             setIsContractLoading(false);
         } catch (error: Error | any) {
             toast.error("Failed to fetch contract");
@@ -171,7 +183,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             setIsContractLoading(false);
         }
     };
-
+    // console.log("contexttt  contractDataaa -----------==-=-=-=-=->>>>>", contract)
     const getContractList = async () => {
         try {
             setIsContractListLoading(true);
@@ -334,7 +346,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
     }
 
     const reviewFeedback = async (id: number) => {
-        console.log("review feedback", id)
+        // console.log("review feedback", id)
         try {
             setLoading({ ...loading, reviewFeedback: true });
             const resp = await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.REVIEW}/${id}`, {
