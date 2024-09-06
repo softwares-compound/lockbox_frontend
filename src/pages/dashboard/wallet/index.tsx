@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { loadStripe } from '@stripe/stripe-js';
 import { AXIOS_INSTANCE } from '@/config/axios';
 import Cookies from 'js-cookie';
+import toast from 'react-hot-toast';
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
 
 const Wallet: React.FC = () => {
@@ -18,10 +19,9 @@ const Wallet: React.FC = () => {
         formatted: string | undefined,
         value: string | undefined
     }>({
-        float: undefined,
-        formatted: "",
-        value: "",
-
+        float: 100,
+        formatted: "100",
+        value: "100",
     });
     const [transactionValueError, setTransactionValueError] = useState(false)
     const [loading, setLoading] = useState(false);
@@ -38,7 +38,18 @@ const Wallet: React.FC = () => {
                     Authorization: `Bearer ${Cookies.get("accessToken")}`
                 }
             })
-            console.log(resp)
+            const sessionId = resp.data.data.id
+            console.log(sessionId)
+            if (!stripe) {
+                toast.error("Failed to load stripe");
+                return;
+            }
+            const { error } = await stripe?.redirectToCheckout({ sessionId });
+            if (error) {
+                console.error('Error:', error);
+            }
+
+            stripe?.redirectToCheckout({ sessionId: resp.data.data.sessionId })
         } catch (error) {
             console.log(error)
         } finally {
@@ -77,6 +88,7 @@ const Wallet: React.FC = () => {
                                         })
                                     }}
                                     // min={100}
+                                    allowNegativeValue={false}
                                     className="flex h-10 w-full text-center rounded-3xl border-2 border-brand bg-background px-3 py-2 text-base md:text-xl ring-offset-background file:border-0 file:bg-transparent file:text-xl file:font-medium placeholder:text-brand/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 />
                                 <p className='text-red-500 text-base'>{transactionValueError ? "Please enter a value greater or equal to $100" : ""}</p>
