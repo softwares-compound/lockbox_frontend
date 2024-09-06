@@ -1,6 +1,6 @@
 import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import image from '@/assets/logo_full.png';
+import image from "@/assets/logo_full.png"
 import { AlignJustify } from "lucide-react";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
@@ -27,12 +27,13 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     return (
         <div className="text-base md:text-xl lg:text-xl">
             <nav className="flex items-center justify-between px-2 md:px-4 py-2 h-[10vh] bg-white dark:bg-gray-800">
-                <a onClick={() => navigate('/dashboard')} className="flex items-center gap-2">
+                <a onClick={() => navigate('/dashboard')} className="flex items-center gap-2 pb-2">
                     <img
                         src={image} // Replace with your logo path
                         alt="Logo"
                         // className="w-20 h-20 md:w-30 md:h-20" // Adjust size as needed
                         width={150} // Adjust size as needed
+                        className=""
                         onClick={() => navigate('/dashboard')}
                     />
                 </a>
