@@ -162,6 +162,7 @@ const EditTransaction: React.FC = () => {
                                     setNoDateError(false)
                                     setFormData({ ...formData, deadline: value })
                                 }}
+                                disabled={{ before: new Date() }}
                                 initialFocus={true}
                             />
                         </PopoverContent>
