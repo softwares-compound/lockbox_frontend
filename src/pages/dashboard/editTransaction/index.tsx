@@ -240,7 +240,7 @@ const EditTransaction: React.FC = () => {
                     {contractFileError && <p className="text-red-500 text-base">Contract file is required</p>}
                 </div>
                 <div className='my-4 py-2'>
-                    <Label htmlFor="counter_party" className='text-center text-brand'>upload addition attachments</Label>
+                    <Label htmlFor="counter_party" className='text-center text-brand'>upload additional attachments</Label>
                     <FileUploader
                         value={formData.additional_attachments.map((data) => data.file)}
                         onValueChange={(fileList) => {
