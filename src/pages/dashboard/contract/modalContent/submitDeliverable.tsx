@@ -74,7 +74,7 @@ const SubmitDeliverable: React.FC = () => {
     return (
         <div>
             <div className='py-2'>
-                <Label htmlFor="counter_party" className='text-center text-white'>tell the customer wht you did<span className="text-red-500">*</span></Label>
+                <Label htmlFor="counter_party" className='text-center text-white'>tell the customer what you did<span className="text-red-500">*</span></Label>
                 <Textarea
                     placeholder="start typing..."
                     value={formData.text}
