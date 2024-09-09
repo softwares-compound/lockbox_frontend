@@ -3,6 +3,7 @@ import { AXIOS_INSTANCE } from "@/config/axios";
 import Cookies from "js-cookie";
 import { createContext, useContext, useState } from "react";
 import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
 
 export interface ContractListType {
     id: number;
@@ -119,6 +120,8 @@ type ContractContextType = {
     setModalDataLoading: React.Dispatch<React.SetStateAction<boolean>>
     modalState: ModalStateType
     setModalState: React.Dispatch<React.SetStateAction<ModalStateType>>
+    contractListFilter: "customer" | "vendor" | "draft" | "completed_transaction" | string
+    setContractListFilter: React.Dispatch<React.SetStateAction<"customer" | "vendor" | "draft" | "completed_transaction" | string>>
 
 }
 
@@ -131,6 +134,8 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
     const [isContractLoading, setIsContractLoading] = useState(false);
     const [isSwitchedCustomer, setIsSwitchedCustomer] = useState(false);
     const [selectedContract, setSelectedContract] = useState<string>("");
+    const [searchParams] = useSearchParams();
+    const [contractListFilter, setContractListFilter] = useState<"customer" | "vendor" | "draft" | "completed_transaction" | string>("")
     const [loading, setLoading] = useState<LoadingTypes>({
         cancelTransaction: false,
         editTransaction: false, //-> modify
@@ -187,16 +192,24 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
     const getContractList = async () => {
         try {
             setIsContractListLoading(true);
-            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT_LIST}`, {
+            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT_LIST}${contractListFilter && contractListFilter === "completed_transaction" ? `?completed=${1}`
+                : contractListFilter === "draft" ? `?draft=${1}`
+                    : contractListFilter === "vendor" ? `?vendors=${1}` : ""
+                }`, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 }
             });
             setContractList(resp.data.data.results);
             // console.log("=========>>>", resp.data.data.results)
-            const firstContract = resp.data.data.results[0];
-            getContract(firstContract.id);
-            setSelectedContract(firstContract.id.toString());
+            if (searchParams.get("id")) {
+                getContract(Number(searchParams.get("id")));
+                setSelectedContract(searchParams.get("id")!.toString());
+            } else {
+                const firstContract = resp.data.data.results[0];
+                getContract(firstContract.id);
+                setSelectedContract(firstContract.id.toString());
+            }
             setIsContractListLoading(false);
         } catch (error: Error | any) {
             toast.error("Failed to fetch contract list");
@@ -448,6 +461,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         loading, setLoading,
         modalDataLoading, setModalDataLoading,
         modalState, setModalState,
+        contractListFilter, setContractListFilter,
     };
 
     return (

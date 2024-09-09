@@ -29,7 +29,7 @@ const Contract: React.FC = () => {
 
     useEffect(() => {
         void contractContext?.getContractList()
-    }, [])
+    }, [contractContext?.contractListFilter])
 
     return (
         <main className="w-full text-center text-2xl ">
@@ -54,7 +54,14 @@ const Contract: React.FC = () => {
                                     <Label htmlFor="type" className='text-white'>Customer</Label>
                                     <Switch
                                         checked={contractContext?.isSwitchedCustomer}
-                                        onChange={contractContext?.setIsSwitchedCustomer}
+                                        onChange={(value) => {
+                                            contractContext?.setIsSwitchedCustomer(value)
+                                            if (value === true) {
+                                                contractContext?.setContractListFilter("vendor")
+                                            } else {
+                                                contractContext?.setContractListFilter("customer")
+                                            }
+                                        }}
                                         className="group relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-indigo-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-offset-2 data-[checked]:bg-indigo-200"
                                     >
                                         <span
