@@ -125,6 +125,7 @@ const EditTransaction: React.FC = () => {
 
         // console.log(formData)
         await contractContext?.editTransaction(Number(contractContext?.contract?.id), formData as FormDataType)
+        navigate("/dashboard")
 
     }
     // console.log("=========", formData)
