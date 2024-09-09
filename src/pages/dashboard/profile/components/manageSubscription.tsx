@@ -87,7 +87,10 @@ const ManageSubscription: React.FC = () => {
                             {planList.map((plan) => (
                                 <TableRow key={plan.id}>
                                     <TableCell className="font-medium">{plan.tier}</TableCell>
-                                    <TableCell>{plan.details}</TableCell>
+                                    <TableCell>
+                                        <div>{plan.details}</div>
+                                        <div style={{color: "green" , fontSize: '1rem'}}>{plan.offer}</div>
+                                    </TableCell>
                                     <TableCell className="text-right">
                                         <div className='w-full'>
                                             <Button variant={updatedPlan === plan.id ? "default" : "outline"} onClick={() => setUpdatedPlan(plan.id)}>
