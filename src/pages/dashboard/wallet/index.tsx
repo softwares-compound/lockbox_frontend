@@ -25,6 +25,8 @@ const Wallet: React.FC = () => {
     });
     const [transactionValueError, setTransactionValueError] = useState(false)
     const [loading, setLoading] = useState(false);
+    
+    console.log("keeeey" , STRIPE_PUBLISHABLE_KEY);
 
     const handleSubmit = async () => {
         try {

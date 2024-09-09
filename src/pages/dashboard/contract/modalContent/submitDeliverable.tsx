@@ -22,7 +22,9 @@ const SubmitDeliverable: React.FC = () => {
         text: "",
         fileData: [],
     })
-    const [errors, setErrors] = useState<boolean>(false)
+    
+    const [errors, setErrors] = useState<{ text: boolean; file: boolean }>({ text: false, file: false })
+
 
     async function uploadFilesToUrls(filesWithUrl: FileWithExtension[]) {
         try {
@@ -65,30 +67,38 @@ const SubmitDeliverable: React.FC = () => {
     }
 
     const handleSubmit = async () => {
+        let hasError = false;
+
         if (formData.text === "") {
-            setErrors(true)
-            return
+            setErrors((prev) => ({ ...prev, text: true }))
+            hasError = true;
         }
+        if (formData.fileData.length === 0) {
+            setErrors((prev) => ({ ...prev, file: true }))
+            hasError = true;
+        }
+        if (hasError) return;
+
         await contractContext?.submitDeliverables(Number(contractContext?.contract?.id), formData as FormDataType)
     }
     return (
         <div>
             <div className='py-2'>
-                <Label htmlFor="counter_party" className='text-center text-white'>tell the customer wht you did<span className="text-red-500">*</span></Label>
+                <Label htmlFor="counter_party" className='text-center text-white'>tell the customer what you did<span className="text-red-500">*</span></Label>
                 <Textarea
                     placeholder="start typing..."
                     value={formData.text}
                     onChange={(e) => {
-                        setErrors(false)
+                        setErrors((prev) => ({ ...prev, text: false }))
                         setFormData({ ...formData, text: e.target.value })
                     }
                     }
                     rows={5}
                 />
-                {errors && <p className="text-red-500">This field is required</p>}
+                {errors.text && <p className="text-red-500">This field is required</p>}
             </div>
             <div className='py-2'>
-                <Label htmlFor="counter_party" className='text-center text-white'>upload deliverable/proof of work</Label>
+                <Label htmlFor="counter_party" className='text-center text-white'>upload deliverable/proof of work<span className="text-red-500">*</span></Label>
                 <FileUploader
                     value={formData.fileData.map((data) => data.file)}
                     onValueChange={(fileList) => {
@@ -100,6 +110,8 @@ const SubmitDeliverable: React.FC = () => {
                                 file: file,
                             }))
                             void getFileUploadUrls(dataToStore)
+                            setFormData((prev) => ({ ...prev, fileData: dataToStore }));
+                            setErrors((prev) => ({ ...prev, file: false }));  // Clear errors on successful upload
                         }
                     }}
                     dropzoneOptions={{ multiple: true, maxFiles: 100, maxSize: 10 * 1024 * 1024 * 1024 }}
@@ -123,6 +135,7 @@ const SubmitDeliverable: React.FC = () => {
                         </div>
                     </FileUploaderContent>
                 </FileUploader>
+                {errors.file && <p className="text-red-500">This field is required</p>}
             </div>
             <Button
                 type="submit"
