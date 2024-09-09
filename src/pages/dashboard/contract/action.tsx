@@ -29,7 +29,15 @@ const Action: React.FC = () => {
                         <Button
                             variant="outline"
                             className=' border hover:text-white w-full '
-                            onClick={() => contractContext.cancelTransaction(Number(contractContext?.contract?.id))}
+                            onClick={async () => {
+                                try {
+                                  await contractContext.cancelTransaction(Number(contractContext?.contract?.id));
+                                  // Refresh the page after the transaction is canceled
+                                  window.location.reload();
+                                } catch (error) {
+                                  console.error("Failed to cancel the transaction", error);
+                                }
+                              }}
                             disabled={contractContext.loading.cancelTransaction}
                         >
                             {
