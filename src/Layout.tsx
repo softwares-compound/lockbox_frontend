@@ -24,7 +24,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             <div className='flex-1 flex flex-col overflow-hidden'>
                 <div className='md:hidden flex justify-between items-center p-4 bg-neutral-50'>
                     <Link className="flex items-center gap-2 text-neutral-600" to="#">
-                        <img src={logo} width="100" height="50" />
+                        <img src={logo} style={{ width: '80px', height: 'auto' }} />
                     </Link>
                     <button onClick={toggleSidebar} className='text-neutral-600'>
                         {
