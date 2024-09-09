@@ -33,7 +33,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                         src={image} // Replace with your logo path
                         alt="Logo"
                         // className="w-20 h-20 md:w-30 md:h-20" // Adjust size as needed
-                        width={150} // Adjust size as needed
+                        width={80} // Adjust size as needed
                         className=""
                         onClick={() => navigate('/dashboard')}
                     />
@@ -78,8 +78,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                     </SheetClose>
                                 </div>
                                 <div className="flex flex-col gap-2 md:gap-4">
-                                    <SheetClose onClick={() => contractContext?.setContractListFilter("completed_transaction")} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
-                                        Complete transactions
+
                                     </SheetClose>
                                     {/* <button onClick={() => navigate('/create-transaction')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Manage payment methods

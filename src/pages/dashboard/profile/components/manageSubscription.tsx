@@ -16,11 +16,11 @@ import Cookies from 'js-cookie';
 import { Loader2 } from 'lucide-react';
 import { SubscriptionListType } from '../type';
 import toast from 'react-hot-toast';
-import { useAuth } from '@/context/authContext';
+// import { useAuth } from '@/context/authContext';
 
 
 const ManageSubscription: React.FC = () => {
-    const authContext = useAuth();
+    // const authContext = useAuth();
     const [updatedPlan, setUpdatedPlan] = useState(1);
     const [isTableLoading, setIsTableLoading] = useState(true);
     const [isUpdateSubscriptionLoading, setIsUpdateSubscriptionLoading] = useState(false);
@@ -93,7 +93,7 @@ const ManageSubscription: React.FC = () => {
                                             <Button variant={updatedPlan === plan.id ? "default" : "outline"} onClick={() => setUpdatedPlan(plan.id)}>
                                                 {plan.price}
                                             </Button>
-                                            {authContext?.userData?.subscription === plan.id ? <p className='text-large text-brand/50'>Current plan</p> : ""}
+                                            
                                         </div>
                                     </TableCell>
                                 </TableRow>
