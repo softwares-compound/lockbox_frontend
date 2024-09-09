@@ -185,6 +185,7 @@ const EditTransaction: React.FC = () => {
                             placeholder="eg: 10,000"
                             // defaultValue={""}
                             decimalsLimit={2}
+                            prefix="$"
                             value={formData.transaction_value.value}
                             onValueChange={(_value, _name, values) => {
                                 setTransactionValueError(false)

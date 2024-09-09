@@ -114,7 +114,7 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
                     </div>
                     <div>
                         <Label htmlFor="phone" className=''>Transaction value</Label>
-                        <p className="placeholder:text-brand/40 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">${formData.transaction_value.formatted} </p>
+                        <p className="placeholder:text-brand/40 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">{formData.transaction_value.formatted} </p>
                     </div>
                     <div className='overflow-hidden'>
                         <Label htmlFor="phone" className=''>Attachments</Label>
