@@ -77,7 +77,7 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
                         }
                     }
                 )
-                console.log(resp.data.data)
+                setFormData({ ...formData, id: resp.data.data.id })
                 setCurrentStep(4)
                 // toast.success("Transaction saved to draft successfully")
             }
