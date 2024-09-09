@@ -15,7 +15,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                     <img
                         src={image} // Replace with your logo path
                         alt="Logo"
-                        width={80} // Adjust size as needed
+                        width={150} // Adjust size as needed
                         height={150} // Adjust size as needed
                         onClick={() => navigate('/sign-in')}
                     />
