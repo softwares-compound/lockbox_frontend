@@ -15,6 +15,7 @@ import { MoveLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ManageSubscription from './components/manageSubscription';
 import { addEllipsis } from '@/lib/utils';
+import ManageProfile from './components/manageProfile';
 
 
 const ProfilePage: React.FC = () => {
@@ -25,7 +26,24 @@ const ProfilePage: React.FC = () => {
         <div className='w-full text-start text-brand pb-10'>
             <div className='mt-4 mb-5 md:-mb-10 flex justify-between px-4'>
                 <button className='flex items-center gap-2 font-bold' onClick={() => navigate("/dashboard")}><MoveLeft className="h-5 w-5" /><p>Back</p></button>
-                <div><Button variant="outline">Edit profile</Button></div>
+                <div>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" className='w-full border-2 border-brand text-brand'>Edit profile</Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-full md:w-2/3 lg:w-2/4 xl:w-1/2" >
+                            <DialogHeader>
+                                <DialogTitle className=" text-2xl md:text-3xl font-semibold text-brand px-2">Edit profile</DialogTitle>
+                                <DialogDescription className="text-base text-brand/50 px-2">
+                                    edit your compony logo and name
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="py-2">
+                                <ManageProfile />
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+                </div>
             </div>
             <div className="px-4 space-y-6 md:px-6">
                 <header className="space-y-1.5 flex justify-center">

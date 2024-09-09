@@ -6,6 +6,19 @@ import { AUTH_ENDPOINTS } from "@/config/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
+export type FileWithExtension = {
+    key: string;
+    extension: string;
+    url: string;
+    file: File;  // Adding the actual File object
+};
+
+export type FileUploadApiResponse = {
+    key: string;
+    extension: string;
+    url: string;
+};
+
 type UserData = {
     id?: number;
     email: string;
@@ -30,6 +43,7 @@ type UserAuth = {
     verifyOtp: (otp: string) => Promise<void>;
     resetPassword: (newPassword: string) => Promise<void>;
     logout: () => void;
+    editProfile: (formData: { file: FileWithExtension, name: string }) => Promise<void>;
 };
 
 const AuthContext = createContext<UserAuth | null>(null);
@@ -124,6 +138,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             await AXIOS_INSTANCE.post("auth/reset_password/", formData);
             toast.success("Password reset successfully", { id: "password" });
+            window.location.reload();
         } catch (error: any) {
             if (error.response) {
                 handleErrors(error.response.data as ErrorResponse);
@@ -141,6 +156,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         toast.success("Logged Out Successfully", { id: "logout" });
     };
 
+    const editProfile = async (formData: { file: FileWithExtension, name: string }) => {
+        try {
+            const res = await AXIOS_INSTANCE.put("auth/edit_profile/", formData);
+            const data = res.data.data;
+            setUserData(data);
+            toast.success("Profile updated successfully", { id: "profile" });
+        } catch (error: any) {
+            if (error.response) {
+                handleErrors(error.response.data as ErrorResponse);
+            }
+            return error;
+        }
+    };
     const value = {
         userData,
         setUserData,
@@ -152,6 +180,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         verifyOtp,
         resetPassword,
         logout,
+        editProfile,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
