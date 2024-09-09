@@ -10,8 +10,8 @@ const ContractStatus: React.FC = () => {
 
         <div className=" bg-white text-brand ">
             <div className="mt-[3px] px-2 md:px-20 ">
-                <p className='text-2xl md:text-3xl'>
-                    Review transaction request to
+                <p className='text-2xl md:text-3xl font-semibold'>
+                    transaction request
                 </p>
                 <div className='my-12'>
                     <div className='mx-auto max-w-3xl flex justify-between items-center'>
