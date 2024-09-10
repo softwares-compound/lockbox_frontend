@@ -33,8 +33,10 @@ const ManageProfile: React.FC = () => {
     // const [isLoading, setIsLoading] = useState<boolean>(false)
     const [filesWithUrl, setFilesWithUrl] = useState<FileWithExtension[]>([])
     const [name, setName] = useState<string>(authContext?.userData?.name || '')
+    const [companyName, setCompanyName] = useState<string>(authContext?.userData?.company || '')
     const [noProfileImageError, setNoProfileImageError] = useState<boolean>(false)
     const [noNameError, setNoNameError] = useState<boolean>(false)
+    const [noCompanyNameError, setNoCompanyNameError] = useState<boolean>(false)
 
     async function uploadFilesToUrls(filesWithKeyAndUrl: FileWithExtension[]) {
         try {
@@ -88,8 +90,11 @@ const ManageProfile: React.FC = () => {
             setNoProfileImageError(true)
             return
         }
-        await authContext?.editProfile({ file: filesWithUrl[0], name: name })
-
+        if (!companyName) {
+            setNoCompanyNameError(true)
+            return
+        }
+        await authContext?.editProfile({ file: filesWithUrl[0], name: name, company: companyName })
     }
     return (
         <div className='text-center'>
@@ -147,6 +152,21 @@ const ManageProfile: React.FC = () => {
                     }}
                 />
                 {noNameError && <p className="text-red-500 text-base">{"Name is required"}</p>}
+            </div>
+
+            <div className='text-brand'>
+                <Label htmlFor="counter_party">Company Name<span className="text-red-500">*</span></Label>
+                <Input
+                    className="text-center mx-auto my-2"
+                    placeholder=''
+                    disabled={false}
+                    value={companyName}
+                    onChange={(e) => {
+                        setCompanyName(e.target.value)
+                        setNoCompanyNameError(false)
+                    }}
+                />
+                {noCompanyNameError && <p className="text-red-500 text-base">{"Company name is required"}</p>}
             </div>
 
             <div className=''>

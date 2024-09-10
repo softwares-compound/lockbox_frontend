@@ -43,7 +43,7 @@ type UserAuth = {
     verifyOtp: (otp: string) => Promise<void>;
     resetPassword: (newPassword: string) => Promise<void>;
     logout: () => void;
-    editProfile: (formData: { file: FileWithExtension, name: string }) => Promise<void>;
+    editProfile: (formData: { file: FileWithExtension, name: string, company: string }) => Promise<void>;
 };
 
 const AuthContext = createContext<UserAuth | null>(null);
@@ -156,7 +156,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         toast.success("Logged Out Successfully", { id: "logout" });
     };
 
-    const editProfile = async (formData: { file: FileWithExtension, name: string }) => {
+    const editProfile = async (formData: { file: FileWithExtension, name: string, company: string }) => {
         try {
             const res = await AXIOS_INSTANCE.put("auth/edit_profile/", formData);
             const data = res.data.data;
