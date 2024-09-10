@@ -113,7 +113,7 @@ const EditDeliverable: React.FC = () => {
                         <div className='py-2'>
                             <Label htmlFor="counter_party" className='text-center text-white'>upload deliverable/proof of work</Label>
                             <FileUploader
-                                value={formData.fileData.map((data) => data.file)}
+                                value={[]}
                                 onValueChange={(fileList) => {
                                     if (fileList && fileList.length) {
                                         const dataToStore = fileList.map((file) => ({
