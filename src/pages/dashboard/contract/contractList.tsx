@@ -1,12 +1,14 @@
 import { useContract } from '@/context/contractContext'
 import React from 'react'
+import "./../../../App.css";
 
 // type Props = {}
+
 
 const ContractList: React.FC = () => {
     const contractContext = useContract()
     return (
-        <div className="overflow-auto  md:h-[80vh] h-[70vh] rounded-t-3xl px-4">
+        <div className="overflow-auto hide-scrollbar md:h-[80vh] h-[70vh] rounded-t-3xl px-4" >
             {
                 contractContext?.contractList?.map((contract, index) => (
                     <button
