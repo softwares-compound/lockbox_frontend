@@ -35,12 +35,12 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                         // className="w-20 h-20 md:w-30 md:h-20" // Adjust size as needed
                         width={150} // Adjust size as needed
                         className=""
-                        onClick={() => navigate('/dashboard')}
+                        onClick={() => window.location.reload()}
                     />
                 </a>
                 <div className="flex items-center gap-4">
                     <div className="hidden md:block">
-                        <Button variant="outline" onClick={() => contractContext?.setContractListFilter("draft")}>Transaction drafts</Button>
+                        <Button variant="outline" onClick={() => contractContext?.setContractListFilter((prev) => ({ ...prev, draft: true, completed_transactions: false }))}>Transaction drafts</Button>
                     </div>
                     <div className="hidden md:block">
                         <Button variant="default" onClick={() => navigate('/create-transaction')}>Create new transactions</Button>
@@ -88,7 +88,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                     </SheetClose>
                                 </div>
                                 <div className="flex flex-col gap-2 md:gap-4">
-                                    <SheetClose onClick={() => contractContext?.setContractListFilter("completed_transaction")} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
+                                    <SheetClose onClick={() => contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: true, draft: false }))} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Complete transactions
                                     </SheetClose>
                                     {/* <button onClick={() => navigate('/create-transaction')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
@@ -114,7 +114,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                             </Dialog>
                                         </div>
                                     </div>
-                                    <SheetClose onClick={() => contractContext?.setContractListFilter("draft")} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
+                                    <SheetClose onClick={() => contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: true, draft: false }))} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Transaction drafts
                                     </SheetClose>
                                     <SheetClose onClick={() => navigate('/create-transaction')} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">

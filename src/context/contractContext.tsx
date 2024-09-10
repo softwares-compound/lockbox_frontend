@@ -1,7 +1,7 @@
 import { CONTRACT_ACTIONS_ENDPOINTS, CONTRACTS_ENDPOINTS } from "@/config/api";
 import { AXIOS_INSTANCE } from "@/config/axios";
 import Cookies from "js-cookie";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 
@@ -73,6 +73,13 @@ type ModalStateType = {
     editTransaction: boolean
 }
 
+type Filter = {
+    customer: boolean
+    vendor: boolean
+    draft: boolean
+    completed_transaction: boolean
+
+}
 type ContractContextType = {
     contract: ContractInfoType | null
     contractList: ContractListType[]
@@ -120,9 +127,8 @@ type ContractContextType = {
     setModalDataLoading: React.Dispatch<React.SetStateAction<boolean>>
     modalState: ModalStateType
     setModalState: React.Dispatch<React.SetStateAction<ModalStateType>>
-    contractListFilter: "customer" | "vendor" | "draft" | "completed_transaction" | string
-    setContractListFilter: React.Dispatch<React.SetStateAction<"customer" | "vendor" | "draft" | "completed_transaction" | string>>
-
+    contractListFilter: Filter
+    setContractListFilter: React.Dispatch<React.SetStateAction<Filter>>
 }
 
 const ContractContext = createContext<ContractContextType | null>(null);
@@ -135,7 +141,12 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
     const [isSwitchedCustomer, setIsSwitchedCustomer] = useState(false);
     const [selectedContract, setSelectedContract] = useState<string>("");
     const [searchParams] = useSearchParams();
-    const [contractListFilter, setContractListFilter] = useState<"customer" | "vendor" | "draft" | "completed_transaction" | string>("")
+    const [contractListFilter, setContractListFilter] = useState<Filter>({
+        customer: true,
+        vendor: false,
+        draft: false,
+        completed_transaction: false
+    })
     const [loading, setLoading] = useState<LoadingTypes>({
         cancelTransaction: false,
         editTransaction: false, //-> modify
@@ -183,7 +194,20 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             // console.log(resp.data.data.contract[0].key);
             setIsContractLoading(false);
         } catch (error: Error | any) {
-            toast.error("Failed to fetch contract");
+            // toast.error("Failed to fetch contract");
+            setContract({
+                id: 0,
+                customer: { id: 0, name: "", filled: 0 },
+                vendor: { id: 0, name: "", filled: 0 },
+                lockbox: { amount: 0, filled: 0 },
+                contract: [],
+                attachments: [],
+                deadline: "",
+                budget: "",
+                message: { text: "", hex: "", step: 0 },
+                actions: [],
+                end_date: ""
+            });
         } finally {
             setIsContractLoading(false);
         }
@@ -191,15 +215,48 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
     const getContractList = async () => {
         try {
             setIsContractListLoading(true);
-            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT_LIST}${contractListFilter && contractListFilter === "completed_transaction" ? `?completed=${1}`
-                : contractListFilter === "draft" ? `?draft=${1}`
-                    : contractListFilter === "vendor" ? `?vendors=${1}` : ""
-                }`, {
+            // Construct the query parameters based on the selected filters
+            const queryParams = (Object.keys(contractListFilter) as Array<keyof Filter>)  // Ensures you're accessing valid Filter keys
+                .filter(key => contractListFilter[key])  // Filter only the true values
+                .map(key => {
+                    switch (key) {
+                        case 'completed_transaction':
+                            return 'completed=1';
+                        case 'draft':
+                            return 'draft=1';
+                        case 'vendor':
+                            return 'vendors=1';
+                        default:
+                            return null;
+                    }
+                })
+                .filter(Boolean)  // Remove any null values
+                .join('&'); // Join with '&' to form the query string
+
+            const queryString = queryParams ? `?${queryParams}` : '';
+            const resp = await AXIOS_INSTANCE.get(`${CONTRACTS_ENDPOINTS.GET_CONTRACT_LIST}${queryString}`, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 }
             });
             setContractList(resp.data.data.results);
+            if (resp.data.data.results.length === 0) {
+                toast.error("No contracts found");
+                setContract({
+                    id: 0,
+                    customer: { id: 0, name: "", filled: 0 },
+                    vendor: { id: 0, name: "", filled: 0 },
+                    lockbox: { amount: 0, filled: 0 },
+                    contract: [],
+                    attachments: [],
+                    deadline: "",
+                    budget: "",
+                    message: { text: "", hex: "", step: 0 },
+                    actions: [],
+                    end_date: ""
+                });
+                return
+            }
             // console.log("=========>>>", resp.data.data.results)
             if (searchParams.get("id")) {
                 getContract(Number(searchParams.get("id")));
@@ -218,6 +275,10 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
 
     };
 
+    useEffect(() => {
+        void getContractList()
+    }, [contractListFilter])
+
     const cancelTransaction = async (id: number) => {
         try {
             setLoading({ ...loading, cancelTransaction: true });
@@ -234,7 +295,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             toast.error("Failed to cancel contract");
         } finally {
             setLoading({ ...loading, cancelTransaction: false });
-            getContract(id);
+            // getContract(id);
             // getContractList();
         }
     }
