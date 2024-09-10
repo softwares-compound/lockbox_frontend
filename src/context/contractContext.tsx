@@ -188,7 +188,6 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             setIsContractLoading(false);
         }
     };
-    // console.log("contexttt  contractDataaa -----------==-=-=-=-=->>>>>", contract)
     const getContractList = async () => {
         try {
             setIsContractListLoading(true);

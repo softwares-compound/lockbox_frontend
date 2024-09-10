@@ -41,7 +41,7 @@ const Contract: React.FC = () => {
             >
                 <Loader2 className="mx-auto h-10 w-10 text-brand animate-spin" />
             </Modal>
-            <div className="mx-auto w-full  ">
+            <div className="mx-auto w-full ">
                 <h1 className="sr-only">Page title</h1>
                 {/* Main 3 column grid */}
                 <div className="grid grid-cols-1 items-start lg:grid-cols-3 lg:gap-0 ">
