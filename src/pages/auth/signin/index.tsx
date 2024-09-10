@@ -56,7 +56,7 @@ export function Signin() {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <CardContent className="grid gap-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">Email<span className="text-red-500">*</span></Label>
                             <Input
                                 id="email"
                                 type="email"

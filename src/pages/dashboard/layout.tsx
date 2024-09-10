@@ -89,7 +89,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                 </div>
                                 <div className="flex flex-col gap-2 md:gap-4">
                                     <SheetClose onClick={() => contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: true, draft: false }))} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
-                                        Complete transactions
+                                        Completed transactions
                                     </SheetClose>
                                     {/* <button onClick={() => navigate('/create-transaction')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Manage payment methods
