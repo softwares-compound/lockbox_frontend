@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@headlessui/react'
 import ContractList from './contractList'
@@ -27,10 +27,6 @@ const customStyles = {
 const Contract: React.FC = () => {
     const contractContext = useContract()
 
-    useEffect(() => {
-        void contractContext?.getContractList()
-    }, [contractContext?.contractListFilter])
-
     return (
         <main className="w-full text-center text-2xl ">
             <Modal
@@ -57,9 +53,9 @@ const Contract: React.FC = () => {
                                         onChange={(value) => {
                                             contractContext?.setIsSwitchedCustomer(value)
                                             if (value === true) {
-                                                contractContext?.setContractListFilter("vendor")
+                                                contractContext?.setContractListFilter((prev) => ({ ...prev, vendor: true, customer: false }))
                                             } else {
-                                                contractContext?.setContractListFilter("customer")
+                                                contractContext?.setContractListFilter((prev) => ({ ...prev, vendor: false, customer: true }))
                                             }
                                         }}
                                         className="group relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-indigo-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:ring-offset-2 data-[checked]:bg-indigo-200"

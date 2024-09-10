@@ -170,7 +170,7 @@ const EditTransaction: React.FC = () => {
             <div className='my-4 py-2'>
                 <Label htmlFor="counter_party" className='text-center text-white'>upload contract<span className="text-red-500 text-base">*</span></Label>
                 <FileUploader
-                    value={formData.contract_file.map((data) => data.file)}
+                    value={[]}
                     onValueChange={(fileList) => {
                         if (fileList && fileList.length) {
                             const dataToStore = fileList.map((file) => ({
@@ -209,7 +209,7 @@ const EditTransaction: React.FC = () => {
             <div className='my-4 py-2'>
                 <Label htmlFor="counter_party" className='text-center text-white'>upload additional attachments</Label>
                 <FileUploader
-                    value={formData.additional_attachments.map((data) => data.file)}
+                    value={[]}
                     onValueChange={(fileList) => {
                         if (fileList && fileList.length) {
                             const dataToStore = fileList.map((file) => ({
