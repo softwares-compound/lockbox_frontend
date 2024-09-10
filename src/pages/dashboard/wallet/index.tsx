@@ -9,6 +9,14 @@ import { loadStripe } from '@stripe/stripe-js';
 import { AXIOS_INSTANCE } from '@/config/axios';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
+import ManageSubscription from '../profile/components/manageSubscription';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog"
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
 
 const Wallet: React.FC = () => {
@@ -25,8 +33,10 @@ const Wallet: React.FC = () => {
     });
     const [transactionValueError, setTransactionValueError] = useState(false)
     const [loading, setLoading] = useState(false);
+    // const [showSubscription, setShowSubscription] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     
-    console.log("keeeey" , STRIPE_PUBLISHABLE_KEY);
+    // console.log("keeeey" , STRIPE_PUBLISHABLE_KEY);
 
     const handleSubmit = async () => {
         try {
@@ -59,6 +69,10 @@ const Wallet: React.FC = () => {
         }
     };
 
+    const handleSubscribeClick = () => {
+        setIsDialogOpen(true);
+      };
+
     return (
         <div className='w-full text-start text-brand pb-10'>
             <div className='mt-4 mb-5 md:-mb-10 flex justify-between px-4'>
@@ -80,6 +94,7 @@ const Wallet: React.FC = () => {
                                     placeholder="eg: $10,000"
                                     // defaultValue={""}
                                     decimalsLimit={2}
+                                    prefix="$"
                                     value={transactionValue.value}
                                     onValueChange={(_value, _name, values) => {
                                         setTransactionValueError(false)
@@ -97,7 +112,37 @@ const Wallet: React.FC = () => {
                             </div>
                         </div>
                         <div>
-                            <p className=''>save up to $800 by <a href="#" className='text-brand underline'>subscribe today</a></p>
+                                <div>
+                                    <p className=''>
+                                        Save up to $800 by{' '}
+                                        <a
+                                            href="#"
+                                            className='text-brand underline'
+                                            onClick={handleSubscribeClick} // Open dialog on click
+                                        >
+                                            subscribe today
+                                        </a>
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                        <DialogContent className="max-w-full md:w-2/3 lg:w-2/4 xl:w-1/2">
+                                            <DialogHeader>
+                                                <DialogTitle className=" text-2xl md:text-3xl font-semibold text-brand px-2">
+                                                    Manage Subscription
+                                                </DialogTitle>
+                                                <DialogDescription className="text-base text-brand/50 px-2">
+                                                    Subscribe and save on this transaction
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <div className="py-2">
+                                                <ManageSubscription /> {/* Render your ManageSubscription component inside the dialog */}
+                                            </div>
+                                        </DialogContent>
+                                </Dialog>
+                                </div>
+                            
                         </div>
                         <br />
                         <br />
