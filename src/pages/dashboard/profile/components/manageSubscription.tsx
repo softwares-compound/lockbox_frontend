@@ -21,10 +21,18 @@ import toast from 'react-hot-toast';
 
 const ManageSubscription: React.FC = () => {
     // const authContext = useAuth();
-    const [updatedPlan, setUpdatedPlan] = useState(1);
+    const [updatedPlan, setUpdatedPlan] = useState<number | null>(null);
     const [isTableLoading, setIsTableLoading] = useState(true);
     const [isUpdateSubscriptionLoading, setIsUpdateSubscriptionLoading] = useState(false);
     const [planList, setPlanList] = useState<SubscriptionListType[]>([]);
+
+    useEffect(() => {
+            const savedPlan = localStorage.getItem('selectedPlan');
+            if (savedPlan) {
+                setUpdatedPlan(Number(savedPlan)); 
+            }
+            void getSubscriptionList();
+    }, []);
 
     const getSubscriptionList = async () => {
         try {
@@ -43,11 +51,14 @@ const ManageSubscription: React.FC = () => {
             setIsTableLoading(false)
         }
     }
-    useEffect(() => {
-        void getSubscriptionList()
-    }, [])
+    
+    const handlePlanSelection = (planId: number) => {
+        setUpdatedPlan(planId);
+        localStorage.setItem('selectedPlan', planId.toString()); // Save selected plan to localStorage
+    };
 
     const handleUpdateSubscription = async () => {
+        if (updatedPlan === null) return;
         try {
             setIsUpdateSubscriptionLoading(true)
             await AXIOS_INSTANCE.patch(`${SUBSCRIPTION_ENDPOINTS.SUBSCRIPTION_UPDATE}/${updatedPlan}`, {
@@ -93,7 +104,7 @@ const ManageSubscription: React.FC = () => {
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className='w-full'>
-                                            <Button variant={updatedPlan === plan.id ? "default" : "outline"} onClick={() => setUpdatedPlan(plan.id)}>
+                                            <Button variant={updatedPlan === plan.id ? "default" : "outline"} onClick={() => handlePlanSelection(plan.id)}>
                                                 {plan.price}
                                             </Button>
                                             
