@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { X } from 'lucide-react'
+import { Loader2, X } from 'lucide-react'
 import {
     FileUploader,
     FileInput,
@@ -28,9 +28,9 @@ export type FileUploadApiResponse = {
     url: string;
 };
 
-const ManageProfile: React.FC = () => {
+const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetStateAction<boolean>> }> = ({ setOpenManageProfile }) => {
     const authContext = useAuth()
-    // const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [filesWithUrl, setFilesWithUrl] = useState<FileWithExtension[]>([])
     const [name, setName] = useState<string>(authContext?.userData?.name || '')
     const [companyName, setCompanyName] = useState<string>(authContext?.userData?.company || '')
@@ -94,7 +94,12 @@ const ManageProfile: React.FC = () => {
             setNoCompanyNameError(true)
             return
         }
-        await authContext?.editProfile({ file: filesWithUrl[0], name: name, company: companyName })
+        setIsLoading(true)
+        const result = await authContext?.editProfile({ file: filesWithUrl[0], name: name, company: companyName })
+        setIsLoading(false)
+        if (result === true) {
+            setOpenManageProfile(false)
+        }
     }
     return (
         <div className='text-center'>
@@ -180,8 +185,8 @@ const ManageProfile: React.FC = () => {
             </div>
 
             <div className='mt-10'>
-                <Button type="submit" variant="default" className='px-10' onClick={handleSubmit}>
-                    Submit
+                <Button type="submit" variant="default" className='px-10' onClick={handleSubmit} disabled={isLoading}>
+                    {isLoading ? <Loader2 className="w-4 h-4 mx-auto animate-spin" /> : "Submit"}
                 </Button>
             </div>
         </div>

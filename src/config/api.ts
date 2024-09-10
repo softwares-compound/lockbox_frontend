@@ -1,6 +1,7 @@
 export const AUTH_ENDPOINTS = {
     LOGIN: "auth/v1/login",
     REGISTER: "auth/v1/registration",
+    UPDATE_PROFILE: "auth/v1/user/1",
     FORGOT_PASSWORD: "/forgot-password",
     RESET_PASSWORD: "/reset-password",
     RESET_PASSWORD_TOKEN_VERIFY: "/reset-password/token",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useAuth } from '@/context/authContext';
@@ -21,15 +21,15 @@ import ManageProfile from './components/manageProfile';
 const ProfilePage: React.FC = () => {
     const authContext = useAuth();
     const navigate = useNavigate();
-
+    const [openManageProfile, setOpenManageProfile] = useState(false);
     return (
         <div className='w-full text-start text-brand pb-10'>
             <div className='mt-4 mb-5 md:-mb-10 flex justify-between px-4'>
                 <button className='flex items-center gap-2 font-bold' onClick={() => navigate("/dashboard")}><MoveLeft className="h-5 w-5" /><p>Back</p></button>
                 <div>
-                    <Dialog>
+                    <Dialog open={openManageProfile} onOpenChange={() => setOpenManageProfile(!openManageProfile)}>
                         <DialogTrigger asChild>
-                            <Button variant="outline" className='w-full border-2 border-brand text-brand'>Edit profile</Button>
+                            <Button variant="outline" className='w-full border-2 border-brand text-brand' onClick={() => setOpenManageProfile(true)}>Edit profile</Button>
                         </DialogTrigger>
                         <DialogContent className="max-w-full md:w-2/3 lg:w-2/4 xl:w-1/2" >
                             <DialogHeader>
@@ -39,7 +39,7 @@ const ProfilePage: React.FC = () => {
                                 </DialogDescription>
                             </DialogHeader>
                             <div className="py-2">
-                                <ManageProfile />
+                                <ManageProfile setOpenManageProfile={setOpenManageProfile} />
                             </div>
                         </DialogContent>
                     </Dialog>
@@ -49,14 +49,22 @@ const ProfilePage: React.FC = () => {
                 <header className="space-y-1.5 flex justify-center">
                     <div className="flex flex-col items-center space-y-4">
                         <h1 className="text-3xl font-bold">Account settings</h1>
-                        <img
-                            src="https://via.placeholder.com/150x150"
-                            alt="Avatar"
-                            width="150"
-                            height="150"
-                            className="border rounded-full"
-                            style={{ aspectRatio: "150/150", objectFit: "cover" }}
-                        />
+                        <div className="w-fit border-2 border-brand rounded-full flex justify-center items-center">
+                            <img
+                                src={authContext?.userData?.images}
+                                alt="Avatar"
+                                width="150"
+                                height="150"
+                                className=" rounded-full"
+                                style={{
+                                    aspectRatio: "150/150",
+                                    objectFit: "cover",
+                                    objectPosition: "center",
+                                    display: "block",
+                                    margin: "0 auto",
+                                }}
+                            />
+                        </div>
                         <div className="space-y-1.5">
                             <p className="font-semibold text-2xl">{authContext?.userData?.company}</p>
                         </div>

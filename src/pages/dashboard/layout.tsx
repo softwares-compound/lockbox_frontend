@@ -59,7 +59,17 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                     onClick={() => navigate('/profile')}
                                 >
                                     <div className="rounded-full border-2 border-brand">
-                                        <img src="https://via.placeholder.com/60" alt="" className="rounded-full" width={80} height={80} />
+                                        <img src={authContext?.userData?.images} style={{
+                                            aspectRatio: "80/80",
+                                            objectFit: "cover",
+                                            objectPosition: "center",
+                                            display: "block",
+                                            margin: "0 auto",
+                                        }}
+                                            alt=""
+                                            className="rounded-full"
+                                            width={80}
+                                            height={80} />
                                     </div>
                                     <div className="">
                                         <p className="font-medium  text-xl  md:text-2xl">{authContext?.userData?.company}</p>
