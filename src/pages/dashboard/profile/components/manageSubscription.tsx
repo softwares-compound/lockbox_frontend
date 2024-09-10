@@ -54,7 +54,7 @@ const ManageSubscription: React.FC = () => {
     
     const handlePlanSelection = (planId: number) => {
         setUpdatedPlan(planId);
-        localStorage.setItem('selectedPlan', planId.toString()); // Save selected plan to localStorage
+        localStorage.setItem('selectedPlan', planId.toString()); // Save selected plan to localStorage         
     };
 
     const handleUpdateSubscription = async () => {
@@ -74,6 +74,7 @@ const ManageSubscription: React.FC = () => {
             toast.error(error.response.data.message)
         } finally {
             setIsUpdateSubscriptionLoading(false)
+            window.location.reload();
         }
     }
     return (
