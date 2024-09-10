@@ -29,7 +29,15 @@ const Action: React.FC = () => {
                         <Button
                             variant="outline"
                             className=' border hover:text-white w-full '
-                            onClick={() => contractContext.cancelTransaction(Number(contractContext?.contract?.id))}
+                            onClick={async () => {
+                                try {
+                                  await contractContext.cancelTransaction(Number(contractContext?.contract?.id));
+                                  // Refresh the page after the transaction is canceled
+                                  window.location.reload();
+                                } catch (error) {
+                                  console.error("Failed to cancel the transaction", error);
+                                }
+                              }}
                             disabled={contractContext.loading.cancelTransaction}
                         >
                             {
@@ -176,7 +184,7 @@ const Action: React.FC = () => {
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[425px] bg-brand text-white border-2 border-white">
                                 <DialogHeader>
-                                    <DialogTitle className=" text-xl md:text-2xl text-center font-semibold text-white px-2">submit transaction details</DialogTitle>
+                                    <DialogTitle className=" text-xl md:text-2xl text-center font-semibold text-white px-2">submit deliverables</DialogTitle>
                                     {/* <DialogDescription className="text-base text-brand/50 px-2">
                                         Additional attachments uploaded while creation the contract.
                                     </DialogDescription> */}

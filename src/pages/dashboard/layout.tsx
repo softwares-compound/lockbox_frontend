@@ -108,6 +108,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                         className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl"
                                     >
                                         Complete transactions
+
                                     </SheetClose>
                                     {/* <button onClick={() => navigate('/create-transaction')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Manage payment methods
