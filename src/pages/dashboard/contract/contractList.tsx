@@ -8,7 +8,7 @@ import "./../../../App.css";
 const ContractList: React.FC = () => {
     const contractContext = useContract()
     return (
-        <div className="overflow-auto hide-scrollbar md:h-[80vh] h-[70vh] rounded-t-3xl px-4" >
+        <div className="overflow-auto hide-scrollbar md:h-[79vh] h-[70vh]  rounded-t-3xl px-4" >
             {
                 contractContext?.contractList?.map((contract, index) => (
                     <button

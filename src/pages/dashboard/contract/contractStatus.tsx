@@ -42,12 +42,12 @@ const ContractStatus: React.FC = () => {
                             <p>1</p>
                             {
                                 contractContext?.contract?.message.hex === "#d6b91d" ?
-                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
+                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
                                     : contractContext?.contract?.message.hex === "#2ed279" ?
-                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
+                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
                                         : contractContext?.contract?.message.hex === "#e40000" ?
-                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#e40000]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
-                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-brand`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
+                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#e40000]`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
+                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-brand`}>{contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}</p>
                             }
                             {/* <p className={`absolute top-10 -left-4 text-[${contractContext?.contract?.message.hex}] text-base`}>
                                 {contractContext?.contract?.message.step === 1 ? contractContext?.contract?.message.text : ""}
@@ -64,12 +64,12 @@ const ContractStatus: React.FC = () => {
                             <p>2</p>
                             {
                                 contractContext?.contract?.message.hex === "#d6b91d" ?
-                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
+                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
                                     : contractContext?.contract?.message.hex === "#2ed279" ?
-                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
+                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
                                         : contractContext?.contract?.message.hex === "#e40000" ?
-                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#e40000]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
-                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-brand`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
+                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#e40000]`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
+                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-brand`}>{contractContext?.contract?.message.step === 2 ? contractContext?.contract?.message.text : ""}</p>
                             }
                         </div>
                         <div className='bg-brand rounded-full w-2 h-2'></div>
@@ -83,12 +83,12 @@ const ContractStatus: React.FC = () => {
                             <p>3</p>
                             {
                                 contractContext?.contract?.message.hex === "#d6b91d" ?
-                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
+                                    <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#d6b91d]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
                                     : contractContext?.contract?.message.hex === "#2ed279" ?
-                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
+                                        <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#2ed279]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
                                         : contractContext?.contract?.message.hex === "#e40000" ?
-                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-[#e40000]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
-                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[300px] text-brand`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
+                                            <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-[#e40000]`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
+                                            : <p className={`text-base md:text-lg absolute top-10 -left-30 min-w-[100px] text-brand`}>{contractContext?.contract?.message.step === 3 ? contractContext?.contract?.message.text : ""}</p>
                             }
                         </div>
                     </div>
