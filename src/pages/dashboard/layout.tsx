@@ -28,19 +28,27 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     return (
         <div className="text-base md:text-xl lg:text-xl">
             <nav className="flex items-center justify-between px-2 md:px-4 py-2 h-[10vh] bg-white dark:bg-gray-800">
-                <a onClick={() => navigate('/dashboard')} className="flex items-center gap-2 pb-2">
+                <a className="flex items-center gap-2 pb-2">
                     <img
                         src={image} // Replace with your logo path
                         alt="Logo"
                         // className="w-20 h-20 md:w-30 md:h-20" // Adjust size as needed
                         width={150} // Adjust size as needed
                         className=""
-                        onClick={() => window.location.reload()}
+                        onClick={() => window.location.replace("/dashboard")}
                     />
                 </a>
                 <div className="flex items-center gap-4">
                     <div className="hidden md:block">
-                        <Button variant="outline" onClick={() => contractContext?.setContractListFilter((prev) => ({ ...prev, draft: true, completed_transactions: false }))}>Transaction drafts</Button>
+                        <Button variant="outline" onClick={() => {
+                            if (window.location.pathname !== "/dashboard") {
+                                navigate("/dashboard")
+                                contractContext?.setContractListFilter((prev) => ({ ...prev, draft: true, completed_transactions: false }))
+                            } else {
+                                contractContext?.setContractListFilter((prev) => ({ ...prev, draft: true, completed_transactions: false }))
+                            }
+                        }}
+                        >Transaction drafts</Button>
                     </div>
                     <div className="hidden md:block">
                         <Button variant="default" onClick={() => navigate('/create-transaction')}>Create new transactions</Button>
@@ -88,8 +96,19 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                     </SheetClose>
                                 </div>
                                 <div className="flex flex-col gap-2 md:gap-4">
-                                    <SheetClose onClick={() => contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: true, draft: false }))} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
-                                        Completed transactions
+                                    <SheetClose onClick={() => {
+                                        if (window.location.pathname !== "/dashboard") {
+                                            navigate("/dashboard")
+                                            contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: true, draft: false }))
+                                        } else {
+                                            contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: true, draft: false }))
+                                        }
+                                    }
+                                    }
+                                        className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl"
+                                    >
+                                        Complete transactions
+
                                     </SheetClose>
                                     {/* <button onClick={() => navigate('/create-transaction')} className="text-start text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Manage payment methods
