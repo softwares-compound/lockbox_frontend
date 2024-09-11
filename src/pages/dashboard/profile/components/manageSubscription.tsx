@@ -27,11 +27,11 @@ const ManageSubscription: React.FC = () => {
     const [planList, setPlanList] = useState<SubscriptionListType[]>([]);
 
     useEffect(() => {
-            const savedPlan = localStorage.getItem('selectedPlan');
-            if (savedPlan) {
-                setUpdatedPlan(Number(savedPlan)); 
-            }
-            void getSubscriptionList();
+        const savedPlan = localStorage.getItem('selectedPlan');
+        if (savedPlan) {
+            setUpdatedPlan(Number(savedPlan));
+        }
+        void getSubscriptionList();
     }, []);
 
     const getSubscriptionList = async () => {
@@ -51,7 +51,7 @@ const ManageSubscription: React.FC = () => {
             setIsTableLoading(false)
         }
     }
-    
+
     const handlePlanSelection = (planId: number) => {
         setUpdatedPlan(planId);
         localStorage.setItem('selectedPlan', planId.toString()); // Save selected plan to localStorage         
@@ -82,39 +82,51 @@ const ManageSubscription: React.FC = () => {
             {
                 isTableLoading ? <Loader2 className="mx-auto h-10 w-10 animate-spin text-brand" />
                     :
-                    <Table>
-                        <TableCaption>
-                            <Button variant="default" className='md:px-20' onClick={() => handleUpdateSubscription()} disabled={isUpdateSubscriptionLoading}>
-                                {isUpdateSubscriptionLoading ? <Loader2 className="mx-auto h-5 w-5 animate-spin text-white" /> : "Continue"}
+                    <Table className="w-full">
+                        <TableCaption className="">
+                            <Button
+                                variant="default"
+                                className='md:px-20 w-full md:w-auto'
+                                onClick={() => handleUpdateSubscription()}
+                                disabled={isUpdateSubscriptionLoading}
+                            >
+                                {isUpdateSubscriptionLoading ?
+                                    <Loader2 className="mx-auto h-5 w-5 animate-spin text-white" /> :
+                                    "Continue"}
                             </Button>
                         </TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="">Tier</TableHead>
-                                <TableHead>Details</TableHead>
-                                <TableHead className="text-right">Price</TableHead>
+                                <TableHead className="text-left text-sm md:text-base">Tier</TableHead>
+                                <TableHead className="text-sm md:text-base">Details</TableHead>
+                                <TableHead className="text-right text-sm md:text-base">Price</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {planList.map((plan) => (
                                 <TableRow key={plan.id}>
-                                    <TableCell className="font-medium">{plan.tier}</TableCell>
+                                    <TableCell className="font-medium text-sm md:text-base">{plan.tier}</TableCell>
                                     <TableCell>
-                                        <div>{plan.details}</div>
-                                        <div style={{color: "green" , fontSize: '1rem'}}>{plan.offer}</div>
+                                        <div className="text-sm md:text-base">{plan.details}</div>
+                                        <div className="text-green-600 text-xs md:text-sm">{plan.offer}</div>
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className='w-full'>
-                                            <Button variant={updatedPlan === plan.id ? "default" : "outline"} onClick={() => handlePlanSelection(plan.id)}>
+                                            <Button
+                                                variant={updatedPlan === plan.id ? "default" : "outline"}
+                                                className="w-full md:w-auto text-xs md:text-base"
+                                                onClick={() => handlePlanSelection(plan.id)}
+                                            >
                                                 {plan.price}
                                             </Button>
-                                            
                                         </div>
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
+
+
             }
         </div>
     )
