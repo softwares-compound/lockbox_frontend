@@ -74,9 +74,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setUserData(() => ({ email: data.email, name: data.name, mobile: data.mobile_number, company: data.company, status: data.status, balance: data.balance, subscription: data.subscription, images: data.images }));
             setIsAuthenticated(true);
         } catch (error: any) {
-            if (error.response) {
-                handleErrors(error.response.data as ErrorResponse);
-            }
+            toast.error("Couldn't signin with the provided credentials", { id: "signin" });
             return error;
         }
     };
@@ -180,9 +178,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             toast.success("Profile updated successfully", { id: "profile" });
             return true;
         } catch (error: any) {
-            if (error.response) {
-                handleErrors(error.response.data as ErrorResponse);
-            }
+            toast.error(error.response.data.message, { id: "profile" });
             return false;
         }
     };

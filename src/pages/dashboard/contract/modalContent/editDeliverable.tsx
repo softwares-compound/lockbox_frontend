@@ -25,6 +25,7 @@ const EditDeliverable: React.FC = () => {
     })
     const [errors, setErrors] = useState<boolean>(false)
     const [isDataLoading, setIsDataLoading] = useState(false);
+    const [isFileLoading, setIsFileLoading] = useState(false);
 
     async function uploadFilesToUrls(filesWithUrl: FileWithExtension[]) {
         try {
@@ -51,6 +52,7 @@ const EditDeliverable: React.FC = () => {
     const getFileUploadUrls = async (files: FileWithExtension[]) => {
         const fileList = files.map(file => file.file)
         try {
+            setIsFileLoading(true)
             const response = await AXIOS_INSTANCE.post(FILE_UPLOAD_URL.GET_URL, {
                 count: countFileTypes(fileList).count
             }, {
@@ -63,6 +65,8 @@ const EditDeliverable: React.FC = () => {
             void uploadFilesToUrls(fileWithKeyAndUrl)
         } catch (error: Error | any) {
             toast.error(error.response.data.message)
+        } finally {
+            setIsFileLoading(false)
         }
     }
 
@@ -152,10 +156,10 @@ const EditDeliverable: React.FC = () => {
                             variant="outline"
                             className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none  w-full'
                             onClick={handleSubmit}
-                            disabled={contractContext?.loading.resubmitDeliverables}
+                            disabled={contractContext?.loading.editDeliverable || isFileLoading}
                         >
                             {
-                                contractContext?.loading.resubmitDeliverables
+                                contractContext?.loading.editDeliverable
                                     ? <Loader2 className="mx-auto h-4 w-4 animate-spin" />
                                     : <span className='px-1 text-lg'>submit</span>
                             }

@@ -23,6 +23,7 @@ const ResubmitDeliverable: React.FC = () => {
         fileData: [],
     })
     const [errors, setErrors] = useState<{ text: boolean; file: boolean }>({ text: false, file: false })
+    const [isFileLoading, setIsFileLoading] = useState(false);
 
     async function uploadFilesToUrls(filesWithUrl: FileWithExtension[]) {
         try {
@@ -49,6 +50,7 @@ const ResubmitDeliverable: React.FC = () => {
     const getFileUploadUrls = async (files: FileWithExtension[]) => {
         const fileList = files.map(file => file.file)
         try {
+            setIsFileLoading(true)
             const response = await AXIOS_INSTANCE.post(FILE_UPLOAD_URL.GET_URL, {
                 count: countFileTypes(fileList).count
             }, {
@@ -61,6 +63,8 @@ const ResubmitDeliverable: React.FC = () => {
             void uploadFilesToUrls(fileWithKeyAndUrl)
         } catch (error: Error | any) {
             toast.error(error.response.data.message)
+        } finally {
+            setIsFileLoading(false)
         }
     }
 
@@ -140,7 +144,7 @@ const ResubmitDeliverable: React.FC = () => {
                 variant="outline"
                 className=' min-w-20 bg-green-500 hover:bg-green-700 hover:text-white text-white border-0 outline-none  w-full'
                 onClick={handleSubmit}
-                disabled={contractContext?.loading.resubmitDeliverables}
+                disabled={contractContext?.loading.resubmitDeliverables || isFileLoading}
             >
                 {
                     contractContext?.loading.resubmitDeliverables
