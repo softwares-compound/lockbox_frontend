@@ -6,7 +6,7 @@ const ContractList: React.FC = () => {
     const contractContext = useContract()
 
     return (
-        <div className="overflow-auto hide-scrollbar md:h-[77vh] h-[70vh] mt-[15px] debug rounded-t-3xl px-4">
+        <div className="overflow-auto hide-scrollbar md:h-[77vh] h-[70vh] mt-[15px] rounded-t-3xl px-4">
             {
                 contractContext?.contractList?.map((contract, index) => (
                     <button

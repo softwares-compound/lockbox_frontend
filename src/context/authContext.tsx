@@ -5,6 +5,7 @@ import useErrorHandling, { ErrorResponse } from "@/hooks/errorHandling";
 import { AUTH_ENDPOINTS } from "@/config/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useContract } from "./contractContext";
 
 export type FileWithExtension = {
     key: string;
@@ -53,6 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { handleErrors } = useErrorHandling();
     const navigate = useNavigate();
+    const contractContext = useContract()
 
     const signin = async (email: string, password: string) => {
         try {
@@ -149,6 +151,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         Cookies.remove('refreshToken');
         Cookies.remove('accessToken');
         navigate("/sign-in");
+        contractContext?.setSelectedContract("");
         setIsAuthenticated(false);
         setUserData(null);
         toast.success("Logged Out Successfully", { id: "logout" });
