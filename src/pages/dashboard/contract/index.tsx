@@ -45,7 +45,7 @@ const Contract: React.FC = () => {
                     <div className="grid grid-cols-1">
                         <section aria-labelledby="section-2-title" className=' bg-brand text-white px-4 py-[1px] rounded-t-3xl'>
                             <div className="my-4">
-                                <p className='my-1'>Transaction</p>
+                                <p className=''>Transaction</p>
                                 <div className="flex justify-center items-center ">
                                     <Label htmlFor="type" className='text-white'>Customer</Label>
                                     <Switch
@@ -75,7 +75,7 @@ const Contract: React.FC = () => {
 
 
                     {/* Right column */}
-                    <div className=" lg:col-span-2 flex flex-col justify-between h-[89vh] mt-2 ">
+                    <div className=" lg:col-span-2 flex flex-col justify-between h-[89vh] mt-1 ">
                         <section aria-labelledby="section-1-title" className="py-14">
                             {contractContext?.contractList?.length === 0 ? (
                                 <p className="flex justify-center items-center py-10 text-brand font-medium ">No contracts to show</p>
