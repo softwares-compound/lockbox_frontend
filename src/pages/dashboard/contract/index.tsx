@@ -76,9 +76,14 @@ const Contract: React.FC = () => {
 
                     {/* Right column */}
                     <div className=" lg:col-span-2 flex flex-col justify-between h-[89vh] mt-[8px] ">
-                        <section aria-labelledby="section-1-title" className="py-10">
-                            <ContractStatus />
+                        <section aria-labelledby="section-1-title" className="py-20">
+                            {contractContext?.contractList?.length === 0 ? (
+                                <p className="flex justify-center items-center py-10 text-brand font-medium ">No contracts to show</p>
+                            ) : (
+                                <ContractStatus />
+                            )}
                         </section>
+
                         <section aria-labelledby="section-1-title" className="p-10 bg-brand text-white">
                             <DetailAndActions />
                         </section >
