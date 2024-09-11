@@ -17,7 +17,7 @@ import Action from './action'
 const DetailAndActions: React.FC = () => {
     const contractContext = useContract()
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-y-6">
             <div className='overflow-hidden col-span-1 '>
                 <Label htmlFor="name" className='text-white '>contract</Label>
                 <div className="flex justify-center items-center px-4 gap-2 placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand bg-white text-brand p-1 rounded-3xl text-center">

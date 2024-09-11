@@ -133,7 +133,17 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                             </Dialog>
                                         </div>
                                     </div>
-                                    <SheetClose onClick={() => contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: true, draft: false }))} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
+                                    <SheetClose
+                                        onClick={() => {
+                                            if (window.location.pathname !== "/dashboard") {
+                                                navigate("/dashboard")
+                                                contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: false, draft: true }))
+                                            } else {
+                                                contractContext?.setContractListFilter((prev) => ({ ...prev, completed_transaction: false, draft: true }))
+                                            }
+                                        }
+                                        }
+                                        className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">
                                         Transaction drafts
                                     </SheetClose>
                                     <SheetClose onClick={() => navigate('/create-transaction')} className="text-start md:hidden text-base md:text-xl font-medium p-2 text-brand hover:bg-brand/20 rounded-3xl">

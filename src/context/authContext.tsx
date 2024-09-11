@@ -149,7 +149,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         Cookies.remove('refreshToken');
         Cookies.remove('accessToken');
         navigate("/sign-in");
-        window.location.reload();
         setIsAuthenticated(false);
         setUserData(null);
         toast.success("Logged Out Successfully", { id: "logout" });
