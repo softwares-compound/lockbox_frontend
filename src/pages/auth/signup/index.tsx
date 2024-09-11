@@ -33,8 +33,14 @@ export function Signup() {
     const auth = useAuth();
 
     const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); // State for confirm password visibility
+
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPasswordVisible(!confirmPasswordVisible);
     };
 
     // Watch the password field to validate confirmPassword
@@ -121,7 +127,7 @@ export function Signup() {
                                 <button
                                     type="button"
                                     onClick={togglePasswordVisibility}
-                                    className="absolute inset-y-0 right-0 top-5 pr-3 flex items-center text-gray-600"
+                                    className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-gray-600"
                                 >
                                     {passwordVisible ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
                                 </button>
@@ -129,15 +135,24 @@ export function Signup() {
                             {errors.password && <p className="text-red-500 text-sm px-3">{errors.password.message}</p>}
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="confirmPassword">Confirm Password<span className="text-red-500">*</span></Label>
-                            <Input
-                                id="confirmPassword"
-                                type="password"
-                                {...register("confirmPassword", {
-                                    required: "Please confirm your password",
-                                    validate: value => value === password || "Passwords do not match",
-                                })}
-                            />
+                            <div className="relative">
+                                <Label htmlFor="confirmPassword">Confirm Password<span className="text-red-500">*</span></Label>
+                                <Input
+                                    id="confirmPassword"
+                                    type={confirmPasswordVisible ? "text" : "password"}
+                                    {...register("confirmPassword", {
+                                        required: "Please confirm your password",
+                                        validate: value => value === password || "Passwords do not match",
+                                    })}
+                                />
+                                <button
+                                        type="button"
+                                        onClick={toggleConfirmPasswordVisibility}
+                                        className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-gray-600"
+                                    >
+                                        {confirmPasswordVisible ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
+                                </button>
+                            </div>
                             {errors.confirmPassword && <p className="text-red-500 text-sm px-3">{errors.confirmPassword.message}</p>}
                         </div>
                         <div className="grid gap-2">

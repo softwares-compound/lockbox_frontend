@@ -5,6 +5,20 @@ import useErrorHandling, { ErrorResponse } from "@/hooks/errorHandling";
 import { AUTH_ENDPOINTS } from "@/config/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useContract } from "./contractContext";
+
+export type FileWithExtension = {
+    key: string;
+    extension: string;
+    url: string;
+    file: File;  // Adding the actual File object
+};
+
+export type FileUploadApiResponse = {
+    key: string;
+    extension: string;
+    url: string;
+};
 
 type UserData = {
     id?: number;
@@ -15,6 +29,7 @@ type UserData = {
     status?: string;
     images?: string;
     balance?: number;
+    subscription?: number;
     // other properties as per your application's requirement
 };
 
@@ -28,7 +43,8 @@ type UserAuth = {
     requestOtp: (email: string) => Promise<void>;
     verifyOtp: (otp: string) => Promise<void>;
     resetPassword: (newPassword: string) => Promise<void>;
-    logout: () => Promise<void>;
+    logout: () => void;
+    editProfile: (formData: { file: FileWithExtension, name: string, company: string }) => Promise<boolean>;
 };
 
 const AuthContext = createContext<UserAuth | null>(null);
@@ -38,6 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { handleErrors } = useErrorHandling();
     const navigate = useNavigate();
+    const contractContext = useContract()
 
     const signin = async (email: string, password: string) => {
         try {
@@ -51,17 +68,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             });
             toast.success("Signed In Successfully", { id: "signin" });
             const data = res.data.data;
-            console.log(data);
+            // console.log(data);
             // Store tokens in cookies
             Cookies.set('refreshToken', data.refresh, { expires: 7 }); // 7 days expiry
             Cookies.set('accessToken', data.access, { expires: data.expired_in_hours / 24 });
             navigate("/");
-            setUserData((prev) => ({ ...prev, email: data.email, name: data.name, mobile: data.mobile_number, company: data.company }));
+            setUserData(() => ({ email: data.email, name: data.name, mobile: data.mobile_number, company: data.company, status: data.status, balance: data.balance, subscription: data.subscription, images: data.images }));
             setIsAuthenticated(true);
         } catch (error: any) {
-            if (error.response) {
-                handleErrors(error.response.data as ErrorResponse);
-            }
+            toast.error("Couldn't signin with the provided credentials", { id: "signin" });
             return error;
         }
     };
@@ -123,6 +138,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             await AXIOS_INSTANCE.post("auth/reset_password/", formData);
             toast.success("Password reset successfully", { id: "password" });
+            window.location.reload();
         } catch (error: any) {
             if (error.response) {
                 handleErrors(error.response.data as ErrorResponse);
@@ -131,23 +147,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    const logout = async () => {
-        localStorage.removeItem("tenant");
-        try {
-            toast.loading("Logging out...", { id: "logout" });
-            await AXIOS_INSTANCE.get("auth/logout", {
-                withCredentials: true,
-                headers: { "X-Request-ID": localStorage.getItem("X-Request-ID") },
-            });
-            setIsAuthenticated(false);
-            setUserData(null);
-            toast.success("Logged out successfully", { id: "logout" });
-        } catch (error) {
-            console.log(error);
-        }
-        window.location.reload();
+    const logout = () => {
+        Cookies.remove('refreshToken');
+        Cookies.remove('accessToken');
+        navigate("/sign-in");
+        contractContext?.setSelectedContract("");
+        setIsAuthenticated(false);
+        setUserData(null);
+        toast.success("Logged Out Successfully", { id: "logout" });
     };
 
+    const editProfile = async (formData: { file?: FileWithExtension; name: string; company: string }) => {
+        try {
+            const requestPayload: any = {
+                name: formData.name,
+                company: formData.company,
+                is_active: 1,
+            };
+
+            // If file is present, add it to the requestPayload
+            if (formData.file && formData.file.key) {
+                requestPayload.images = [formData.file.key];
+            }
+
+            const res = await AXIOS_INSTANCE.patch(AUTH_ENDPOINTS.UPDATE_PROFILE, requestPayload, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('accessToken')}`,
+                },
+            });
+
+            const data = res.data.data;
+            console.log(data);
+            setUserData(data);
+            toast.success("Profile updated successfully", { id: "profile" });
+            return true;
+        } catch (error: any) {
+            toast.error(error.response.data.message, { id: "profile" });
+            return false;
+        }
+    };
     const value = {
         userData,
         setUserData,
@@ -159,6 +197,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         verifyOtp,
         resetPassword,
         logout,
+        editProfile,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -26,8 +26,8 @@ interface SigninFormData {
 export function Signin() {
     const { register, handleSubmit, formState: { errors } } = useForm<SigninFormData>({
         defaultValues: {
-            email: "one@gmail.com",
-            password: "HandOver#123!",
+            email: "",
+            password: "",
         },
     });
     const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,7 @@ export function Signin() {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <CardContent className="grid gap-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">Email<span className="text-red-500">*</span></Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -87,7 +87,7 @@ export function Signin() {
                                 <button
                                     type="button"
                                     onClick={togglePasswordVisibility}
-                                    className="absolute inset-y-0 right-0 top-5 pr-3 flex items-center text-gray-600"
+                                    className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-gray-600"
                                 >
                                     {passwordVisible ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
                                 </button>

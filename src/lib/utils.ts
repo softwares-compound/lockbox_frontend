@@ -152,3 +152,19 @@ export const updateFilesWithUrls = (files: FileWithExtension[], uploadedFiles: {
         return fileWithExtension;
     });
 };
+
+
+export function formatNumberWithCommas(input: any): any {
+    try {
+        // Check if the input is a valid number
+        if (typeof input !== 'number' || isNaN(input)) {
+            throw new Error('Invalid number');
+        }
+
+        // Format the number with commas
+        return input.toLocaleString('en-US');
+    } catch (error) {
+        // If any error occurs, return the original input
+        return input;
+    }
+}

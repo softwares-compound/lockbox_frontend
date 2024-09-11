@@ -23,6 +23,7 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
+    console.log(formData)
     const handleSubmit = async () => {
         try {
             setIsLoading(true)
@@ -59,7 +60,7 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
             </p>
             <div className=''>
                 <div className='mx-auto max-w-3xl flex justify-between items-center'>
-                    <div className={`rounded-full border-[5px] border-brand w-20 md:w-24 h-20 md:h-24 flex justify-center items-center bg-brand text-white `}>You</div>
+                    <div className={`rounded-full border-[5px] border-brand w-24 md:w-28 h-24 md:h-28 flex justify-center items-center bg-brand text-white `}>You</div>
                     <div className='bg-brand rounded-full w-2 h-2'></div>
                     <div className='bg-brand rounded-full w-2 h-2'></div>
                     <div className='bg-brand rounded-full w-2 h-2'></div>
@@ -72,7 +73,7 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
                     <div className='bg-brand rounded-full w-2 h-2'></div>
                     <div className='bg-brand rounded-full w-2 h-2'></div>
                     <div className='bg-brand rounded-full w-2 h-2 md:block hidden'></div>
-                    <div className={`rounded-full border-[5px] border-brand w-20 md:w-24 h-20 md:h-24 flex justify-center items-center bg-white text-brand `}>{role}</div>
+                    <div className={`rounded-full border-[5px] border-brand w-24 md:w-28 h-24 md:h-28 flex justify-center items-center bg-white text-brand `}>{role === "vendor" ? "Customer" : "Vendor"}</div>
                 </div>
             </div>
             <div className='md:px-32'>
@@ -114,15 +115,16 @@ const Review: React.FC<Props> = ({ formData, setCurrentStep, role }) => {
                     </div>
                     <div>
                         <Label htmlFor="phone" className=''>Transaction value</Label>
-                        <p className="placeholder:text-brand/40 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">${formData.transaction_value.formatted} </p>
+                        <p className="placeholder:text-brand/40 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">{formData.transaction_value.formatted} </p>
                     </div>
                     <div className='overflow-hidden'>
                         <Label htmlFor="phone" className=''>Attachments</Label>
                         <div className="placeholder:text-brand/40 min-h-10 border-2 text-lg md:text-xl border-brand p-1 rounded-3xl text-center">
                             {
-                                formData.additional_attachments?.map((attachment, index) => (
-                                    <p key={index}>{addEllipsis(attachment.file.name, 15, 5)}</p>
-                                ))
+                                formData.additional_attachments?.length > 0 ?
+                                    formData.additional_attachments?.map((attachment, index) => (
+                                        <p key={index}>{addEllipsis(attachment.file.name, 15, 5)}</p>
+                                    )) : <p className='text-brand text-center mx-auto'>No attachments</p>
                             }
                         </div>
                     </div>

@@ -4,14 +4,17 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/authContext.tsx'
 import { Toaster } from 'react-hot-toast'
+import { ContractProvider } from './context/contractContext.tsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 
 	<BrowserRouter>
 		<AuthProvider>
-			<Toaster position='top-right' />
-			<App />
+			<ContractProvider>
+				<Toaster position='top-right' />
+				<App />
+			</ContractProvider>
 		</AuthProvider>
 	</BrowserRouter>
 
