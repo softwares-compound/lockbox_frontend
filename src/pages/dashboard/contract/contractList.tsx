@@ -2,13 +2,11 @@ import { useContract } from '@/context/contractContext'
 import React from 'react'
 import "./../../../App.css";
 
-// type Props = {}
-
-
 const ContractList: React.FC = () => {
     const contractContext = useContract()
+
     return (
-        <div className="overflow-auto hide-scrollbar md:h-[77vh] h-[70vh] mt-[15px]  debug rounded-t-3xl px-4" >
+        <div className="overflow-auto hide-scrollbar md:h-[77vh] h-[70vh] mt-[15px] debug rounded-t-3xl px-4">
             {
                 contractContext?.contractList?.map((contract, index) => (
                     <button
@@ -18,10 +16,7 @@ const ContractList: React.FC = () => {
                                 ${contractContext.selectedContract === String(contract.id) ? 'bg-[#c4cdff]' : 'bg-white'} 
                                 ${index === 0 ? 'rounded-t-3xl' : ''}`
                         }
-                        onClick={() => {
-                            contractContext.getContract(contract.id)
-                            console.log(contract.message.hex)
-                        }}
+                        onClick={() => contractContext?.getContract(contract.id)}
                         disabled={contractContext.isContractLoading}
                     >
                         <p className='text-xl font-bold'>{contract.counter_party.email}</p>

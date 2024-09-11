@@ -193,6 +193,13 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             });
             // console.log(resp.data.data.contract[0].key);
             setIsContractLoading(false);
+            // Check if screen size is less than 1024px and scroll to the bottom
+            if (window.innerWidth < 1024) {
+                window.scrollTo({
+                    top: document.documentElement.scrollHeight, // Scroll to the bottom
+                    behavior: 'smooth', // Smooth scrolling
+                });
+            }
         } catch (error: Error | any) {
             // toast.error("Failed to fetch contract");
             setContract({
