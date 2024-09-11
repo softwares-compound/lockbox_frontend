@@ -4,6 +4,7 @@ import { AXIOS_INSTANCE } from '@/config/axios';
 import { useAuth } from '@/context/authContext';
 import Cookies from 'js-cookie';
 import BrandLoader from '@/components/brandLoader';
+import toast from 'react-hot-toast';
 
 type Props = {
     children: ReactNode
@@ -31,13 +32,13 @@ const PrivateRouteProtector: React.FC<Props> = ({ children }) => {
                 auth?.setUserData({ ...data });
                 // const newPath = location.pathname.replace(`/${tenant}`, `/${localStorage.getItem("X-Request-ID")}`);
                 // navigate(AUTH_ROUTES.SIGNIN, { replace: true });
-            } catch (error) {
+            } catch (error: Error | any) {
+                toast.error(error.response.data.message);
                 auth?.setIsAuthenticated(false);
                 auth?.setUserData(null);
                 navigate("/login", { replace: true });
                 Cookies.remove('accessToken');
                 Cookies.remove('refreshToken');
-
             } finally {
                 setIsLoading(false);
             }

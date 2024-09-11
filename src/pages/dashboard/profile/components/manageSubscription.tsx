@@ -45,8 +45,8 @@ const ManageSubscription: React.FC = () => {
             const data = await res.data.data;
             setPlanList(data)
             console.log(data)
-        } catch (error) {
-            console.log(error)
+        } catch (error: Error | any) {
+            toast.error(error.response.data.message)
         } finally {
             setIsTableLoading(false)
         }

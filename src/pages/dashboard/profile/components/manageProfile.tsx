@@ -37,6 +37,7 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
     const [noProfileImageError, setNoProfileImageError] = useState<boolean>(false)
     const [noNameError, setNoNameError] = useState<boolean>(false)
     const [noCompanyNameError, setNoCompanyNameError] = useState<boolean>(false)
+    const [isFileLoading, setIsFileLoading] = useState(false);
 
     async function uploadFilesToUrls(filesWithKeyAndUrl: FileWithExtension[]) {
         try {
@@ -63,6 +64,7 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
     const getFileUploadUrls = async (files: FileWithExtension[]) => {
         const fileList = files.map(file => file.file)
         try {
+            setIsFileLoading(true)
             const response = await AXIOS_INSTANCE.post(FILE_UPLOAD_URL.GET_URL, {
                 count: countFileTypes(fileList).count
             }, {
@@ -76,6 +78,8 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
             void uploadFilesToUrls(fileWithKeyAndUrl)
         } catch (error: Error | any) {
             toast.error(error.response.data.message)
+        } finally {
+            setIsFileLoading(false)
         }
     }
 
@@ -185,7 +189,7 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
             </div>
 
             <div className='mt-10'>
-                <Button type="submit" variant="default" className='px-10' onClick={handleSubmit} disabled={isLoading}>
+                <Button type="submit" variant="default" className='px-10' onClick={handleSubmit} disabled={isLoading || isFileLoading}>
                     {isLoading ? <Loader2 className="w-4 h-4 mx-auto animate-spin" /> : "Submit"}
                 </Button>
             </div>
