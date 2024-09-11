@@ -14,6 +14,8 @@ import Contract from "./pages/dashboard/contract";
 import NotFound from "./pages/errors/NotFound";
 import Wallet from "./pages/dashboard/wallet";
 import EditTransaction from "./pages/dashboard/editTransaction";
+import PaymentSuccess from "./pages/dashboard/paymentSuccess";
+import PaymentFailure from "./pages/dashboard/paymentFailure";
 
 
 function App() {
@@ -71,6 +73,22 @@ function App() {
 				element={
 					<PrivateRouteProtector>
 						<DashboardLayout><Wallet /></DashboardLayout>
+					</PrivateRouteProtector>
+				}
+			/>
+			<Route
+				path="/payment-successful"
+				element={
+					<PrivateRouteProtector>
+						<PaymentSuccess />
+					</PrivateRouteProtector>
+				}
+			/>
+			<Route
+				path="/payment-failed"
+				element={
+					<PrivateRouteProtector>
+						<PaymentFailure />
 					</PrivateRouteProtector>
 				}
 			/>
