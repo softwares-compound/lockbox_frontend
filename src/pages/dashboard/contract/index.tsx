@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@headlessui/react'
 import ContractList from './contractList'
@@ -27,6 +27,28 @@ const customStyles = {
 const Contract: React.FC = () => {
     const contractContext = useContract()
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1024) {
+                document.body.style.overflow = 'hidden'; // Disable scroll on large screens
+            } else {
+                document.body.style.overflow = ''; // Enable scroll on smaller screens
+            }
+        };
+
+        // Check on initial load
+        handleResize();
+
+        // Add resize event listener
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            document.body.style.overflow = ''; // Reset overflow when component unmounts
+        };
+    }, []);
+
     return (
         <main className="w-full text-center text-2xl ">
             <Modal
@@ -43,9 +65,9 @@ const Contract: React.FC = () => {
                 <div className="grid grid-cols-1 items-start lg:grid-cols-3 lg:gap-0 ">
                     {/* Left column */}
                     <div className="grid grid-cols-1">
-                        <section aria-labelledby="section-2-title" className=' bg-brand text-white px-4 py-[1px] rounded-t-3xl'>
+                        <section aria-labelledby="section-2-title" className=' bg-brand text-white px-4 h-[90vh] rounded-t-3xl'>
                             <div className="my-4">
-                                <p className=''>Transaction</p>
+                                <p className='my-1'>Transaction</p>
                                 <div className="flex justify-center items-center ">
                                     <Label htmlFor="type" className='text-white'>Customer</Label>
                                     <Switch
@@ -75,16 +97,11 @@ const Contract: React.FC = () => {
 
 
                     {/* Right column */}
-                    <div className=" lg:col-span-2 flex flex-col justify-between h-[89vh] mt-1 ">
-                        <section aria-labelledby="section-1-title" className="py-14">
-                            {contractContext?.contractList?.length === 0 ? (
-                                <p className="flex justify-center items-center py-10 text-brand font-medium ">No contracts to show</p>
-                            ) : (
-                                <ContractStatus />
-                            )}
+                    <div className=" lg:col-span-2 flex flex-col justify-between h-[89vh] mt-[10px] ">
+                        <section aria-labelledby="section-1-title" className="py-10">
+                            <ContractStatus />
                         </section>
-
-                        <section aria-labelledby="section-1-title" className="p-12 bg-brand text-white">
+                        <section aria-labelledby="section-1-title" className="p-10 bg-brand text-white">
                             <DetailAndActions />
                         </section >
                     </div >
