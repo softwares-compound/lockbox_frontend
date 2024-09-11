@@ -21,18 +21,10 @@ import toast from 'react-hot-toast';
 
 const ManageSubscription: React.FC = () => {
     // const authContext = useAuth();
-    const [updatedPlan, setUpdatedPlan] = useState<number | null>(null);
     const [isTableLoading, setIsTableLoading] = useState(true);
     const [isUpdateSubscriptionLoading, setIsUpdateSubscriptionLoading] = useState(false);
     const [planList, setPlanList] = useState<SubscriptionListType[]>([]);
-
-    useEffect(() => {
-        const savedPlan = localStorage.getItem('selectedPlan');
-        if (savedPlan) {
-            setUpdatedPlan(Number(savedPlan));
-        }
-        void getSubscriptionList();
-    }, []);
+    const [selectedPlan, setSelectedPlan] = useState<string>("");
 
     const getSubscriptionList = async () => {
         try {
@@ -44,6 +36,11 @@ const ManageSubscription: React.FC = () => {
             });
             const data = await res.data.data;
             setPlanList(data)
+            // Find the plan with active: true and set the selected plan to its id
+            const activePlan = data.find((plan: { active: boolean }) => plan.active === true);
+            if (activePlan) {
+                setSelectedPlan(activePlan.id); // Assuming `id` is the plan identifier
+            }
             console.log(data)
         } catch (error: Error | any) {
             toast.error(error.response.data.message)
@@ -52,17 +49,15 @@ const ManageSubscription: React.FC = () => {
         }
     }
 
-    const handlePlanSelection = (planId: number) => {
-        setUpdatedPlan(planId);
-        localStorage.setItem('selectedPlan', planId.toString()); // Save selected plan to localStorage         
-    };
+    useEffect(() => {
+        void getSubscriptionList();
+    }, []);
 
     const handleUpdateSubscription = async () => {
-        if (updatedPlan === null) return;
         try {
             setIsUpdateSubscriptionLoading(true)
-            await AXIOS_INSTANCE.patch(`${SUBSCRIPTION_ENDPOINTS.SUBSCRIPTION_UPDATE}/${updatedPlan}`, {
-                subscription: updatedPlan
+            await AXIOS_INSTANCE.patch(`${SUBSCRIPTION_ENDPOINTS.SUBSCRIPTION_UPDATE}/${selectedPlan}`, {
+                subscription: selectedPlan
             }, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
@@ -77,6 +72,7 @@ const ManageSubscription: React.FC = () => {
             window.location.reload();
         }
     }
+    console.log(selectedPlan)
     return (
         <div className="min-h-[30vh] flex justify-center items-center">
             {
@@ -113,9 +109,9 @@ const ManageSubscription: React.FC = () => {
                                     <TableCell className="text-right">
                                         <div className='w-full'>
                                             <Button
-                                                variant={updatedPlan === plan.id ? "default" : "outline"}
+                                                variant={String(selectedPlan) === String(plan.id) ? "default" : "outline"}
                                                 className="w-full md:w-auto text-xs md:text-base"
-                                                onClick={() => handlePlanSelection(plan.id)}
+                                                onClick={() => setSelectedPlan(String(plan.id))}
                                             >
                                                 {plan.price}
                                             </Button>

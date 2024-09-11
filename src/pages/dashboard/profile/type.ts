@@ -5,4 +5,5 @@ export type SubscriptionListType = {
     offer: string | null
     price: string
     tier: string
+    active: boolean
 }
