@@ -102,7 +102,7 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
         }
     }
     return (
-        <div className='text-center'>
+        <div className='text-center p-5'>
             <div className=''>
                 <Label htmlFor="counter_party">Upload company logo<span className="text-red-500">*</span></Label>
                 <FileUploader
@@ -144,45 +144,40 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
                 {noProfileImageError && <p className="text-red-500 text-base">{"Please upload company logo"}</p>}
             </div>
 
-            <div className='text-brand'>
-                <Label htmlFor="counter_party">Name<span className="text-red-500">*</span></Label>
-                <Input
-                    className="text-center mx-auto my-2"
-                    placeholder=''
-                    disabled={false}
-                    value={name}
-                    onChange={(e) => {
-                        setName(e.target.value)
-                        setNoNameError(false)
-                    }}
-                />
-                {noNameError && <p className="text-red-500 text-base">{"Name is required"}</p>}
-            </div>
+            <div className='flex gap-3 justify-center items-center'>
+                <div className='text-brand w-full' >
+                    <Label htmlFor="counter_party">Name<span className="text-red-500">*</span></Label>
+                    <Input
+                        className="text-center mx-auto my-2"
+                        placeholder=''
+                        disabled={false}
+                        value={name}
+                        onChange={(e) => {
+                            setName(e.target.value)
+                            setNoNameError(false)
+                        }}
+                    />
+                    {noNameError && <p className="text-red-500 text-base">{"Name is required"}</p>}
+                </div>
 
-            <div className='text-brand'>
-                <Label htmlFor="counter_party">Company Name<span className="text-red-500">*</span></Label>
-                <Input
-                    className="text-center mx-auto my-2"
-                    placeholder=''
-                    disabled={false}
-                    value={companyName}
-                    onChange={(e) => {
-                        setCompanyName(e.target.value)
-                        setNoCompanyNameError(false)
-                    }}
-                />
-                {noCompanyNameError && <p className="text-red-500 text-base">{"Company name is required"}</p>}
-            </div>
+                <div className='text-brand w-full'>
+                    <Label htmlFor="counter_party">Company Name<span className="text-red-500">*</span></Label>
+                    <Input
+                        className="text-center mx-auto my-2"
+                        placeholder=''
+                        disabled={false}
+                        value={companyName}
+                        onChange={(e) => {
+                            setCompanyName(e.target.value)
+                            setNoCompanyNameError(false)
+                        }}
+                    />
+                    {noCompanyNameError && <p className="text-red-500 text-base">{"Company name is required"}</p>}
+                </div>            
+            </div>                
 
-            <div className=''>
-                <Label htmlFor="counter_party " className=''>email</Label>
-                <Input
-                    className="text-center mx-auto my-2 text-brand"
-                    placeholder=''
-                    disabled={true}
-                    value={authContext?.userData?.email}
-                />
-            </div>
+            
+
 
             <div className='mt-10'>
                 <Button type="submit" variant="default" className='px-10' onClick={handleSubmit} disabled={isLoading}>
