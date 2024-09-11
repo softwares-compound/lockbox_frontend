@@ -82,15 +82,18 @@ const Step3: React.FC<Props> = ({ formData, setFormData, setCurrentStep, role })
                 // toast.success("Transaction saved to draft successfully")
             }
         } catch (error: Error | any) {
-            if (error.response.data.additional_message) {
+            if (error.response?.data?.message === "Insufficient Balance") {
+                toast.error(error.response.data.message); // Displaying the error message as a toast
+            } else if (error.response?.data?.additional_message) {
                 error.response.data.additional_message.map(
                     (message: {
                         customer: Renderable | ValueFunction<Renderable, Toast>;
                         vendor: Renderable | ValueFunction<Renderable, Toast>;
                     }) => toast.error(message.customer ? message.customer : message.vendor))
+            } else {
+                toast.error("Something went wrong!"); // Default error handler
             }
-            // toast.error(error.response.data.message)
-            console.log(error.response.data)
+            console.log(error.response?.data);
         } finally {
             setIsLoading(false)
         }
