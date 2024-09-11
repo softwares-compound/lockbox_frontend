@@ -156,18 +156,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         toast.success("Logged Out Successfully", { id: "logout" });
     };
 
-    const editProfile = async (formData: { file: FileWithExtension, name: string, company: string }) => {
+    const editProfile = async (formData: { file?: FileWithExtension, name: string, company: string }) => {
         try {
-            const res = await AXIOS_INSTANCE.patch(AUTH_ENDPOINTS.UPDATE_PROFILE, {
+            const requestPayload: any = {
                 name: formData.name,
                 company: formData.company,
                 is_active: 1,
-                images: [formData.file.key],
-            }, {
+            };
+            if (formData.file) {
+                requestPayload.images = [formData.file.key];
+            } else {
+                requestPayload.images = []; // Handle case where no file is provided
+            }
+            const res = await AXIOS_INSTANCE.patch(AUTH_ENDPOINTS.UPDATE_PROFILE, requestPayload, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 },
             });
+            
             const data = res.data.data;
             console.log(data);
             setUserData(data);

@@ -34,7 +34,7 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
     const [filesWithUrl, setFilesWithUrl] = useState<FileWithExtension[]>([])
     const [name, setName] = useState<string>(authContext?.userData?.name || '')
     const [companyName, setCompanyName] = useState<string>(authContext?.userData?.company || '')
-    const [noProfileImageError, setNoProfileImageError] = useState<boolean>(false)
+    // const [noProfileImageError, setNoProfileImageError] = useState<boolean>(false)
     const [noNameError, setNoNameError] = useState<boolean>(false)
     const [noCompanyNameError, setNoCompanyNameError] = useState<boolean>(false)
 
@@ -86,16 +86,17 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
             setNoNameError(true)
             return
         }
-        if (!filesWithUrl.length) {
-            setNoProfileImageError(true)
-            return
-        }
+        
         if (!companyName) {
             setNoCompanyNameError(true)
             return
         }
         setIsLoading(true)
-        const result = await authContext?.editProfile({ file: filesWithUrl[0], name: name, company: companyName })
+        const result = await authContext?.editProfile({
+            file: filesWithUrl.length ? filesWithUrl[0] : undefined, // Pass undefined if no file
+            name: name,
+            company: companyName
+        });
         setIsLoading(false)
         if (result === true) {
             setOpenManageProfile(false)
@@ -104,12 +105,12 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
     return (
         <div className='text-center p-5'>
             <div className=''>
-                <Label htmlFor="counter_party">Upload company logo<span className="text-red-500">*</span></Label>
+                <Label htmlFor="counter_party">Upload company logo</Label>
                 <FileUploader
                     value={[]}
                     onValueChange={(fileList) => {
                         if (fileList && fileList.length) {
-                            setNoProfileImageError(false)
+                            // setNoProfileImageError(false)
                             const dataToStore = fileList.map((file) => ({
                                 key: "",
                                 extension: "",
@@ -141,7 +142,6 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
                         </div>
                     </FileUploaderContent>
                 </FileUploader>
-                {noProfileImageError && <p className="text-red-500 text-base">{"Please upload company logo"}</p>}
             </div>
 
             <div className='flex gap-3 justify-center items-center'>
