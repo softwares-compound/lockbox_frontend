@@ -149,29 +149,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         Cookies.remove('refreshToken');
         Cookies.remove('accessToken');
         navigate("/sign-in");
+        window.location.reload();
         setIsAuthenticated(false);
         setUserData(null);
         toast.success("Logged Out Successfully", { id: "logout" });
     };
 
-    const editProfile = async (formData: { file?: FileWithExtension, name: string, company: string }) => {
+    const editProfile = async (formData: { file?: FileWithExtension; name: string; company: string }) => {
         try {
             const requestPayload: any = {
                 name: formData.name,
                 company: formData.company,
                 is_active: 1,
             };
-            if (formData.file) {
+
+            // If file is present, add it to the requestPayload
+            if (formData.file && formData.file.key) {
                 requestPayload.images = [formData.file.key];
-            } else {
-                requestPayload.images = []; // Handle case where no file is provided
             }
+
             const res = await AXIOS_INSTANCE.patch(AUTH_ENDPOINTS.UPDATE_PROFILE, requestPayload, {
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('accessToken')}`,
                 },
             });
-            
+
             const data = res.data.data;
             console.log(data);
             setUserData(data);

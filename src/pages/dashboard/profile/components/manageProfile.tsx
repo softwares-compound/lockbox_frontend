@@ -84,28 +84,40 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
     }
 
     const handleSubmit = async () => {
-        console.log(filesWithUrl)
-        console.log(name)
+        console.log(filesWithUrl);
+        console.log(name);
+
         if (!name) {
-            setNoNameError(true)
-            return
+            setNoNameError(true);
+            return;
         }
-        
+
         if (!companyName) {
-            setNoCompanyNameError(true)
-            return
+            setNoCompanyNameError(true);
+            return;
         }
-        setIsLoading(true)
-        const result = await authContext?.editProfile({
-            file: filesWithUrl.length ? filesWithUrl[0] : undefined, // Pass undefined if no file
+
+        setIsLoading(true);
+
+        // Construct the formData object conditionally
+        const formData: { name: string; company: string; file: FileWithExtension } = {
             name: name,
-            company: companyName
-        });
-        setIsLoading(false)
-        if (result === true) {
-            setOpenManageProfile(false)
+            company: companyName,
+            file: { key: "", extension: "", url: "", file: new File([], "") },
+        };
+
+        // Add file only if it's present
+        if (filesWithUrl.length) {
+            formData.file = filesWithUrl[0];
         }
-    }
+
+        const result = await authContext?.editProfile(formData);
+
+        setIsLoading(false);
+        if (result === true) {
+            setOpenManageProfile(false);
+        }
+    };
     return (
         <div className='text-center p-5'>
             <div className=''>
@@ -177,10 +189,10 @@ const ManageProfile: React.FC<{ setOpenManageProfile: React.Dispatch<React.SetSt
                         }}
                     />
                     {noCompanyNameError && <p className="text-red-500 text-base">{"Company name is required"}</p>}
-                </div>            
-            </div>                
+                </div>
+            </div>
 
-            
+
 
 
             <div className='mt-10'>
