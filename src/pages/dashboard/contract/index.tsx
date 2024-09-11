@@ -48,7 +48,9 @@ const Contract: React.FC = () => {
             document.body.style.overflow = ''; // Reset overflow when component unmounts
         };
     }, []);
-
+    useEffect(() => {
+        void contractContext?.getContractList()
+    }, [contractContext?.contractListFilter])
     return (
         <main className="w-full text-center text-2xl ">
             <Modal

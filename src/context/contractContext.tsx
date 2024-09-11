@@ -1,7 +1,7 @@
 import { CONTRACT_ACTIONS_ENDPOINTS, CONTRACTS_ENDPOINTS } from "@/config/api";
 import { AXIOS_INSTANCE } from "@/config/axios";
 import Cookies from "js-cookie";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 
@@ -281,10 +281,6 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
         }
 
     };
-
-    useEffect(() => {
-        void getContractList()
-    }, [contractListFilter])
 
     const cancelTransaction = async (id: number) => {
         try {
