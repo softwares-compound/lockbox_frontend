@@ -99,9 +99,9 @@ const EditTransaction: React.FC = () => {
             // console.log(fileWithKeyAndUrl)
             // console.log(formData.contract_file)
             if (fileType === "contract") {
-                setFormData((prev) => ({ ...prev, contract_file: [...fileWithKeyAndUrl] }))
+                setFormData((prev) => ({ ...prev, contract_file: [...fileWithKeyAndUrl, ...formData.contract_file] }))
             } else {
-                setFormData((prev) => ({ ...prev, additional_attachments: [...fileWithKeyAndUrl], }))
+                setFormData((prev) => ({ ...prev, additional_attachments: [...fileWithKeyAndUrl, ...formData.additional_attachments], }))
             }
             void uploadFilesToUrls(fileWithKeyAndUrl)
         } catch (error: Error | any) {
@@ -128,8 +128,6 @@ const EditTransaction: React.FC = () => {
         navigate("/dashboard")
 
     }
-    // console.log("=========", formData)
-    // console.log(contractContext?.contract)
 
     return (
         <div className='w-full text-start text-brand pb-10'>
@@ -205,7 +203,7 @@ const EditTransaction: React.FC = () => {
                 <div className='my-4 py-2'>
                     <Label htmlFor="counter_party" className='text-center text-brand'>upload contract<span className="text-red-500 text-base">*</span></Label>
                     <FileUploader
-                        value={formData.contract_file.map((data) => data.file)}
+                        value={[]}
                         onValueChange={(fileList) => {
                             if (fileList && fileList.length) {
                                 const dataToStore = fileList.filter((file) => file instanceof File && file.name).map((file) => ({
@@ -244,7 +242,7 @@ const EditTransaction: React.FC = () => {
                 <div className='my-4 py-2'>
                     <Label htmlFor="counter_party" className='text-center text-brand'>upload additional attachments</Label>
                     <FileUploader
-                        value={formData.additional_attachments.map((data) => data.file)}
+                        value={[]}
                         onValueChange={(fileList) => {
                             if (fileList && fileList.length) {
                                 const dataToStore = fileList.filter((file) => file instanceof File && file.name).map((file) => ({

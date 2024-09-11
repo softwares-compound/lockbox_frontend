@@ -58,7 +58,7 @@ const DetailAndActions: React.FC = () => {
                             <div className="py-2">
                                 {
                                     contractContext?.contract?.attachments?.map((attachment, index) => (
-                                        <div className='flex justify-between items-center px-4 min-h-10 border-2 text-lg md:text-xl border-brand bg-white text-brand p-1 rounded-3xl text-center'>
+                                        <div className='flex justify-between items-center px-4 my-4 min-h-10 border-2 text-lg md:text-xl border-brand bg-white text-brand p-1 rounded-3xl text-center'>
                                             <Paperclip /> <a key={index} href={attachment.url} target="_blank"> attachment {index + 1}</a> <span></span>
                                         </div>
                                     ))

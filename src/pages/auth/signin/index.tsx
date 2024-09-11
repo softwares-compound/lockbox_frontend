@@ -26,8 +26,8 @@ interface SigninFormData {
 export function Signin() {
     const { register, handleSubmit, formState: { errors } } = useForm<SigninFormData>({
         defaultValues: {
-            email: "one@gmail.com",
-            password: "HandOver#123!",
+            email: "",
+            password: "",
         },
     });
     const [isLoading, setIsLoading] = useState(false);

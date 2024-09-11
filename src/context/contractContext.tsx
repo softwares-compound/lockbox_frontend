@@ -454,7 +454,7 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }) =>
             await AXIOS_INSTANCE.patch(`${CONTRACT_ACTIONS_ENDPOINTS.EDIT}/${id}`, {
                 action: "MODIFY",
                 contract: body.contract_file.map((file: FileWithExtension) => file.key),
-                additional_attachments: body.additional_attachments.map((file: FileWithExtension) => file.key),
+                attachments: body.additional_attachments.map((file: FileWithExtension) => file.key),
                 end_date: body.deadline,
                 budget: body.transaction_value.value,
                 status: 1
